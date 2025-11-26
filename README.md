@@ -1,3 +1,9 @@
+# Mon Projet Uber-Eat
+
+![CI](https://github.com/EliXorZz/mydigitalschool-uber-eat/actions/workflows/main.yml/badge.svg)
+
+URL DU PROJET : https://uber-eat.mydigitalschool.server.dylanbattig.fr
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.

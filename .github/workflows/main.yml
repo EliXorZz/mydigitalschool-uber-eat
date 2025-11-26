@@ -39,4 +39,4 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Flux reconcile
-        run: curl -X POST -f --silent --show-error "http://flux.server.dylanbattig.fr${{ inputs.hook }}"
+        run: curl -X POST -f --silent --show-error "http://flux.server.dylanbattig.fr${{ vars.FLUX_HOOK }}"
