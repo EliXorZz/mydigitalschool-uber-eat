@@ -16,8 +16,17 @@ const emit = defineEmits<{ close: [boolean] }>()
   >
     <template #footer>
       <div class="flex gap-2">
-        <UButton class="cursor-pointer" label="Annuler" @click="emit('close', false)" />
-        <UButton class="cursor-pointer" color="error" :label="action" @click="emit('close', true)" />
+        <UButton
+            class="cursor-pointer"
+            :label="$t('modal.cancel')"
+            @click="emit('close', false)"
+        />
+        <UButton
+            class="cursor-pointer"
+            color="error"
+            :label="action"
+            @click="emit('close', true)"
+        />
       </div>
     </template>
   </UModal>

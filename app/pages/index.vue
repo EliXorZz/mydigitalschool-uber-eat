@@ -12,23 +12,23 @@ const { data: restaurants } = await useAsyncData<RestaurantsResponse>(
     <section class="relative flex flex-col items-center justify-center text-center py-40 px-4">
       <img
           src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=2000"
-          alt="Hero background"
+          :alt="$t('home.heroImageAlt')"
           class="absolute inset-0 w-full h-full object-cover brightness-50"
-      >
+      />
 
       <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"/>
 
       <div class="relative z-10 text-white space-y-6 max-w-2xl">
-        <h2 class="text-5xl font-bold">Trouve le restaurant parfait 🍽️</h2>
+        <h2 class="text-5xl font-bold">{{ $t('home.heroTitle') }}</h2>
         <p class="text-lg text-gray-200">
-          Explore les meilleures adresses autour de toi selon tes envies culinaires.
+          {{ $t('home.heroDescription') }}
         </p>
 
         <div class="flex items-center gap-2 mt-8 w-full max-w-xl mx-auto">
           <UInput
               icon="i-lucide-search"
               size="xl"
-              placeholder="Rechercher un restaurant, une cuisine, une ville..."
+              :placeholder="$t('home.searchPlaceholder')"
               class="flex-1"
           />
         </div>

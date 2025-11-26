@@ -16,7 +16,7 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
       if (restaurant == null)
         throw createError({
           statusCode: 404,
-          message: 'Restaurant non trouvé',
+          message: $t('restaurant.notFound'),
           fatal: true
         })
 
@@ -36,7 +36,7 @@ const { data: items } = await useAsyncData<Item[]>(
     }
 )
 
-useHead({ title: `Restaurant | ${restaurant.value?.name}` })
+useHead({ title: `${restaurant.value?.name} | ${$t('restaurant.pageTitle')}` })
 
 useSeoMeta({
   title: restaurant.value?.name,
@@ -55,7 +55,7 @@ useSeoMeta({
           class="absolute inset-0 w-full h-full object-cover brightness-50"
           :src="restaurant.image"
           :alt="restaurant.name"
-      >
+      />
 
       <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"/>
 
@@ -84,7 +84,7 @@ useSeoMeta({
             <p class="text-gray-600 mb-3">{{ restaurant.description }}</p>
 
             <div class="flex flex-wrap gap-2 mb-3">
-              <UBadge v-for="feature in restaurant.features" color="neutral" variant="outline">
+              <UBadge v-for="feature in restaurant.features" :key="feature" color="neutral" variant="outline">
                 {{ feature }}
               </UBadge>
             </div>
@@ -98,7 +98,7 @@ useSeoMeta({
       </div>
 
       <section class="flex flex-col gap-15 p-20">
-        <h2 class="text-center text-5xl font-bold">Plats à emporter</h2>
+        <h2 class="text-center text-5xl font-bold">{{ $t('restaurant.takeawayTitle') }}</h2>
 
         <div class="flex flex-wrap gap-10 justify-center">
           <NuxtLink
