@@ -23,6 +23,29 @@ test('authentification (login) @admin', async ({ page }) => {
   await expect(item).toBeVisible()
 });
 
+test('authentification (login) @owner', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+  await page.getByRole('link', { name: 'Se connecter' }).click();
+  await page.waitForTimeout(5000)
+
+  await page.getByRole('textbox', { name: 'Nom d\'utilisateur*' }).fill('dylan');
+  await page.getByRole('textbox', { name: 'Mot de passe*' }).fill('admin-mydigitalschool');
+
+  await page.waitForTimeout(1000)
+
+  await page.getByRole('button', { name: 'Se connecter' }).click()
+  await page.waitForTimeout(1000)
+
+  await page.getByRole('banner').getByRole('img').click();
+  await page.waitForTimeout(1000)
+
+  await page.getByRole('menuitem', { name: 'Administration' }).click();
+  await page.waitForTimeout(1000)
+
+  const item = page.getByRole('button', { name: 'Modifier le restaurant' })
+  await expect(item).toBeVisible()
+});
+
 test('show item', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
