@@ -21,7 +21,7 @@ URL DU PROJET : https://uber-eat.mydigitalschool.server.dylanbattig.fr
 
 ## 🛠️ Choix techniques
 
-- Stack : Nuxt 3 + TypeScript + Vue 3
+- Stack : Nuxt 3 + TypeScript + Vue 3 + Pinia
 - UI : NuxtUI + Tailwind
 - Validation : Zod pour la saisie des formulaires
 - Docker : Build et push automatique sur Harbor privé

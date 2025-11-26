@@ -5,5 +5,5 @@ resources:
   - ingress.yaml
 images:
   - name: uber_eat_image
-    newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber_eat:name"}
-    newTag: "latest" # {"$imagepolicy": "flux-system:uber_eat:tag"}
+    newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber-eat:name"}
+    newTag: "latest" # {"$imagepolicy": "flux-system:uber-eat:tag"}
