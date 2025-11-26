@@ -1,43 +1,43 @@
 {
   "restaurants": {
-    "notFound": "Restaurant non trouvé",
-    "listTitle": "Liste des restaurants",
-    "searchPlaceholder": "Rechercher un restaurant ...",
-    "createModalTitle": "Création de restaurant",
-    "createModalDescription": "Créer un restaurant avec le formulaire ci-dessous",
-    "createButton": "Créer un nouveau restaurant",
-    "name": "Nom",
-    "location": "Adresse",
-    "zip": "Code postal",
-    "city": "Ville",
-    "email": "Adresse mail",
-    "password": "Mot de passe",
-    "createRestaurantButton": "Créer le restaurant",
+    "notFound": "Restaurant not found",
+    "listTitle": "Restaurant list",
+    "searchPlaceholder": "Search for a restaurant...",
+    "createModalTitle": "Create Restaurant",
+    "createModalDescription": "Create a restaurant using the form below",
+    "createButton": "Create new restaurant",
+    "name": "Name",
+    "location": "Address",
+    "zip": "Postal code",
+    "city": "City",
+    "email": "Email address",
+    "password": "Password",
+    "createRestaurantButton": "Create restaurant",
     "idHeader": "#",
     "nameHeader": "Restaurant",
-    "cityHeader": "Localisation",
+    "cityHeader": "Location",
     "typeHeader": "Type",
     "actionsHeader": "Actions",
     "validation": {
-      "name": "Nom obligatoire",
-      "location": "Adresse postal obligatoire",
-      "zip": "Code postal obligatoire",
-      "zipFormat": "Le code postal doit contenir 5 chiffres",
-      "city": "Ville obligatoire",
-      "email": "Email obligatoire",
-      "password": "Mot de passe obligatoire"
+      "name": "Name is required",
+      "location": "Address is required",
+      "zip": "Postal code is required",
+      "zipFormat": "Postal code must contain 5 digits",
+      "city": "City is required",
+      "email": "Email is required",
+      "password": "Password is required"
     },
-    "deleteConfirmationTitle": "Suppression",
-    "deleteConfirmationDescription": "Voulez-vous supprimer le restaurant {name} ?",
-    "deleteAction": "Supprimer",
-    "deleteSuccessTitle": "Dashboard admin",
-    "deleteSuccessDescription": "Le restaurant {name} a bien été supprimé"
+    "deleteConfirmationTitle": "Delete",
+    "deleteConfirmationDescription": "Do you want to delete the restaurant {name}?",
+    "deleteAction": "Delete",
+    "deleteSuccessTitle": "Admin Dashboard",
+    "deleteSuccessDescription": "The restaurant {name} has been successfully deleted"
   },
   "common": {
-    "back": "Retour"
+    "back": "Back"
   },
   "modal": {
-    "cancel": "Annuler"
+    "cancel": "Cancel"
   },
   "orders": {
     "restaurant": "Restaurant",
@@ -48,109 +48,109 @@
     "title": "Eat Research"
   },
   "profile": {
-    "myProfile": "Mon profil",
-    "myOrders": "Mes commandes",
-    "adminPanel": "Administration",
-    "logout": "Se déconnecter",
-    "logoutToastTitle": "Système d'authentification",
-    "logoutToastDescription": "Vous avez été déconnecté avec succès.",
-    "pageTitle": "Mon profil",
-    "informationCardTitle": "Mes informations",
-    "emailLabel": "Adresse mail",
-    "usernameLabel": "Nom d'utilisateur",
+    "myProfile": "My Profile",
+    "myOrders": "My Orders",
+    "adminPanel": "Admin Panel",
+    "logout": "Logout",
+    "logoutToastTitle": "Authentication System",
+    "logoutToastDescription": "You have been successfully logged out.",
+    "pageTitle": "My Profile",
+    "informationCardTitle": "My Information",
+    "emailLabel": "Email address",
+    "usernameLabel": "Username",
     "roleLabel": "Role",
-    "applyChangesButton": "Appliquer les modifications",
-    "ordersCardTitle": "Mes commandes"
+    "applyChangesButton": "Apply Changes",
+    "ordersCardTitle": "My Orders"
   },
   "cart": {
-    "button": "Mon panier",
-    "title": "Votre panier",
-    "totalLabel": "Total :",
-    "clear": "Vider le panier",
-    "checkout": "Payer",
-    "empty": "Votre panier est vide",
-    "addedItem": "Vous avez ajouté {name} à votre panier"
+    "button": "My Cart",
+    "title": "Your Cart",
+    "totalLabel": "Total:",
+    "clear": "Clear Cart",
+    "checkout": "Checkout",
+    "empty": "Your cart is empty",
+    "addedItem": "You added {name} to your cart"
   },
   "auth": {
-    "login": "Se connecter",
-    "formTitle": "Connexion",
-    "formDescription": "Entrez vos identifiants pour accéder à votre compte.",
-    "submit": "Se connecter",
-    "usernameLabel": "Nom d'utilisateur",
-    "usernamePlaceholder": "Entrez votre nom d'utilisateur",
-    "passwordLabel": "Mot de passe",
-    "passwordPlaceholder": "Entrez votre mot de passe",
-    "usernameRequired": "Nom d'utilisateur obligatoire",
-    "passwordRequired": "Mot de passe obligatoire",
-    "toastTitle": "Système d'authentification",
-    "toastInvalidCredentials": "Le nom d'utilisateur et/ou votre mot de passe sont incorrects.",
-    "toastSuccess": "Vous avez été connecté avec succès.",
-    "noAccount": "Vous n'avez pas de compte ?",
-    "registerLink": "Enregistrez-vous",
-    "emailLabel": "Adresse mail",
-    "emailPlaceholder": "Entrez votre email",
-    "confirmPasswordLabel": "Confirmation mot de passe",
-    "confirmPasswordPlaceholder": "Entrez votre mot de passe",
-    "emailInvalid": "Adresse email invalide",
-    "passwordMin": "Votre mot de passe doit faire plus de 8 caractères",
-    "passwordMismatch": "Les mots de passe ne correspondent pas",
-    "alreadyHaveAccount": "Vous avez déjà un compte ?",
-    "loginLink": "Connectez-vous"
+    "login": "Login",
+    "formTitle": "Login",
+    "formDescription": "Enter your credentials to access your account.",
+    "submit": "Login",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "usernameRequired": "Username is required",
+    "passwordRequired": "Password is required",
+    "toastTitle": "Authentication System",
+    "toastInvalidCredentials": "Username and/or password are incorrect.",
+    "toastSuccess": "You have successfully logged in.",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "confirmPasswordLabel": "Confirm password",
+    "confirmPasswordPlaceholder": "Enter your password",
+    "emailInvalid": "Invalid email address",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordMismatch": "Passwords do not match",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Login"
   },
   "dashboard": {
     "tabs": {
-      "restaurant": "Mon restaurant",
-      "dishes": "Mes plats",
-      "orders": "Mes commandes"
+      "restaurant": "My Restaurant",
+      "dishes": "My Dishes",
+      "orders": "My Orders"
     },
     "orders": {
-      "customerName": "Nom client",
+      "customerName": "Customer Name",
       "date": "Date",
       "total": "Total",
       "actions": "Actions",
-      "cancel": "Annuler"
+      "cancel": "Cancel"
     },
     "forms": {
       "restaurant": {
-        "name": "Nom",
-        "location": "Adresse",
-        "zip": "Code postal",
-        "zipFormat": "Le code postal doit contenir 5 chiffres",
-        "city": "Ville",
-        "updateButton": "Modifier le restaurant"
+        "name": "Name",
+        "location": "Address",
+        "zip": "Postal code",
+        "zipFormat": "Postal code must contain 5 digits",
+        "city": "City",
+        "updateButton": "Update Restaurant"
       },
       "dish": {
-        "name": "Nom",
-        "price": "Prix",
+        "name": "Name",
+        "price": "Price",
         "description": "Description",
         "image": "Image",
-        "updateTitle": "Modifier le plat",
-        "updateDescription": "Modifier les informations du plat",
-        "updateButton": "Modifier le plat",
-        "deleteButton": "Supprimer le plat"
+        "updateTitle": "Update Dish",
+        "updateDescription": "Update dish information",
+        "updateButton": "Update Dish",
+        "deleteButton": "Delete Dish"
       }
     },
     "errors": {
-      "restaurantNotFound": "Restaurant non trouvé"
+      "restaurantNotFound": "Restaurant not found"
     }
   },
   "validation": {
-    "emailRequired": "Adresse mail obligatoire",
-    "usernameRequired": "Nom d'utilisateur obligatoire"
+    "emailRequired": "Email address is required",
+    "usernameRequired": "Username is required"
   },
   "home": {
-    "heroImageAlt": "Image de fond de la section principale",
-    "heroTitle": "Trouve le restaurant parfait 🍽️",
-    "heroDescription": "Explore les meilleures adresses autour de toi selon tes envies culinaires.",
-    "searchPlaceholder": "Rechercher un restaurant, une cuisine, une ville..."
+    "heroImageAlt": "Main section background image",
+    "heroTitle": "Find the perfect restaurant 🍽️",
+    "heroDescription": "Explore the best spots around you based on your culinary cravings.",
+    "searchPlaceholder": "Search for a restaurant, cuisine, or city..."
   },
   "restaurant": {
     "pageTitle": "Restaurant",
-    "takeawayTitle": "Plats à emporter",
-    "notFound": "Restaurant non trouvé"
+    "takeawayTitle": "Takeaway Dishes",
+    "notFound": "Restaurant not found"
   },
   "item": {
-    "notFound": "Item non trouvé",
-    "order": "Commander"
+    "notFound": "Item not found",
+    "order": "Order"
   }
 }

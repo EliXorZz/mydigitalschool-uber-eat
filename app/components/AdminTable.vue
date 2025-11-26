@@ -113,27 +113,27 @@ async function deleteRestaurant(restaurant: Restaurant) {
 
         <template #body>
           <UForm :schema="schema" :state="state" class="space-y-4">
-            <UFormField label="$t('restaurants.name')" name="name">
+            <UFormField :label="$t('restaurants.name')" name="name">
               <UInput v-model="state.name" class="w-full" />
             </UFormField>
 
-            <UFormField label="$t('restaurants.location')" name="location">
+            <UFormField :label="$t('restaurants.location')" name="location">
               <UInput v-model="state.location" class="w-full" />
             </UFormField>
 
-            <UFormField label="$t('restaurants.zip')" name="zip">
+            <UFormField :label="$t('restaurants.zip')" name="zip">
               <UInput v-model="state.zip" class="w-full" />
             </UFormField>
 
-            <UFormField label="$t('restaurants.city')" name="city">
+            <UFormField :label="$t('restaurants.city')" name="city">
               <UInput v-model="state.city" class="w-full" />
             </UFormField>
 
-            <UFormField label="$t('restaurants.email')" name="email">
+            <UFormField :label="$t('restaurants.email')" name="email">
               <UInput v-model="state.email" class="w-full" />
             </UFormField>
 
-            <UFormField label="$t('restaurants.password')" name="password">
+            <UFormField :label="$t('restaurants.password')" name="password">
               <UInput v-model="state.password" class="w-full" />
             </UFormField>
 
