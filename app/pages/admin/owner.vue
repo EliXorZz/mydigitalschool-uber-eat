@@ -131,16 +131,16 @@ function deleteDish() { openUpdateDishModal.value = false }
       <template #restaurant>
         <UPageCard :title="$t('dashboard.tabs.restaurant')" class="mt-8">
           <UForm :schema="schemaRestaurant" :state="stateRestaurant" class="space-y-4">
-            <UFormField label="$t('dashboard.forms.restaurant.name')" name="name">
+            <UFormField :label="$t('dashboard.forms.restaurant.name')" name="name">
               <UInput v-model="stateRestaurant.name" class="w-full" />
             </UFormField>
-            <UFormField label="$t('dashboard.forms.restaurant.location')" name="location">
+            <UFormField :label="$t('dashboard.forms.restaurant.location')" name="location">
               <UInput v-model="stateRestaurant.location" class="w-full" />
             </UFormField>
-            <UFormField label="$t('dashboard.forms.restaurant.zip')" name="zip">
+            <UFormField :label="$t('dashboard.forms.restaurant.zip')" name="zip">
               <UInput v-model="stateRestaurant.zip" class="w-full" />
             </UFormField>
-            <UFormField label="$t('dashboard.forms.restaurant.city')" name="city">
+            <UFormField :label="$t('dashboard.forms.restaurant.city')" name="city">
               <UInput v-model="stateRestaurant.city" class="w-full" />
             </UFormField>
             <UButton type="submit" class="cursor-pointer flex justify-center w-full" :disabled="!isFormValidRestaurant" @click="updateRestaurant">
@@ -162,16 +162,16 @@ function deleteDish() { openUpdateDishModal.value = false }
               >
                 <template #body>
                   <UForm :schema="schemaDish" :state="stateDish" class="space-y-4">
-                    <UFormField label="$t('dashboard.forms.dish.name')" name="name">
+                    <UFormField :label="$t('dashboard.forms.dish.name')" name="name">
                       <UInput v-model="stateDish.name" class="w-full" />
                     </UFormField>
-                    <UFormField label="$t('dashboard.forms.dish.price')" name="price">
+                    <UFormField :label="$t('dashboard.forms.dish.price')" name="price">
                       <UInput v-model="stateDish.price" class="w-full" />
                     </UFormField>
-                    <UFormField label="$t('dashboard.forms.dish.description')" name="description">
+                    <UFormField :label="$t('dashboard.forms.dish.description')" name="description">
                       <UInput v-model="stateDish.description" class="w-full" />
                     </UFormField>
-                    <UFormField label="$t('dashboard.forms.dish.image')" name="image">
+                    <UFormField :label="$t('dashboard.forms.dish.image')" name="image">
                       <UInput v-model="stateDish.image" class="w-full" />
                     </UFormField>
                     <div class="flex flex-col gap-4 mt-10">

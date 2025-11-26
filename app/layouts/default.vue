@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { en, fr } from '@nuxt/ui/locale'
+import { fr, en } from '@nuxt/ui/locale'
+
 import type {NavigationMenuItem} from "#ui/components/NavigationMenu.vue";
 import type {DropdownMenuItem} from "#ui/components/DropdownMenu.vue";
+
+const { locale, setLocale } = useI18n()
 
 const toaster = { position: 'bottom-center' }
 const toast = useToast()
@@ -121,7 +124,11 @@ const profileItems = computed<DropdownMenuItem[]>(() => {
             {{ $t('auth.login') }}
           </NuxtLink>
 
-          <ULocaleSelect model-value="fr" :locales="[fr, en]" />
+          <ULocaleSelect
+              :model-value="locale"
+              :locales="[fr, en]"
+              @update:model-value="setLocale($event)"
+          />
         </div>
       </template>
     </UHeader>
