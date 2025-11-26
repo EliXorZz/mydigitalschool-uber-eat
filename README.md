@@ -1,81 +1,29 @@
-# Mon Projet Uber-Eat
+# 🍔 Uber Eat – MyDigitalSchool
+
+Application pour gérer un restaurant, ses plats et ses commandes.
 
 ![CI](https://github.com/EliXorZz/mydigitalschool-uber-eat/actions/workflows/main.yml/badge.svg)
 
 URL DU PROJET : https://uber-eat.mydigitalschool.server.dylanbattig.fr
 
-# Nuxt Minimal Starter
+---
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 🚀 Fonctionnalités
 
-## Setup
+- Gestion des restaurants
+- Gestion des plats
+- Gestion des commandes
+- CI/CD via GitHub Actions
+- Docker & déploiement automatique sur Harbor
+- Possibilité PWA / navigation offline
 
-Make sure to install dependencies:
+---
 
-```bash
-# npm
-npm install
+## 🛠️ Choix techniques
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- Stack : Nuxt 3 + TypeScript + Vue 3
+- UI : NuxtUI + Tailwind
+- Validation : Zod pour la saisie des formulaires
+- Docker : Build et push automatique sur Harbor privé
+- CI/CD : GitHub Actions pour build & push
+- Déploiement : FluxCD pour mise à jour automatique
