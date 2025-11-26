@@ -5,7 +5,6 @@ import type {Order} from "~/types/order";
 definePageMeta({
   layout: 'default',
   ssr: false,
-
   middleware: ['auth'],
 })
 
@@ -13,8 +12,8 @@ const authStore = useAuthentificationStore()
 const { account } = storeToRefs(authStore)
 
 const schema = z.object({
-  email: z.email('Adresse mail obligatoire'),
-  username: z.string('Nom d\'utilisateur obligatoire'),
+  email: z.email($t('validation.emailRequired')),
+  username: z.string($t('validation.usernameRequired')),
 })
 
 type Schema = z.output<typeof schema>
@@ -24,39 +23,47 @@ const state = reactive<Partial<Schema>>({
   username: account.value?.username,
 })
 
-const orders: Order[] = [
-  {
-    name: "Commande 302",
-    date: "21-02-2025 12:31",
-    total: 21,
-  }
-]
+const { data: orders } = await useAsyncData<Order[]>(
+    `orders:me`,
+    async () => {
+      return [
+        {
+          id: 32,
+          name: 'M. Dylan',
+          date: 'Lundi 21 février 12:32',
+          total: 23.4,
+          items: []
+        }
+      ]
+    }
+)
 </script>
 
 <template>
   <UMain class="p-10">
-    <UPageCard title="Mon profile">
+    <UPageCard :title="$t('profile.pageTitle')">
       <div class="flex gap-6 justify-around">
-        <UPageCard class="flex-1/3" title="Mes informations">
+        <UPageCard class="flex-1/3" :title="$t('profile.informationCardTitle')">
           <UForm :schema="schema" :state="state" class="space-y-4">
-            <UFormField label="Adresse mail" name="email">
+            <UFormField :label="$t('profile.emailLabel')" name="email">
               <UInput class="w-full" v-model="state.email" />
             </UFormField>
 
-            <UFormField label="Nom d'utilisateur" name="username">
+            <UFormField :label="$t('profile.usernameLabel')" name="username">
               <UInput class="w-full" v-model="state.username" />
             </UFormField>
 
-            <UFormField label="Role" name="role">
-              <UInput class="w-full" :value="account?.role"  disabled />
+            <UFormField :label="$t('profile.roleLabel')" name="role">
+              <UInput class="w-full" :value="account?.role" disabled />
             </UFormField>
 
             <UButton class="mt-4 cursor-pointer" type="submit">
-              Appliquer les modification
+              {{ $t('profile.applyChangesButton') }}
             </UButton>
           </UForm>
         </UPageCard>
-        <OrderTable class="flex-2/3" title="Mes commandes" :orders="orders"/>
+
+        <OrderTable v-if="orders" class="flex-2/3" :title="$t('profile.ordersCardTitle')" :orders="orders"/>
       </div>
     </UPageCard>
   </UMain>

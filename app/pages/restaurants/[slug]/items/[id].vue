@@ -15,7 +15,7 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
       if (restaurant == null)
         throw createError({
           statusCode: 404,
-          message: 'Restaurant non trouvé',
+          message: $t('restaurant.notFound'),
           fatal: true
         })
 
@@ -36,7 +36,7 @@ const { data: item } = await useAsyncData<Item>(
       if (item == null)
         throw createError({
           statusCode: 404,
-          message: 'Item non trouvé',
+          message: $t('item.notFound'),
           fatal: true
         })
 
@@ -44,7 +44,7 @@ const { data: item } = await useAsyncData<Item>(
     }
 )
 
-useHead({ title: `Restaurant | ${restaurant.value?.name} | ${item.value?.name}` })
+useHead({ title: `${restaurant.value?.name} | ${item.value?.name}` })
 
 useSeoMeta({
   title: item.value?.name,
@@ -62,8 +62,8 @@ function add(item: Item) {
   cartStore.addItem(item)
 
   toast.add({
-    title: 'Panier',
-    description: `Vous avez ajouté ${item.name} à votre panier`,
+    title: $t('cart.title'),
+    description: $t('cart.addedItem', { name: item.name }),
     icon: 'i-lucide-shopping-basket',
     color: 'info'
   })
@@ -78,7 +78,9 @@ function add(item: Item) {
         <img class="size-100 object-cover rounded-2xl" :src="item.image" :alt="item.name">
         <p>{{ item.description }}</p>
         <div class="text-primary text-xl font-bold">{{ item.price }}€</div>
-        <UButton class="cursor-pointer" icon="i-lucide-shopping-basket" @click="add(item)">Commander</UButton>
+        <UButton class="cursor-pointer" icon="i-lucide-shopping-basket" @click="add(item)">
+          {{ $t('item.order') }}
+        </UButton>
       </div>
     </UCard>
   </UMain>

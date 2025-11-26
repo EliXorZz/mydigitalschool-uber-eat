@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import fr from './i18n/locales/fr.json'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -8,7 +11,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     '@pinia/nuxt',
-    '@vite-pwa/nuxt'
+    '@vite-pwa/nuxt',
+    '@nuxtjs/i18n'
   ],
   css: ['~/assets/main.css'],
 
@@ -20,6 +24,14 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
+  i18n: {
+    locales: [
+      { code: 'en', language: 'en-US', file: 'en.json' },
+      { code: 'fr', language: 'fr-FR', file: 'fr.json' }
+    ],
+    defaultLocale: 'fr',
+  },
+
   pwa: {
     registerType: 'autoUpdate',
 
@@ -29,7 +41,7 @@ export default defineNuxtConfig({
       start_url: '/',
       display: 'standalone',
       background_color: '#ffffff',
-      theme_color: '#8c00ff'
+      theme_color: '#0ea5e9',
     },
 
     workbox: {

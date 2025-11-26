@@ -1,0 +1,156 @@
+{
+  "restaurants": {
+    "notFound": "Restaurant non trouvé",
+    "listTitle": "Liste des restaurants",
+    "searchPlaceholder": "Rechercher un restaurant ...",
+    "createModalTitle": "Création de restaurant",
+    "createModalDescription": "Créer un restaurant avec le formulaire ci-dessous",
+    "createButton": "Créer un nouveau restaurant",
+    "name": "Nom",
+    "location": "Adresse",
+    "zip": "Code postal",
+    "city": "Ville",
+    "email": "Adresse mail",
+    "password": "Mot de passe",
+    "createRestaurantButton": "Créer le restaurant",
+    "idHeader": "#",
+    "nameHeader": "Restaurant",
+    "cityHeader": "Localisation",
+    "typeHeader": "Type",
+    "actionsHeader": "Actions",
+    "validation": {
+      "name": "Nom obligatoire",
+      "location": "Adresse postal obligatoire",
+      "zip": "Code postal obligatoire",
+      "zipFormat": "Le code postal doit contenir 5 chiffres",
+      "city": "Ville obligatoire",
+      "email": "Email obligatoire",
+      "password": "Mot de passe obligatoire"
+    },
+    "deleteConfirmationTitle": "Suppression",
+    "deleteConfirmationDescription": "Voulez-vous supprimer le restaurant {name} ?",
+    "deleteAction": "Supprimer",
+    "deleteSuccessTitle": "Dashboard admin",
+    "deleteSuccessDescription": "Le restaurant {name} a bien été supprimé"
+  },
+  "common": {
+    "back": "Retour"
+  },
+  "modal": {
+    "cancel": "Annuler"
+  },
+  "orders": {
+    "restaurant": "Restaurant",
+    "date": "Date",
+    "total": "Total"
+  },
+  "app": {
+    "title": "Eat Research"
+  },
+  "profile": {
+    "myProfile": "Mon profil",
+    "myOrders": "Mes commandes",
+    "adminPanel": "Administration",
+    "logout": "Se déconnecter",
+    "logoutToastTitle": "Système d'authentification",
+    "logoutToastDescription": "Vous avez été déconnecté avec succès.",
+    "pageTitle": "Mon profil",
+    "informationCardTitle": "Mes informations",
+    "emailLabel": "Adresse mail",
+    "usernameLabel": "Nom d'utilisateur",
+    "roleLabel": "Role",
+    "applyChangesButton": "Appliquer les modifications",
+    "ordersCardTitle": "Mes commandes"
+  },
+  "cart": {
+    "button": "Mon panier",
+    "title": "Votre panier",
+    "totalLabel": "Total :",
+    "clear": "Vider le panier",
+    "checkout": "Payer",
+    "empty": "Votre panier est vide",
+    "addedItem": "Vous avez ajouté {name} à votre panier"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "formTitle": "Connexion",
+    "formDescription": "Entrez vos identifiants pour accéder à votre compte.",
+    "submit": "Se connecter",
+    "usernameLabel": "Nom d'utilisateur",
+    "usernamePlaceholder": "Entrez votre nom d'utilisateur",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "usernameRequired": "Nom d'utilisateur obligatoire",
+    "passwordRequired": "Mot de passe obligatoire",
+    "toastTitle": "Système d'authentification",
+    "toastInvalidCredentials": "Le nom d'utilisateur et/ou votre mot de passe sont incorrects.",
+    "toastSuccess": "Vous avez été connecté avec succès.",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerLink": "Enregistrez-vous",
+    "emailLabel": "Adresse mail",
+    "emailPlaceholder": "Entrez votre email",
+    "confirmPasswordLabel": "Confirmation mot de passe",
+    "confirmPasswordPlaceholder": "Entrez votre mot de passe",
+    "emailInvalid": "Adresse email invalide",
+    "passwordMin": "Votre mot de passe doit faire plus de 8 caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "loginLink": "Connectez-vous"
+  },
+  "dashboard": {
+    "tabs": {
+      "restaurant": "Mon restaurant",
+      "dishes": "Mes plats",
+      "orders": "Mes commandes"
+    },
+    "orders": {
+      "customerName": "Nom client",
+      "date": "Date",
+      "total": "Total",
+      "actions": "Actions",
+      "cancel": "Annuler"
+    },
+    "forms": {
+      "restaurant": {
+        "name": "Nom",
+        "location": "Adresse",
+        "zip": "Code postal",
+        "zipFormat": "Le code postal doit contenir 5 chiffres",
+        "city": "Ville",
+        "updateButton": "Modifier le restaurant"
+      },
+      "dish": {
+        "name": "Nom",
+        "price": "Prix",
+        "description": "Description",
+        "image": "Image",
+        "updateTitle": "Modifier le plat",
+        "updateDescription": "Modifier les informations du plat",
+        "updateButton": "Modifier le plat",
+        "deleteButton": "Supprimer le plat"
+      }
+    },
+    "errors": {
+      "restaurantNotFound": "Restaurant non trouvé"
+    }
+  },
+  "validation": {
+    "emailRequired": "Adresse mail obligatoire",
+    "usernameRequired": "Nom d'utilisateur obligatoire"
+  },
+  "home": {
+    "heroImageAlt": "Image de fond de la section principale",
+    "heroTitle": "Trouve le restaurant parfait 🍽️",
+    "heroDescription": "Explore les meilleures adresses autour de toi selon tes envies culinaires.",
+    "searchPlaceholder": "Rechercher un restaurant, une cuisine, une ville..."
+  },
+  "restaurant": {
+    "pageTitle": "Restaurant",
+    "takeawayTitle": "Plats à emporter",
+    "notFound": "Restaurant non trouvé"
+  },
+  "item": {
+    "notFound": "Item non trouvé",
+    "order": "Commander"
+  }
+}

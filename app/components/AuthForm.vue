@@ -7,7 +7,7 @@
     <template #header>
       <NuxtLink :to="{ name: 'index' }" class="flex items-center gap-2">
         <UIcon name="i-lucide:arrow-left"/>
-        <span class="text-xs">Retour</span>
+        <span class="text-xs">{{ $t('common.back') }}</span>
       </NuxtLink>
     </template>
 

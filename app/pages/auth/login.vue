@@ -11,31 +11,30 @@ const fields: AuthFormField[] = [
   {
     name: 'username',
     type: 'text',
-    label: 'Nom d\'utilisateur',
-    placeholder: 'Entrez votre nom d\'utilisateur',
+    label: $t('auth.usernameLabel'),
+    placeholder: $t('auth.usernamePlaceholder'),
     help: 'admin',
     required: true
   },
   {
     name: 'password',
     type: 'password',
-    label: 'Mot de passe',
-    placeholder: 'Entrez votre mot de passe',
+    label: $t('auth.passwordLabel'),
+    placeholder: $t('auth.passwordPlaceholder'),
     help: 'admin-mydigitalschool',
     required: true
   }
 ]
 
 const schema = z.object({
-  username: z.string('Nom d\'utilisateur obligatoire'),
-  password: z.string('Mot de passe obligatoire')
+  username: z.string($t('auth.usernameRequired')),
+  password: z.string($t('auth.passwordRequired'))
 })
 
 type Schema = z.output<typeof schema>
 
 const router = useRouter()
 const toast = useToast()
-
 const authStore = useAuthentificationStore()
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
@@ -44,18 +43,17 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 
   if (!success) {
     toast.add({
-      title: 'Système d\'authentification',
-      description: `Le nom d'utilisateur et/ou votre mot de passe sont incorrect.`,
+      title: $t('auth.toastTitle'),
+      description: $t('auth.toastInvalidCredentials'),
       icon: 'i-lucide-user-lock',
       color: 'error'
     })
-
     return
   }
 
   toast.add({
-    title: 'Système d\'authentification',
-    description: `Vous avez été connecté avec succès.`,
+    title: $t('auth.toastTitle'),
+    description: $t('auth.toastSuccess'),
     icon: 'i-lucide-user-lock',
     color: 'success'
   })
@@ -69,17 +67,18 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     <template #body>
       <UAuthForm
           :schema="schema"
-          title="Connexion"
-          description="Entrez vos identifiants pour accèder a votre compte."
+          :title="$t('auth.formTitle')"
+          :description="$t('auth.formDescription')"
           icon="i-lucide-user"
-          :submit="{ label: 'Se connecter' }"
+          :submit="{ label: $t('auth.submit') }"
           :fields="fields"
           @submit="onSubmit"
       />
     </template>
 
     <template #footer>
-      Vous n'avez pas de compte ? <NuxtLink :to="{ name: 'auth-register' }"  class="text-primary">Enregistrez vous</NuxtLink>
+      {{ $t('auth.noAccount') }}
+      <NuxtLink :to="{ name: 'auth-register' }" class="text-primary">{{ $t('auth.registerLink') }}</NuxtLink>
     </template>
   </AuthForm>
 </template>

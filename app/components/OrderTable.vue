@@ -12,17 +12,17 @@ defineProps<{
 const columns: TableColumn<Order>[] = [
   {
     accessorKey: 'name',
-    header: "Restaurant",
+    header: $t('orders.restaurant'),
     cell: ({ row }) => h('div', { class: 'font-bold' }, row.getValue('name'))
   },
   {
     accessorKey: 'date',
-    header: 'Localisation',
+    header: $t('orders.date'),
     cell: ({ row }) => h('div', {}, row.getValue('date'))
   },
   {
     accessorKey: 'total',
-    header: 'Total',
+    header: $t('orders.total'),
     cell: ({ row }) => h(UBadge, { color: 'neutral', variant: 'outline' }, () => row.getValue('total') + '€')
   },
 ]

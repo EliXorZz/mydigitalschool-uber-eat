@@ -6,6 +6,16 @@ Application pour gérer un restaurant, ses plats et ses commandes.
 
 URL DU PROJET : https://uber-eat.mydigitalschool.server.dylanbattig.fr
 
+## 🗣️Utilisateurs
+
+### Role Admin
+username: admin
+password: admin-mydigitalschool
+
+### Role Restaurateur
+username: dylan
+password: admin-mydigitalschool
+
 ---
 
 ## 🚀 Fonctionnalités

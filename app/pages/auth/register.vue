@@ -11,42 +11,42 @@ const fields: AuthFormField[] = [
   {
     name: 'username',
     type: 'text',
-    label: 'Nom d\'utilisateur',
-    placeholder: 'Entrez votre nom d\'utilisateur',
+    label: $t('auth.usernameLabel'),
+    placeholder: $t('auth.usernamePlaceholder'),
     required: true
   },
   {
     name: 'email',
     type: 'email',
-    label: 'Adresse mail',
-    placeholder: 'Entrez votre email',
+    label: $t('auth.emailLabel'),
+    placeholder: $t('auth.emailPlaceholder'),
     required: true
   },
   {
     name: 'password',
     type: 'password',
-    label: 'Mot de passe',
-    placeholder: 'Entrez votre mot de passe',
+    label: $t('auth.passwordLabel'),
+    placeholder: $t('auth.passwordPlaceholder'),
     required: true
   },
   {
     name: 'confirmPassword',
     type: 'password',
-    label: 'Confirmation mot de passe',
-    placeholder: 'Entrez votre mot de passe',
+    label: $t('auth.confirmPasswordLabel'),
+    placeholder: $t('auth.confirmPasswordPlaceholder'),
     required: true
   }
 ]
 
 const schema = z.object({
-  username: z.string('Nom d\'utilisateur invalide'),
-  email: z.email('Adresse email invalide'),
-  password: z.string('Mot de passe obligatoire').min(8, 'Votre mot de passe doit faire plus de 8 caractères'),
-  confirmPassword: z.string('Mot de passe obligatoire')
+  username: z.string($t('auth.usernameRequired')),
+  email: z.string().email($t('auth.emailInvalid')),
+  password: z.string($t('auth.passwordRequired')).min(8, $t('auth.passwordMin')),
+  confirmPassword: z.string($t('auth.passwordRequired'))
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Les mots de passes ne correpondent pas.",
+  message: $t('auth.passwordMismatch'),
   path: ["confirmPassword"],
-});
+})
 
 type Schema = z.output<typeof schema>
 
@@ -60,17 +60,18 @@ function onSubmit(payload: FormSubmitEvent<Schema>) {
     <template #body>
       <UAuthForm
           :schema="schema"
-          title="Connexion"
-          description="Entrez vos identifiants pour accèder a votre compte."
+          :title="$t('auth.formTitle')"
+          :description="$t('auth.formDescription')"
           icon="i-lucide-user"
           :fields="fields"
-          :submit="{ label: 'S\'enregistrer' }"
+          :submit="{ label: $t('auth.submit') }"
           @submit="onSubmit"
       />
     </template>
 
     <template #footer>
-      Vous avez déjà un compte ? <NuxtLink :to="{ name: 'auth-login' }" class="text-primary">Connectez vous</NuxtLink>
+      {{ $t('auth.alreadyHaveAccount') }}
+      <NuxtLink :to="{ name: 'auth-login' }" class="text-primary">{{ $t('auth.loginLink') }}</NuxtLink>
     </template>
   </AuthForm>
 </template>
