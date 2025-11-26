@@ -55,6 +55,9 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
+const authStore = useAuthentificationStore()
+const { isAuth } = storeToRefs(authStore)
+
 const toast = useToast()
 const cartStore = useCartStore()
 
@@ -78,8 +81,11 @@ function add(item: Item) {
         <img class="size-100 object-cover rounded-2xl" :src="item.image" :alt="item.name">
         <p>{{ item.description }}</p>
         <div class="text-primary text-xl font-bold">{{ item.price }}€</div>
-        <UButton class="cursor-pointer" icon="i-lucide-shopping-basket" @click="add(item)">
+        <UButton v-if="isAuth" class="cursor-pointer" icon="i-lucide-shopping-basket" @click="add(item)">
           {{ $t('item.order') }}
+        </UButton>
+        <UButton v-else class="cursor-pointer" :disabled="true">
+          {{ $t('item.order-no-auth') }}
         </UButton>
       </div>
     </UCard>

@@ -30,6 +30,9 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    locale: 'fr-FR',
+    timezoneId: 'Europe/Paris',
   },
 
   /* Configure projects for major browsers */
@@ -72,8 +75,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run build && npm run preview',
     url: 'http://localhost:3000',
+    timeout: 120000,
     reuseExistingServer: !process.env.CI,
   },
 });

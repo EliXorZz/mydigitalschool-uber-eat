@@ -151,6 +151,7 @@
   },
   "item": {
     "notFound": "Item non trouvé",
-    "order": "Commander"
+    "order": "Commander",
+    "order-no-auth": "Vous devez être connecté pour commander"
   }
 }

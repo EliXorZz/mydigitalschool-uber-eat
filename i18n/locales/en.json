@@ -151,6 +151,7 @@
   },
   "item": {
     "notFound": "Item not found",
-    "order": "Order"
+    "order": "Order",
+    "order-no-auth": "Not authenticated for order"
   }
 }
