@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases
+  - ingress.yaml
+images:
+  - name: uber_eat_image
+    newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber_eat:name"}
+    newTag: "latest" # {"$imagepolicy": "flux-system:uber_eat:tag"}

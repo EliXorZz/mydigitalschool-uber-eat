@@ -1,0 +1,39 @@
+name: Main Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.0.0
+
+      - name: Log into registry ${{ vars.HARBOR_REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ${{ vars.HARBOR_REGISTRY }}
+          username: robot$github
+          password: ${{ vars.HARBOR_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          file: Dockerfile
+
+          push: ${{ github.event_name != 'pull_request' }}
+
+          tags: ${{ vars.HARBOR_REGISTRY }}/private/uber_eat:main-${{ github.sha }}-${{ github.run_number }}
+
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

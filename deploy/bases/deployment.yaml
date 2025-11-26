@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uber-eat
+  labels:
+    app: uber-eat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uber-eat
+  template:
+    metadata:
+      name: uber-eat
+      labels:
+        app: uber-eat
+    spec:
+      containers:
+        - name: uber-eat
+          image: uber_eat_image
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+
+      imagePullSecrets:
+        - name: registry-secret
