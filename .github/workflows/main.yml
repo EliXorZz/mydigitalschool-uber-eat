@@ -2,9 +2,9 @@ name: Main Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -37,3 +37,6 @@ jobs:
 
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Flux reconcile
+        run: curl -X POST -f --silent --show-error "http://flux.server.dylanbattig.fr${{ inputs.hook }}"
