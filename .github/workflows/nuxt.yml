@@ -3,13 +3,20 @@ name: Main Workflow
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'nuxt/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - 'nuxt/**'
 
 jobs:
   tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./nuxt
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -52,8 +59,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5.0.0
         with:
-          context: .
-          file: Dockerfile
+          context: ./nuxt
+          file: ./nuxt/Dockerfile
 
           push: ${{ github.event_name != 'pull_request' }}
 
