@@ -6,4 +6,4 @@ resources:
 images:
   - name: uber_eat_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber-eat:name"}
-    newTag: "main-de2cc71a6e45ad185d4c736c76bd8987207fe900-8" # {"$imagepolicy": "flux-system:uber-eat:tag"}
+    newTag: "main-f8d4227ace5c86fc8e9da3dea6a7c0a62fa84216-1" # {"$imagepolicy": "flux-system:uber-eat:tag"}
