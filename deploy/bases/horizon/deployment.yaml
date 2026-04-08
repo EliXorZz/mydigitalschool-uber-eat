@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uber-eat-horizon
+  labels:
+    app: uber-eat-horizon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uber-eat-horizon
+  template:
+    metadata:
+      name: uber-eat-horizon
+      labels:
+        app: uber-eat-horizon
+    spec:
+      imagePullSecrets:
+        - name: registry-secret
+      containers:
+        - name: uber-eat-horizon
+          image: uber_eat_api_image
+          command: [ 'php', 'artisan', 'horizon' ]
+          envFrom:
+            - secretRef:
+                name: uber-eat-api-secret
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"

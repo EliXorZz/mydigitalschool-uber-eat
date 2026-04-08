@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uber-eat-api
+  labels:
+    app: uber-eat-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uber-eat-api
+  template:
+    metadata:
+      name: uber-eat-api
+      labels:
+        app: uber-eat-api
+    spec:
+      imagePullSecrets:
+        - name: registry-secret
+      containers:
+        - name: fpm
+          image: stock_lens_api_image
+          envFrom:
+            - secretRef:
+                name: uber-eat-api-secret
+          volumeMounts:
+            - name: data
+              mountPath: /var/www
+          lifecycle:
+            postStart:
+              exec:
+                command: [ 'sh', '-c', 'cp -r /app/. /var/www' ]
+        - name: nginx
+          image: nginx:1.27
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: uber-eat-api-secret
+          volumeMounts:
+            - name: data
+              mountPath: /app
+              readOnly: true
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+        - name: data
+          emptyDir: { }
+        - name: nginx-conf
+          configMap:
+            name: uber-eat-api-nginx-conf

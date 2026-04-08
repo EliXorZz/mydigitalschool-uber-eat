@@ -1,9 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../bases
-  - ingress.yaml
+#  - ../../bases/api
+#  - ../../bases/horizon
+  - ../../bases/nuxt
+#  - api
+#  - secret.yaml
 images:
   - name: uber_eat_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber-eat:name"}
     newTag: "main-f8d4227ace5c86fc8e9da3dea6a7c0a62fa84216-1" # {"$imagepolicy": "flux-system:uber-eat:tag"}
+  - name: uber_eat_api_image
+    newName: "harbor.server.dylanbattig.fr/private/uber_eat_api" # {"$imagepolicy": "flux-system:uber-eat-api:name"}
+    newTag: "main-f8d4227ace5c86fc8e9da3dea6a7c0a62fa84216-1" # {"$imagepolicy": "flux-system:uber-eat-api:tag"}
+generatorOptions:
+  disableNameSuffixHash: true
