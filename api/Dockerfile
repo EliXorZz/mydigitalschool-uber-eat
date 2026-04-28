@@ -23,8 +23,6 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platfo
 RUN chown -R www-data:www-data /app \
     && chmod -R 775 /app/storage /app/bootstrap/cache
 
-RUN php artisan route:cache
-
 EXPOSE 9000
 
-CMD [ "php-fpm" ]
+CMD [ "php artisan route:cache && php-fpm" ]
