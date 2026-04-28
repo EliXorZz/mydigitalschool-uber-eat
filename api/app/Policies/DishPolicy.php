@@ -30,7 +30,8 @@ class DishPolicy
      */
     public function create(User $user, Restaurant $restaurant): bool
     {
-        return $user->id === $restaurant->owner_id;
+        return $user->role === Role::RESTAURANT
+            && $user->id === $restaurant->owner_id;
     }
 
     /**
