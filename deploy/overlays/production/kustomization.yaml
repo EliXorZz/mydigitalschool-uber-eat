@@ -4,6 +4,7 @@ resources:
   - api
   - nuxt
   - reverb
+  - ../../bases/horizon
 images:
   - name: uber_eat_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber-eat:name"}
