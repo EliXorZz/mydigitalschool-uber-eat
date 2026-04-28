@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverb
+spec:
+  selector:
+    app: reverb
+  ports:
+    - name: main
+      port: 8080
+      targetPort: main
+      protocol: TCP
+  type: ClusterIP

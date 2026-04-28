@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - api
   - nuxt
+  - reverb
 images:
   - name: uber_eat_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber-eat:name"}
