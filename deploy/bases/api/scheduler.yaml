@@ -12,7 +12,7 @@ spec:
             - name: registry-secret
           containers:
             - name: main
-              image: stock_lens_api_image
+              image: uber_eat_api_image
               command: [ 'sh', '-c', 'php artisan schedule:run >> /dev/null 2>&1' ]
               envFrom:
                 - secretRef:
