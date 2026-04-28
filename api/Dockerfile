@@ -25,4 +25,4 @@ RUN chown -R www-data:www-data /app \
 
 EXPOSE 9000
 
-CMD [ "php artisan route:cache && php-fpm" ]
+CMD [ "php-fpm" ]
