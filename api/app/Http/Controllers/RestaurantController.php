@@ -8,12 +8,20 @@ use App\Models\Restaurant;
 use App\Services\RestaurantService;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Restaurants
+ */
 class RestaurantController extends Controller
 {
     public function __construct(
         private RestaurantService $restaurantService,
     ) {}
 
+    /**
+     * List all restaurants.
+     *
+     * Returns a paginated list of all restaurants.
+     */
     public function index(): JsonResponse
     {
         $restaurants = $this->restaurantService->listRestaurant();
@@ -21,6 +29,11 @@ class RestaurantController extends Controller
         return response()->json($restaurants);
     }
 
+    /**
+     * Create a restaurant.
+     *
+     * Creates a new restaurant owned by the specified user.
+     */
     public function store(StoreRestaurantRequest $request): JsonResponse
     {
         $this->authorize('create', Restaurant::class);
@@ -38,6 +51,11 @@ class RestaurantController extends Controller
         return response()->json(['data' => $restaurant], 201);
     }
 
+    /**
+     * Get a restaurant.
+     *
+     * Returns the details of a specific restaurant by ID.
+     */
     public function show(Restaurant $restaurant): JsonResponse
     {
         $restaurant = $this->restaurantService->getRestaurant($restaurant->id);
@@ -45,6 +63,11 @@ class RestaurantController extends Controller
         return response()->json(['data' => $restaurant]);
     }
 
+    /**
+     * Update a restaurant.
+     *
+     * Updates the details of an existing restaurant.
+     */
     public function update(UpdateRestaurantRequest $request, Restaurant $restaurant): JsonResponse
     {
         $this->authorize('update', $restaurant);
@@ -57,6 +80,11 @@ class RestaurantController extends Controller
         return response()->json(['data' => $restaurant]);
     }
 
+    /**
+     * Delete a restaurant.
+     *
+     * Deletes an existing restaurant.
+     */
     public function destroy(Restaurant $restaurant): JsonResponse
     {
         $this->authorize('delete', $restaurant);
