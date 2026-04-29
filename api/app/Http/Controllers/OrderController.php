@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ListOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * @group Orders
@@ -22,12 +24,12 @@ class OrderController extends Controller
      *
      * Returns all orders for the authenticated user.
      */
-    public function index(): JsonResponse
+    public function index(ListOrderRequest $request): LengthAwarePaginator
     {
-        $user = auth()->user();
-        $orders = $this->orderService->listOrder($user);
-
-        return response()->json($orders);
+        return $this->orderService->listOrder(
+            auth()->user(),
+            $request->validated()
+        );
     }
 
     /**

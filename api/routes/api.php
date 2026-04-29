@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RestaurantController;
-use App\Http\Middleware\EnsureRole;
 use Illuminate\Support\Facades\Route;
 use PHPOpenSourceSaver\JWTAuth\Http\Middleware\Authenticate;
 
@@ -25,7 +24,11 @@ Route::apiResource('restaurants', RestaurantController::class)
 Route::apiResource('restaurants.dishes', DishController::class)
     ->shallow();
 
-Route::post('orders/{order}/cancel', [OrderController::class, 'cancel']);
-Route::post('orders/{order}/state', [OrderController::class, 'updateState']);
-Route::apiResource('orders', OrderController::class)
-    ->shallow();
+Route::middleware(Authenticate::class)->group(function () {
+    Route::post('orders/{order}/cancel', [OrderController::class, 'cancel']);
+    Route::post('orders/{order}/state', [OrderController::class, 'updateState']);
+    Route::apiResource('orders', OrderController::class)
+        ->shallow();
+
+    Route::get('restaurants/{restaurant}/orders', [RestaurantController::class, 'orders']);
+});

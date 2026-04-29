@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ListOrderRequest;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
+use App\Models\Order;
 use App\Models\Restaurant;
+use App\Services\OrderService;
 use App\Services\RestaurantService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * @group Restaurants
@@ -15,6 +19,7 @@ class RestaurantController extends Controller
 {
     public function __construct(
         private RestaurantService $restaurantService,
+        private OrderService $orderService
     ) {}
 
     /**
@@ -92,5 +97,20 @@ class RestaurantController extends Controller
         $this->restaurantService->deleteRestaurant($restaurant->id);
 
         return response()->json(null, 204);
+    }
+
+    /**
+     * List orders by restaurant.
+     *
+     * Returns all orders for a restaurant.
+     */
+    public function orders(ListOrderRequest $request, Restaurant $restaurant): LengthAwarePaginator
+    {
+        $this->authorize('view-any', [Order::class, $restaurant]);
+
+        return $this->orderService->listOrder(
+            auth()->user(),
+            $request->validated()
+        );
     }
 }

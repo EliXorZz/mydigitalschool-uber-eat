@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Enums\Role;
 use App\Models\Order;
+use App\Models\Restaurant;
 use App\Models\User;
 use App\States\OrderPending;
 
@@ -12,9 +13,10 @@ class OrderPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Restaurant $restaurant): bool
     {
-        return true;
+        return $user->role === Role::RESTAURANT
+            && $restaurant->owner_id === $user->id;
     }
 
     /**

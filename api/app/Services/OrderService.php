@@ -19,13 +19,33 @@ class OrderService
         private DatabaseManager $dbm,
     ) {}
 
-    public function listOrder(?User $user = null): Collection|LengthAwarePaginator
+    public function listOrder(?User $user = null, array $filters = []): LengthAwarePaginator|Collection
     {
         $query = (new Order)
             ->with(['dishes']);
 
         if ($user) {
-            return $query->where('user_id', $user->id)->paginate();
+            $query->where('user_id', $user->id);
+        }
+
+        if (! empty($filters['status'])) {
+            $query->where('state', $filters['status']);
+        }
+
+        if (! empty($filters['date_from'])) {
+            $query->whereDate('created_at', '>=', $filters['date_from']);
+        }
+
+        if (! empty($filters['date_to'])) {
+            $query->whereDate('created_at', '<=', $filters['date_to']);
+        }
+
+        if (! empty($filters['min_price'])) {
+            $query->where('total', '>=', $filters['minPrice']);
+        }
+
+        if (! empty($filters['max_price'])) {
+            $query->where('total', '<=', $filters['maxPrice']);
         }
 
         return $query->paginate();
