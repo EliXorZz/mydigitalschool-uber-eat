@@ -24,9 +24,14 @@ class RestaurantController extends Controller
     public function store(StoreRestaurantRequest $request): JsonResponse
     {
         $this->authorize('create', Restaurant::class);
+        abort_if(
+            auth()->user()->id === $request->owner()->id,
+            403,
+            'You cannot perform this action on your own resource.'
+        );
 
         $restaurant = $this->restaurantService->createRestaurant(
-            $request->user(),
+            $request->owner(),
             $request->validated()
         );
 

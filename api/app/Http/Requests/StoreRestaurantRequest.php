@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRestaurantRequest extends FormRequest
@@ -21,6 +22,14 @@ class StoreRestaurantRequest extends FormRequest
             'tags' => ['nullable', 'array'],
             'tags.*' => ['string'],
             'type_id' => ['nullable', 'exists:restaurant_types,id'],
+            'owner_id' => ['exists:users,id'],
         ];
+    }
+
+    public function owner(): User
+    {
+        return (new User)
+            ->where('id', $this->validated('owner_id'))
+            ->firstOrFail();
     }
 }

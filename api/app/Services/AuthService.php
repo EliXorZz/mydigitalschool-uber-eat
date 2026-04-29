@@ -8,7 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 
 class AuthService
 {
-    public function register(string $name, string $email, string $password, Role $role): array
+    public function register(string $name, string $email, string $password, Role $role = Role::USER): array
     {
         $user = (new User)
             ->create([

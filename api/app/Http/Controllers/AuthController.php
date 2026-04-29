@@ -19,8 +19,7 @@ class AuthController extends Controller
         $token = $this->authService->register(
             $request->input('name'),
             $request->input('email'),
-            $request->input('password'),
-            Role::ADMIN
+            $request->input('password')
         );
 
         return response()->json(['data' => $token], 201);
