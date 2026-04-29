@@ -11,6 +11,6 @@ images:
     newTag: "main-f8d4227ace5c86fc8e9da3dea6a7c0a62fa84216-1" # {"$imagepolicy": "flux-system:uber-eat:tag"}
   - name: uber_eat_api_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat_api" # {"$imagepolicy": "flux-system:uber-eat-api:name"}
-    newTag: "main-397dd109f265fa49c4e1a5daee79e134b82d887d-9" # {"$imagepolicy": "flux-system:uber-eat-api:tag"}
+    newTag: "main-cc22a700b947788aacf71412941c77346fd10852-10" # {"$imagepolicy": "flux-system:uber-eat-api:tag"}
 generatorOptions:
   disableNameSuffixHash: true
