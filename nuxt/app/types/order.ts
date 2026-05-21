@@ -1,4 +1,4 @@
-import type { Dish } from '~/types/item'
+import type {Dish} from "~/types/dish";
 
 export type Order = {
     id: number

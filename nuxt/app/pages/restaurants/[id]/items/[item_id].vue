@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import type {Item, ItemsResponse} from "~/types/item";
-import type {Restaurant, RestaurantsResponse} from "~/types/restaurant";
+import type {Restaurant} from "~/types/restaurant";
+import type {Dish} from "~/types/dish";
 
 const route = useRoute()
-const slug = route.params.slug as string
-const id = Number(route.params.id)
+const restaurant_id = route.params.id as string
+const id = Number(route.params.item_id)
+
+const { $api } = useNuxtApp()
 
 const { data: restaurant } = await useAsyncData<Restaurant>(
-    `restaurant:${slug}`,
+    `restaurant:${id}`,
     async () => {
-      const restaurants = await $fetch<RestaurantsResponse>('/api/restaurants')
-      const restaurant = restaurants.find(r => r.slug === slug)
+      const response = await $api<{ data: Restaurant }>(`/api/restaurants/${restaurant_id}`)
+      const restaurant = response.data
 
       if (restaurant == null)
         throw createError({
@@ -23,15 +25,11 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
     }
 )
 
-const { data: item } = await useAsyncData<Item>(
+const { data: item } = await useAsyncData<Dish>(
     `item:${id}`,
     async () => {
-      const response = await $fetch<ItemsResponse>('/api/items')
-      const items = response
-          .find(r => r.id_restaurant === restaurant.value?.id)
-          ?.items
-
-      const item = items?.find(i => i.id === id)
+      const response = await $api<{ data: Dish }>(`/api/dishes/${id}`)
+      const item = response.data
 
       if (item == null)
         throw createError({

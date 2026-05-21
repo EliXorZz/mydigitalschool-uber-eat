@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import type {Restaurant, RestaurantsResponse} from "~/types/restaurant";
-import type {Item, ItemsResponse} from "~/types/item";
+import type {Restaurant} from "~/types/restaurant";
+import type {Dish} from "~/types/dish";
 import PriceRange from "~/components/PriceRange.vue";
 import ItemCard from "~/components/ItemCard.vue";
 
+const { $api } = useNuxtApp()
+
 const route = useRoute()
-const slug = route.params.slug as string
+const id = route.params.id as string
 
 const { data: restaurant } = await useAsyncData<Restaurant>(
-    `restaurant:${slug}`,
+    `restaurant:${id}`,
     async () => {
-      const restaurants = await $fetch<RestaurantsResponse>('/api/restaurants')
-      const restaurant = restaurants.find(r => r.slug === slug)
+      const response = await $api<{ data: Restaurant }>(`/api/restaurants/${id}`)
+      const restaurant = response.data
 
       if (restaurant == null)
         throw createError({
@@ -24,15 +26,14 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
     }
 )
 
-const { data: items } = await useAsyncData<Item[]>(
-    `items:${slug}`,
+const { data: items } = await useAsyncData<Dish[]>(
+    `items:${id}`,
     async () => {
-      const response = await $fetch<ItemsResponse>('/api/items')
-      const items = response
-          .find(r => r.id_restaurant === restaurant.value?.id)
-          ?.items
+      if (restaurant.value?.id == null)
+        return []
 
-      return items ?? []
+      const response = await $api<Dish[]>(`/api/restaurants/${restaurant.value.id}/dishes`)
+      return response ?? []
     }
 )
 
@@ -69,7 +70,7 @@ useSeoMeta({
         <UCard class="z-20 w-full max-w-200 shadow-lg">
           <template #default>
             <img
-                :src="restaurant.image"
+                src="/images/restaurants/1.webp"
                 :alt="restaurant.name"
                 class="w-full h-48 object-cover rounded-lg mb-4"
             />
@@ -79,7 +80,7 @@ useSeoMeta({
               <span class="text-sm text-gray-600">{{ restaurant.city }}</span>
             </div>
 
-            <p class="text-sm text-gray-700 italic mb-2">{{ restaurant.type }}</p>
+            <p class="text-sm text-gray-700 italic mb-2">{{ restaurant.type.name }}</p>
 
             <p class="text-gray-600 mb-3">{{ restaurant.description }}</p>
 
@@ -90,8 +91,8 @@ useSeoMeta({
             </div>
 
             <div class="flex justify-between items-center">
-              <StarRating :rating="restaurant.rating"/>
-              <PriceRange :range="restaurant.price_range"/>
+              <StarRating :rating="restaurant.score"/>
+              <PriceRange :range="restaurant.price_score"/>
             </div>
           </template>
         </UCard>
@@ -101,17 +102,18 @@ useSeoMeta({
         <h2 class="text-center text-5xl font-bold">{{ $t('restaurant.takeawayTitle') }}</h2>
 
         <div class="flex flex-wrap gap-10 justify-center">
+          {{ items }}
           <NuxtLink
               v-for="item in items"
               :key="item.id"
-              :to="{ name: 'restaurants-slug-items-id', params: { id: item.id, slug: restaurant?.slug } }"
+              :to="{ name: 'restaurants-id-items-item_id', params: { item_id: item.id, id: restaurant?.slug } }"
           >
             <ItemCard
                 class="cursor-pointer"
                 :name="item.name"
                 :price="item.price"
                 :description="item.description"
-                :image="item.image"
+                :image="'/images/items/1.jpg'"
             />
           </NuxtLink>
         </div>

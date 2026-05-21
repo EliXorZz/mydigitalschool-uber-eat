@@ -16,5 +16,3 @@ export type Restaurant = {
     type_id: number
     owner?: { id: number; name: string; email: string }
 }
-
-export type RestaurantsResponse = Restaurant[]

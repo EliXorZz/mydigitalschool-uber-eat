@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type {RestaurantsResponse} from "~/types/restaurant";
+import type { RestaurantsResponse } from "~/types/restaurant";
 
+const { $api } = useNuxtApp()
 const { data: restaurants } = await useAsyncData<RestaurantsResponse>(
     'restaurants',
-    () => $fetch('/api/restaurants')
+    () => $api('/api/restaurants')
 )
 </script>
 
@@ -40,17 +41,17 @@ const { data: restaurants } = await useAsyncData<RestaurantsResponse>(
         <NuxtLink
             v-for="restaurant in restaurants"
             :key="restaurant.id"
-            :to="{ name: 'restaurants-slug', params: { slug: restaurant.slug } }"
+            :to="{ name: 'restaurants-id', params: { id: restaurant.id } }"
         >
           <RestaurantCard
               class="cursor-pointer"
               :name="restaurant.name"
-              :city="restaurant.city"
-              :type="restaurant.type"
-              :rating="restaurant.rating"
-              :price-range="restaurant.price_range"
-              :features="restaurant.features"
-              :image="restaurant.image"
+              :city="''"
+              :type="restaurant.type.name"
+              :rating="restaurant.score"
+              :price-range="restaurant.price_score"
+              :features="[]"
+              image="/images/restaurants/1.webp"
           />
         </NuxtLink>
       </div>
