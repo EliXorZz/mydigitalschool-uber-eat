@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->string('tags')->nullable();
 
-
             $table->foreignId('type_id')
                 ->constrained('restaurant_types');
 

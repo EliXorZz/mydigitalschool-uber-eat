@@ -22,7 +22,7 @@ class ListOrderRequest extends FormRequest
             'date_to' => ['sometimes', 'date', 'after_or_equal:date_from'],
 
             'min_price' => ['sometimes', 'numeric', 'min:0'],
-            'max_price' => ['sometimes', 'numeric', 'min:0', 'gte:minPrice'],
+            'max_price' => ['sometimes', 'numeric', 'min:0'],
         ];
     }
 }

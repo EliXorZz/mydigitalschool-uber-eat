@@ -45,8 +45,6 @@ trait CascadeSoftDeletes
 
     /**
      * Run the cascading soft delete for this model.
-     *
-     * @return void
      */
     protected function runCascadingDeletes(): void
     {
@@ -59,7 +57,6 @@ trait CascadeSoftDeletes
      * Cascade delete the given relationship on the given mode.
      *
      * @param  string  $relationship
-     * @return void
      */
     protected function cascadeSoftDeletes($relationship): void
     {
@@ -91,8 +88,6 @@ trait CascadeSoftDeletes
 
     /**
      * Determine if the current model implements soft deletes.
-     *
-     * @return bool
      */
     protected function implementsSoftDeletes(): bool
     {
@@ -104,8 +99,6 @@ trait CascadeSoftDeletes
      *
      * A relationship is considered invalid when the method does not exist, or the relationship
      * method does not return an instance of Illuminate\Database\Eloquent\Relations\Relation.
-     *
-     * @return array
      */
     protected function hasInvalidCascadingRelationships(): array
     {
@@ -116,8 +109,6 @@ trait CascadeSoftDeletes
 
     /**
      * Fetch the defined cascading soft deletes for this model.
-     *
-     * @return array
      */
     protected function getCascadingDeletes(): array
     {
@@ -126,8 +117,6 @@ trait CascadeSoftDeletes
 
     /**
      * For the cascading deletes defined on the model, return only those that are not null.
-     *
-     * @return array
      */
     protected function getActiveCascadingDeletes(): array
     {

@@ -22,7 +22,7 @@ class StoreRestaurantRequest extends FormRequest
             'tags' => ['nullable', 'array'],
             'tags.*' => ['string'],
             'type_id' => ['nullable', 'exists:restaurant_types,id'],
-            'owner_id' => ['exists:users,id'],
+            'owner_id' => ['required', 'exists:users,id'],
         ];
     }
 

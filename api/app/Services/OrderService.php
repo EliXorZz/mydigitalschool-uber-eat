@@ -106,7 +106,7 @@ class OrderService
 
     public function cancelOrder(Order $order): bool
     {
-        if ($order->state === OrderPending::class) {
+        if (! $order->state->equals(OrderPending::class)) {
             throw new CannotCancelOrderException;
         }
 

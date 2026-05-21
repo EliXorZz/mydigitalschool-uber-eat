@@ -25,6 +25,7 @@ describe('RestaurantController Policy Tests', function () {
                     'score' => 4.5,
                     'price_score' => 2,
                     'type_id' => 1,
+                    'owner_id' => $this->restaurantOwner->id,
                 ]);
 
             $response->assertStatus(201);
@@ -38,6 +39,7 @@ describe('RestaurantController Policy Tests', function () {
                 ->postJson('/api/restaurants', [
                     'name' => 'New Restaurant',
                     'description' => 'A nice restaurant',
+                    'owner_id' => $this->restaurantOwner->id,
                 ]);
 
             $response->assertStatus(403);
@@ -48,6 +50,7 @@ describe('RestaurantController Policy Tests', function () {
                 ->postJson('/api/restaurants', [
                     'name' => 'New Restaurant',
                     'description' => 'A nice restaurant',
+                    'owner_id' => $this->otherRestaurantOwner->id,
                 ]);
 
             $response->assertStatus(403);
