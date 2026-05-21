@@ -22,7 +22,7 @@ class OrderService
     public function listOrder(?User $user = null, array $filters = []): LengthAwarePaginator|Collection
     {
         $query = (new Order)
-            ->with(['dishes']);
+            ->with(['dishes', 'user']);
 
         if ($user) {
             $query->where('user_id', $user->id);
@@ -46,6 +46,10 @@ class OrderService
 
         if (! empty($filters['max_price'])) {
             $query->where('total', '<=', $filters['maxPrice']);
+        }
+
+        if (! empty($filters['restaurant_id'])) {
+            $query->where('restaurant_id', $filters['restaurant_id']);
         }
 
         return $query->paginate();

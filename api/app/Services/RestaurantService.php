@@ -9,11 +9,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class RestaurantService
 {
-    public function listRestaurant(): Collection|LengthAwarePaginator
+    public function listRestaurant(): Collection
     {
         return (new Restaurant)
             ->with(['owner', 'type'])
-            ->paginate();
+            ->get();
     }
 
     public function getRestaurant(int $id): Restaurant

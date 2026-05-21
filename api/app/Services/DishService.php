@@ -15,7 +15,7 @@ class DishService
 
         if ($restaurant) {
             return $query->where('restaurant_id', $restaurant->id)
-                ->paginate();
+                ->get();
         }
 
         return $query->paginate();

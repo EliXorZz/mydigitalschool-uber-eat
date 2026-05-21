@@ -16,6 +16,16 @@ export default defineNuxtConfig({
   ],
   css: ['~/assets/main.css'],
 
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8002',
+      reverbAppKey: process.env.REVERB_APP_KEY || 'hcznehuul9so2rjmnnqk',
+      reverbHost: process.env.REVERB_HOST || 'localhost',
+      reverbPort: Number(process.env.REVERB_PORT) || 8081,
+      reverbScheme: process.env.REVERB_SCHEME || 'http'
+    }
+  },
+
   app: {
     head: { title: 'Eat Research' }
   },

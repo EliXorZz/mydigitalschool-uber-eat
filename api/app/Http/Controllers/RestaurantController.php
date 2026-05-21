@@ -108,9 +108,12 @@ class RestaurantController extends Controller
     {
         $this->authorize('view-any', [Order::class, $restaurant]);
 
+        $filters = $request->validated();
+        $filters['restaurant_id'] = $restaurant->id;
+
         return $this->orderService->listOrder(
-            auth()->user(),
-            $request->validated()
+            null,
+            $filters
         );
     }
 }

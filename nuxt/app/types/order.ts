@@ -1,9 +1,17 @@
-import type {Item} from "~/types/item";
+import type { Dish } from '~/types/item'
 
 export type Order = {
     id: number
-    name: string
-    date: string
+    state: string
     total: number
-    items: Item[]
+    restaurant_id: number
+    user_id: number
+    created_at: string
+    updated_at: string
+    dishes?: Dish[]
+    user?: {
+        id: number
+        name: string
+        email: string
+    }
 }
