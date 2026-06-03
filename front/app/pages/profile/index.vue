@@ -56,15 +56,27 @@ function onSubmit() {
     body.password_confirmation = state.confirmPassword
   }
 
-  const res = updateProfile(body)
-
-  res.then((ok) => {
-    if (ok) {
-      useToast()?.success?.($t('profile.updateSuccess'))
-    } else {
-      useToast()?.error?.($t('profile.updateError'))
-    }
-  })
+  // call update and show toast similar to login/register flows
+  const toast = useToast()
+  updateProfile(body)
+    .then(() => {
+      toast.add({
+        title: $t('auth.toastTitle'),
+        description: $t('profile.updateSuccess'),
+        icon: 'i-lucide-user-check',
+        color: 'success'
+      })
+    })
+    .catch((err: any) => {
+      // If validation errors exist, show them; otherwise generic message
+      const message = err?.data?.message ?? $t('profile.updateError')
+      toast.add({
+        title: $t('auth.toastTitle'),
+        description: message,
+        icon: 'i-lucide-alert-circle',
+        color: 'error'
+      })
+    })
 }
 </script>
 

@@ -88,7 +88,8 @@ export const useAuthentificationStore = defineStore('auth', () => {
 
       return true
     } catch (e) {
-      return false
+      // propagate error so caller can display validation messages
+      throw e
     }
   }
 
