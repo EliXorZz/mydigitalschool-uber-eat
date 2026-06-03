@@ -1,5 +1,8 @@
-export default defineEventHandler(() => {
-    return [
+export default defineEventHandler((event) => {
+    const query = getQuery(event)
+    const search = query.search as string | undefined
+
+    const restaurants = [
         {
             "id": 1,
             "name": "Le Jardin Violet",
@@ -121,4 +124,12 @@ export default defineEventHandler(() => {
             "image": "/images/restaurants/10.webp"
         }
     ]
+
+    if (search) {
+        return restaurants.filter(r =>
+            r.name.toLowerCase().includes(search.toLowerCase())
+        )
+    }
+
+    return restaurants
 })

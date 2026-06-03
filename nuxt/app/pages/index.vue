@@ -2,10 +2,16 @@
 import type { Restaurant } from '~/types/restaurant'
 
 const { $api } = useNuxtApp()
-const { data: restaurants } = await useAsyncData<Restaurant[]>(
-    'restaurants',
-    () => $api('/api/restaurants')
+const searchQuery = ref('')
+
+const { data: restaurants, pending, refresh } = await useAsyncData<Restaurant[]>(
+    () => 'restaurants-' + searchQuery.value,
+    () => $api('/api/restaurants', { query: { search: searchQuery.value } })
 )
+
+watch(searchQuery, () => {
+    refresh()
+})
 </script>
 
 <template>
@@ -27,6 +33,7 @@ const { data: restaurants } = await useAsyncData<Restaurant[]>(
 
         <div class="flex items-center gap-2 mt-8 w-full max-w-xl mx-auto">
           <UInput
+              v-model="searchQuery"
               icon="i-lucide-search"
               size="xl"
               :placeholder="$t('home.searchPlaceholder')"
@@ -37,7 +44,13 @@ const { data: restaurants } = await useAsyncData<Restaurant[]>(
     </section>
 
     <section class="py-20">
-      <div class="flex flex-wrap gap-10 justify-center">
+      <div v-if="pending" class="flex justify-center py-10 text-gray-500">
+        Chargement...
+      </div>
+      <div v-else-if="!restaurants || restaurants.length === 0" class="text-center py-10 text-gray-500">
+        Aucun restaurant trouvé
+      </div>
+      <div v-else class="flex flex-wrap gap-10 justify-center">
         <NuxtLink
             v-for="restaurant in restaurants"
             :key="restaurant.id"

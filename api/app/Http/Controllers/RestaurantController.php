@@ -29,7 +29,8 @@ class RestaurantController extends Controller
      */
     public function index(): JsonResponse
     {
-        $restaurants = $this->restaurantService->listRestaurant();
+        $search = request('search');
+        $restaurants = $this->restaurantService->listRestaurant($search);
 
         return response()->json($restaurants);
     }
