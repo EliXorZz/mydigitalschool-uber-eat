@@ -21,7 +21,8 @@
     "@vite-pwa/nuxt": "1.1.1",
     "laravel-echo": "^2.3.4",
     "nuxt": "^4.4.6",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",

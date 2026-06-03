@@ -50,8 +50,29 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-function onSubmit(payload: FormSubmitEvent<Schema>) {
-  console.log('Submitted', payload)
+const router = useRouter()
+const toast = useToast()
+const authStore = useAuthentificationStore()
+
+async function onSubmit(payload: FormSubmitEvent<Schema>) {
+  const { username, email, password } = payload.data
+  const success = await authStore.register({ username, email, password })
+  if (!success) {
+    toast.add({
+      title: $t('auth.toastTitle'),
+      description: $t('auth.toastUserExists'),
+      icon: 'i-lucide-user-x',
+      color: 'error'
+    })
+    return
+  }
+  toast.add({
+    title: $t('auth.toastTitle'),
+    description: $t('auth.toastRegisterSuccess'),
+    icon: 'i-lucide-user-check',
+    color: 'success'
+  })
+  router.push({ name: 'index', replace: true })
 }
 </script>
 
