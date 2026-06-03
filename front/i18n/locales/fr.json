@@ -64,6 +64,13 @@
     "updateError": "Une erreur est survenue lors de la mise à jour du profil.",
     "ordersCardTitle": "Mes commandes"
   },
+  "status": {
+    "pending": "En attente",
+    "preparing": "En préparation",
+    "confirmed": "Confirmée",
+    "delivered": "Livrée",
+    "ready": "Prête"
+  },
   "cart": {
     "button": "Mon panier",
     "title": "Votre panier",

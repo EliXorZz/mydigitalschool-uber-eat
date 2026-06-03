@@ -64,6 +64,13 @@
     "updateError": "An error occurred while updating the profile.",
     "ordersCardTitle": "My Orders"
   },
+  "status": {
+    "pending": "Pending",
+    "preparing": "Preparing",
+    "confirmed": "Confirmed",
+    "delivered": "Delivered",
+    "ready": "Ready"
+  },
   "cart": {
     "button": "My Cart",
     "title": "Your Cart",

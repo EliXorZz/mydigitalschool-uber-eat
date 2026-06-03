@@ -38,7 +38,20 @@ const columns: TableColumn<Order>[] = [
   {
     id: 'state',
     header: 'Status',
-    cell: ({ row }) => h(UBadge, { color: 'primary', variant: 'solid' }, () => row.original.state_name ?? row.getValue('state'))
+    cell: ({ row }) => {
+      const s = row.original.state_name ?? row.getValue('state')
+      const key = (s || '').toString().toLowerCase()
+      const label = $t(`status.${key}`)
+      const colorMap: Record<string, string> = {
+        pending: 'warning',
+        preparing: 'info',
+        confirmed: 'primary',
+        delivered: 'success',
+        ready: 'neutral'
+      }
+      const color = colorMap[key] ?? 'neutral'
+      return h(UBadge, { color, variant: 'solid' }, () => label)
+    }
   },
   {
     id: 'actions',

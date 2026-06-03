@@ -156,12 +156,14 @@ function onSubmit() {
           </UForm>
         </UPageCard>
 
-        <OrderTable
-          v-if="orders"
-          class="flex-2/3"
-          :title="$t('profile.ordersCardTitle')"
-          :orders="orders"
-        />
+        <UPageCard class="flex-2/3" :title="$t('profile.ordersCardTitle')">
+          <div class="flex flex-col items-center justify-center p-10">
+            <p class="mb-4">{{ $t('profile.myOrders') }}</p>
+            <NuxtLink to="/profile/orders">
+              <UButton color="primary">{{ $t('profile.myOrders') }}</UButton>
+            </NuxtLink>
+          </div>
+        </UPageCard>
       </div>
     </UPageCard>
   </UMain>

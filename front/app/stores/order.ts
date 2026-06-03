@@ -4,7 +4,7 @@ import type { Order } from '~/types/order'
 export const useOrderStore = defineStore('order', () => {
   const token = useCookie('token')
 
-  const list = async (params: Record<string, any> = {}): Promise<Order[]> => {
+  const list = async (params: Record<string, any> = {}): Promise<any> => {
     const config = useRuntimeConfig()
     const base = config.public.apiBaseUrl
 
@@ -13,8 +13,8 @@ export const useOrderStore = defineStore('order', () => {
       headers: { Authorization: `Bearer ${token.value}` },
       params
     })
-
-    return res?.data?.data ?? res?.data ?? []
+    // Return the raw response (can be paginator or array)
+    return res
   }
 
   const statuses = async (): Promise<{ value: string; label: string }[]> => {
