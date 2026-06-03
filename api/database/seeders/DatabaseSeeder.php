@@ -128,7 +128,9 @@ class DatabaseSeeder extends Seeder
             $restaurant = Restaurant::firstOrCreate(
                 ['name' => $item['restaurant_name']],
                 [
+                    'image' => 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=2000',
                     'description' => $item['description'],
+                    'city' => fake()->city(),
                     'score' => fake()->randomFloat(1, 3.5, 5),
                     'price_score' => fake()->numberBetween(1, 4),
                     'type_id' => $type->id,
@@ -177,48 +179,48 @@ class DatabaseSeeder extends Seeder
     {
         $dishesByType = [
             'Le Bistrot Parisien' => [
-                ['name' => 'Steak Frites', 'description' => 'Entrecôte grillée avec frites maison et sauce béarnaise', 'price' => 18.90],
-                ['name' => 'Confit de Canard', 'description' => 'Cuisse de canard confite avec purée de pommes de terre', 'price' => 19.50],
-                ['name' => 'Salade César', 'description' => 'Laitue romaine, croûtons, parmesan, poulet grillé', 'price' => 12.50],
-                ['name' => 'Soupe à l\'Oignon', 'description' => 'Soupe gratinée avec fromage et croûtons', 'price' => 8.90],
-                ['name' => 'Tarte Tatin', 'description' => 'Tarte aux pommes caramélisées avec crème fraîche', 'price' => 7.50],
-                ['name' => 'Plateau de Fromages', 'description' => 'Sélection de fromages français avec pain et raisins', 'price' => 14.00],
+                ['name' => 'Steak Frites', 'description' => 'Entrecôte grillée avec frites maison et sauce béarnaise', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 18.90],
+                ['name' => 'Confit de Canard', 'description' => 'Cuisse de canard confite avec purée de pommes de terre', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 19.50],
+                ['name' => 'Salade César', 'description' => 'Laitue romaine, croûtons, parmesan, poulet grillé', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 12.50],
+                ['name' => 'Soupe à l\'Oignon', 'description' => 'Soupe gratinée avec fromage et croûtons', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 8.90],
+                ['name' => 'Tarte Tatin', 'description' => 'Tarte aux pommes caramélisées avec crème fraîche', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 7.50],
+                ['name' => 'Plateau de Fromages', 'description' => 'Sélection de fromages français avec pain et raisins', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 14.00],
             ],
             'La Pasta Bella' => [
-                ['name' => 'Spaghetti Carbonara', 'description' => 'Spaghetti avec œufs, pecorino, guanciale et poivre noir', 'price' => 14.50],
-                ['name' => 'Lasagne Bolognaise', 'description' => 'Lasagne maison avec sauce bolognaise et béchamel', 'price' => 15.90],
-                ['name' => 'Risotto aux Champignons', 'description' => 'Risotto crémeux aux champignons sauvages et parmesan', 'price' => 16.50],
-                ['name' => 'Pizza Margherita', 'description' => 'Pizza classique avec sauce tomate, mozzarella et basilic', 'price' => 11.00],
-                ['name' => 'Tiramisu', 'description' => 'Dessert italien classique au mascarpone et café', 'price' => 6.90],
-                ['name' => 'Bruschetta', 'description' => 'Pain grillé avec tomates fraîches, ail et basilic', 'price' => 7.50],
-                ['name' => 'Panna Cotta', 'description' => 'Crème cuite italienne avec coulis de fruits rouges', 'price' => 6.50],
+                ['name' => 'Spaghetti Carbonara', 'description' => 'Spaghetti avec œufs, pecorino, guanciale et poivre noir', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 14.50],
+                ['name' => 'Lasagne Bolognaise', 'description' => 'Lasagne maison avec sauce bolognaise et béchamel', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 15.90],
+                ['name' => 'Risotto aux Champignons', 'description' => 'Risotto crémeux aux champignons sauvages et parmesan', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 16.50],
+                ['name' => 'Pizza Margherita', 'description' => 'Pizza classique avec sauce tomate, mozzarella et basilic', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 11.00],
+                ['name' => 'Tiramisu', 'description' => 'Dessert italien classique au mascarpone et café', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 6.90],
+                ['name' => 'Bruschetta', 'description' => 'Pain grillé avec tomates fraîches, ail et basilic', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 7.50],
+                ['name' => 'Panna Cotta', 'description' => 'Crème cuite italienne avec coulis de fruits rouges', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 6.50],
             ],
             'Sushi Master' => [
-                ['name' => 'Plateau Sushi Mix', 'description' => '12 pièces assorties de sushis et maki', 'price' => 22.00],
-                ['name' => 'Ramen au Poulet', 'description' => 'Bouillon de poulet avec nouilles, œuf mollet et légumes', 'price' => 15.50],
-                ['name' => 'Tataki de Thon', 'description' => 'Tranches de thon mi-cuit avec sauce ponzu', 'price' => 18.00],
-                ['name' => 'Gyoza au Porc', 'description' => '8 raviolis japonais grillés avec sauce soja', 'price' => 9.50],
-                ['name' => 'Tempura de Crevettes', 'description' => 'Crevettes enrobées de pâte légère et frites', 'price' => 13.50],
-                ['name' => 'Mochi Glacé', 'description' => 'Boulettes de riz gluant avec glace au thé vert', 'price' => 6.00],
-                ['name' => 'Soupe Miso', 'description' => 'Soupe traditionnelle japonaise au tofu et algues', 'price' => 4.50],
+                ['name' => 'Plateau Sushi Mix', 'description' => '12 pièces assorties de sushis et maki', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 22.00],
+                ['name' => 'Ramen au Poulet', 'description' => 'Bouillon de poulet avec nouilles, œuf mollet et légumes', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 15.50],
+                ['name' => 'Tataki de Thon', 'description' => 'Tranches de thon mi-cuit avec sauce ponzu', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 18.00],
+                ['name' => 'Gyoza au Porc', 'description' => '8 raviolis japonais grillés avec sauce soja', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 9.50],
+                ['name' => 'Tempura de Crevettes', 'description' => 'Crevettes enrobées de pâte légère et frites', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 13.50],
+                ['name' => 'Mochi Glacé', 'description' => 'Boulettes de riz gluant avec glace au thé vert', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 6.00],
+                ['name' => 'Soupe Miso', 'description' => 'Soupe traditionnelle japonaise au tofu et algues', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 4.50],
             ],
             'Kebab Royal' => [
-                ['name' => 'Kebab Classique', 'description' => 'Viande de bœuf épicée avec salade, tomates et sauce blanche', 'price' => 8.50],
-                ['name' => 'Tacos XL', 'description' => 'Tacos avec viande au choix, frites et sauces', 'price' => 10.00],
-                ['name' => 'Assiette Mixte', 'description' => 'Assiette avec viande grillée, frites et salade', 'price' => 12.50],
-                ['name' => 'Cheese Naan', 'description' => 'Pain indien au fromage avec accompagnement', 'price' => 4.50],
-                ['name' => 'Falafel Wrap', 'description' => 'Wrap végétarien avec falafels et légumes frais', 'price' => 7.50],
-                ['name' => 'Baklava', 'description' => 'Pâtisserie orientale aux noix et au miel', 'price' => 3.50],
+                ['name' => 'Kebab Classique', 'description' => 'Viande de bœuf épicée avec salade, tomates et sauce blanche', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 8.50],
+                ['name' => 'Tacos XL', 'description' => 'Tacos avec viande au choix, frites et sauces', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 10.00],
+                ['name' => 'Assiette Mixte', 'description' => 'Assiette avec viande grillée, frites et salade', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 12.50],
+                ['name' => 'Cheese Naan', 'description' => 'Pain indien au fromage avec accompagnement', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 4.50],
+                ['name' => 'Falafel Wrap', 'description' => 'Wrap végétarien avec falafels et légumes frais', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 7.50],
+                ['name' => 'Baklava', 'description' => 'Pâtisserie orientale aux noix et au miel', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 3.50],
             ],
             'Burger Factory' => [
-                ['name' => 'Burger Classic', 'description' => 'Bœuf, cheddar, salade, tomate, oignon, sauce maison', 'price' => 12.00],
-                ['name' => 'Double Cheese', 'description' => 'Double steak et double cheddar avec bacon croustillant', 'price' => 15.50],
-                ['name' => 'Chicken Burger', 'description' => 'Filet de poulet pané avec sauce mayonnaise épicée', 'price' => 11.50],
-                ['name' => 'Veggie Burger', 'description' => 'Galette de légumes avec avocat et sauce yaourt', 'price' => 11.00],
-                ['name' => 'Frites Truffes', 'description' => 'Frites maison à l\'huile de truffe et parmesan', 'price' => 6.50],
-                ['name' => 'Milkshake Vanille', 'description' => 'Milkshake crémeux à la vanille bourbon', 'price' => 5.50],
-                ['name' => 'Brownie Chocolat', 'description' => 'Brownie fondant avec glace vanille et noix de pécan', 'price' => 7.00],
-                ['name' => 'Onion Rings', 'description' => 'Rondelles d\'oignon panées et frites croustillantes', 'price' => 5.00],
+                ['name' => 'Burger Classic', 'description' => 'Bœuf, cheddar, salade, tomate, oignon, sauce maison', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 12.00],
+                ['name' => 'Double Cheese', 'description' => 'Double steak et double cheddar avec bacon croustillant', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 15.50],
+                ['name' => 'Chicken Burger', 'description' => 'Filet de poulet pané avec sauce mayonnaise épicée', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 11.50],
+                ['name' => 'Veggie Burger', 'description' => 'Galette de légumes avec avocat et sauce yaourt', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 11.00],
+                ['name' => 'Frites Truffes', 'description' => 'Frites maison à l\'huile de truffe et parmesan', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 6.50],
+                ['name' => 'Milkshake Vanille', 'description' => 'Milkshake crémeux à la vanille bourbon', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 5.50],
+                ['name' => 'Brownie Chocolat', 'description' => 'Brownie fondant avec glace vanille et noix de pécan', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 7.00],
+                ['name' => 'Onion Rings', 'description' => 'Rondelles d\'oignon panées et frites croustillantes', 'image' => 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=chad-montano-MqT0asuoIcU-unsplash.jpg', 'price' => 5.00],
             ],
         ];
 
@@ -227,7 +229,7 @@ class DatabaseSeeder extends Seeder
             foreach ($dishes as $dishData) {
                 Dish::firstOrCreate(
                     ['name' => $dishData['name'], 'restaurant_id' => $restaurant->id],
-                    ['description' => $dishData['description'], 'price' => $dishData['price']]
+                    ['description' => $dishData['description'], 'image' => $dishData['image'], 'price' => $dishData['price']]
                 );
             }
         }

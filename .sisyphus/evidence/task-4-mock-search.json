@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Le Jardin Violet",
+    "slug": "le-jardin-violet",
+    "city": "Lyon",
+    "type": "Gastronomique français",
+    "description": "Cuisine française moderne dans un cadre végétalisé, avec des produits frais du marché et un service raffiné.",
+    "rating": 4.8,
+    "price_range": 3,
+    "features": [
+      "Terrasse",
+      "Vins naturels",
+      "Menu dégustation"
+    ],
+    "image": "/images/restaurants/1.webp"
+  }
+]

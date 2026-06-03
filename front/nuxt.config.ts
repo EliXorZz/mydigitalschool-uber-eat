@@ -1,41 +1,51 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
-import fr from './i18n/locales/fr.json'
-
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
-
-  build: {
-    base: './',
-  },
-
   modules: [
-    '@nuxt/ui',
     '@nuxt/eslint',
+    '@nuxt/ui',
+    '@nuxtjs/i18n',
     '@nuxt/image',
     '@pinia/nuxt',
-    '@vite-pwa/nuxt',
-    '@nuxtjs/i18n'
+    '@vite-pwa/nuxt'
   ],
-  css: ['~/assets/main.css'],
 
-  runtimeConfig: {
-    public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8002',
-      reverbAppKey: process.env.REVERB_APP_KEY || 'hcznehuul9so2rjmnnqk',
-      reverbHost: process.env.REVERB_HOST || 'localhost',
-      reverbPort: Number(process.env.REVERB_PORT) || 8081,
-      reverbScheme: process.env.REVERB_SCHEME || 'http'
-    }
+  devtools: {
+    enabled: true
   },
 
   app: {
     head: { title: 'Eat Research' }
   },
 
+  css: ['~/assets/css/main.css'],
+
   colorMode: {
-    preference: 'light',
+    preference: 'light'
+  },
+
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: 'http://localhost:8000',
+      reverbAppKey: 'hcznehuul9so2rjmnnqk',
+      reverbHost: 'localhost',
+      reverbPort: 8081,
+      reverbScheme: 'http'
+    }
+  },
+
+  routeRules: {
+    '/': { prerender: true }
+  },
+
+  compatibilityDate: '2025-01-15',
+
+  eslint: {
+    config: {
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
+    }
   },
 
   i18n: {
@@ -44,7 +54,7 @@ export default defineNuxtConfig({
       { code: 'en', language: 'en-US', file: 'en.json' },
       { code: 'fr', language: 'fr-FR', file: 'fr.json' }
     ],
-    defaultLocale: 'fr',
+    defaultLocale: 'fr'
   },
 
   pwa: {
@@ -56,7 +66,7 @@ export default defineNuxtConfig({
       start_url: '/',
       display: 'standalone',
       background_color: '#ffffff',
-      theme_color: '#0ea5e9',
+      theme_color: '#0ea5e9'
     },
 
     workbox: {
@@ -74,7 +84,7 @@ export default defineNuxtConfig({
           handler: 'NetworkFirst',
           options: {
             cacheName: 'pages-cache',
-            networkTimeoutSeconds: 3,
+            networkTimeoutSeconds: 3
           }
         }
       ]
