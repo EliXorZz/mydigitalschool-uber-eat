@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { RestaurantsResponse } from "~/types/restaurant";
+import type { Restaurant } from '~/types/restaurant'
 
 const { $api } = useNuxtApp()
-const { data: restaurants } = await useAsyncData<RestaurantsResponse>(
+const { data: restaurants } = await useAsyncData<Restaurant[]>(
     'restaurants',
     () => $api('/api/restaurants')
 )
