@@ -81,10 +81,16 @@ class AuthController extends Controller
     {
         $user = $this->authService->session();
 
-        $user->update([
+        $data = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->input('password'));
+        }
+
+        $user->update($data);
 
         return response()->json(['data' => $user]);
     }

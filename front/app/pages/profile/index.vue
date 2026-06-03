@@ -13,7 +13,16 @@ const { account } = storeToRefs(authStore)
 
 const schema = z.object({
   email: z.string().email($t('validation.emailRequired')),
-  name: z.string($t('validation.usernameRequired'))
+  name: z.string($t('validation.usernameRequired')),
+  password: z.string().min(8).optional(),
+  confirmPassword: z.string().optional()
+}).refine(data => {
+  // if password is set, confirmPassword must match
+  if (!data.password) return true
+  return data.password === data.confirmPassword
+}, {
+  message: $t('auth.passwordMismatch'),
+  path: ['confirmPassword']
 })
 
 type Schema = z.output<typeof schema>
@@ -41,7 +50,13 @@ const { data: orders } = await useAsyncData<Order[]>(
 
 function onSubmit() {
   // call store to update profile
-  const res = updateProfile({ name: state.name as string, email: state.email as string })
+  const body: any = { name: state.name as string, email: state.email as string }
+  if (state.password) {
+    body.password = state.password
+    body.password_confirmation = state.confirmPassword
+  }
+
+  const res = updateProfile(body)
 
   res.then((ok) => {
     if (ok) {
@@ -83,6 +98,28 @@ function onSubmit() {
             >
               <UInput
                 v-model="state.name"
+                class="w-full"
+              />
+            </UFormField>
+
+            <UFormField
+              :label="$t('auth.passwordLabel')"
+              name="password"
+            >
+              <UInput
+                v-model="state.password"
+                type="password"
+                class="w-full"
+              />
+            </UFormField>
+
+            <UFormField
+              :label="$t('auth.confirmPasswordLabel')"
+              name="confirmPassword"
+            >
+              <UInput
+                v-model="state.confirmPassword"
+                type="password"
                 class="w-full"
               />
             </UFormField>

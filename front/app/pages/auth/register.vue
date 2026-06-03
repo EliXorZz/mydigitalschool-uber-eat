@@ -9,7 +9,7 @@ definePageMeta({
 
 const fields: AuthFormField[] = [
   {
-    name: 'username',
+    name: 'name',
     type: 'text',
     label: $t('auth.usernameLabel'),
     placeholder: $t('auth.usernamePlaceholder'),
@@ -39,7 +39,7 @@ const fields: AuthFormField[] = [
 ]
 
 const schema = z.object({
-  username: z.string($t('auth.usernameRequired')),
+  name: z.string($t('auth.usernameRequired')),
   email: z.string().email($t('auth.emailInvalid')),
   password: z.string($t('auth.passwordRequired')).min(8, $t('auth.passwordMin')),
   confirmPassword: z.string($t('auth.passwordRequired'))
@@ -55,8 +55,8 @@ const toast = useToast()
 const authStore = useAuthentificationStore()
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  const { username, email, password } = payload.data
-  const success = await authStore.register({ username, email, password })
+  const { name, email, password } = payload.data
+  const success = await authStore.register({ name, email, password })
   if (!success) {
     toast.add({
       title: $t('auth.toastTitle'),

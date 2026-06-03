@@ -38,15 +38,14 @@ export const useAuthentificationStore = defineStore('auth', () => {
     }
   }
 
-  async function register({ username, email, password }: { username: string, email: string, password: string }): Promise<boolean> {
+  async function register({ name, email, password }: { name: string, email: string, password: string }): Promise<boolean> {
     try {
       const config = useRuntimeConfig()
       const base = config.public.apiBaseUrl
 
-      // API expects a name (we map username -> name)
       const res: any = await $fetch(`${base}/api/auth/register`, {
         method: 'POST',
-        body: { name: username, email, password }
+        body: { name, email, password }
       })
 
       const tokenValue = res?.data?.token
@@ -74,7 +73,7 @@ export const useAuthentificationStore = defineStore('auth', () => {
   }
 
   // Update the current user's profile via API and refresh stored account
-  async function updateProfile({ name, email }: { name: string; email: string }): Promise<boolean> {
+  async function updateProfile(payload: { name?: string; email?: string; password?: string; password_confirmation?: string } ): Promise<boolean> {
     try {
       const config = useRuntimeConfig()
       const base = config.public.apiBaseUrl
@@ -82,7 +81,7 @@ export const useAuthentificationStore = defineStore('auth', () => {
       const res: any = await $fetch(`${base}/api/auth/me`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token.value}` },
-        body: { name, email }
+        body: payload
       })
 
       account.value = res?.data ?? account.value

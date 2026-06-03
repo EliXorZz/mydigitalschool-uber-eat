@@ -25,6 +25,8 @@ class UpdateProfileRequest extends FormRequest
                 'max:255',
                 Rule::unique('users')->ignore($userId),
             ],
+            // Optional password change
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];
     }
 }
