@@ -5,10 +5,13 @@ import type { Restaurant, RestaurantsResponse } from '~/types/restaurant'
 import type { TableColumn } from '#ui/components/Table.vue'
 import { LazyModalConfirmation, UBadge, UButton } from '#components'
 
-const { data: restaurants, pending: restaurantPending } = await useAsyncData<RestaurantsResponse>(
+const { data: restaurantsResponse, pending: restaurantPending } = await useAsyncData(
   'restaurants',
   () => $fetch('/api/restaurants')
 )
+
+// The API now returns { data: [...], meta: {...} }
+const restaurants = computed(() => restaurantsResponse.value?.data ?? [])
 
 const columns: TableColumn<Restaurant>[] = [
   {

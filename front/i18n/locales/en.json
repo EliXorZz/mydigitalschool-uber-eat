@@ -120,7 +120,11 @@
       "date": "Date",
       "total": "Total",
       "actions": "Actions",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "cancelSuccessTitle": "Order cancelled",
+      "cancelSuccessDescription": "The order was successfully cancelled.",
+      "cancelErrorTitle": "Error",
+      "cancelErrorDescription": "Unable to cancel the order."
     },
     "forms": {
       "restaurant": {

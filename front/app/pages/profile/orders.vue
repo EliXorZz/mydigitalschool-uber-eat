@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Order } from '~/types/order'
 import type { TableColumn } from '#ui/components/Table.vue'
+import OrderTable from '~/components/OrderTable.vue'
 
 definePageMeta({
   layout: 'default',
@@ -77,13 +78,6 @@ const columns: TableColumn<Order>[] = [
 
 <template>
   <UMain class="p-10">
-    <UPageCard title="Mes commandes">
-      <LazyUTable
-        :data="tableData"
-        :columns="columns"
-        :loading="ordersPending"
-        class="flex-1"
-      />
-    </UPageCard>
+    <OrderTable title="Mes commandes" :orders="tableData" :loading="ordersPending" />
   </UMain>
 </template>

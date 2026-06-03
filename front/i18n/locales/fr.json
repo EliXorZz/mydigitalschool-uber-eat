@@ -120,7 +120,11 @@
       "date": "Date",
       "total": "Total",
       "actions": "Actions",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "cancelSuccessTitle": "Commande annulée",
+      "cancelSuccessDescription": "La commande a bien été annulée.",
+      "cancelErrorTitle": "Erreur",
+      "cancelErrorDescription": "Impossible d'annuler la commande."
     },
     "forms": {
       "restaurant": {

@@ -33,11 +33,11 @@ const tabs: TabsItem[] = [
   }
 ]
 
-const { data: restaurant } = await useAsyncData<Restaurant>(
+const { data: restaurantResponse } = await useAsyncData(
   `restaurant:me`,
   async () => {
-    const restaurants = await $fetch<RestaurantsResponse>('/api/restaurants')
-    const restaurant = restaurants[0]
+    const restaurantsResp = await $fetch('/api/restaurants')
+    const restaurant = restaurantsResp.data?.[0]
 
     if (restaurant == null)
       throw createError({
@@ -50,24 +50,39 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
   }
 )
 
+const restaurant = computed(() => restaurantResponse.value ?? null)
+
 const { data: items } = await useAsyncData<Dish[]>(
   `items:me`,
   async () => {
-    const response = await $fetch<Dish[]>('/api/items')
-    return response
-      .find(r => r.id_restaurant === restaurant.value?.id)
+    const response = await $fetch('/api/items')
+    // response may be an array or paginated; normalize
+    const list = Array.isArray(response) ? response : response.data ?? []
+    return list
+      .find((r: any) => r.id_restaurant === restaurant.value?.id)
       ?.items ?? []
   }
 )
 
-const { data: orders, pending: ordersPending } = await useAsyncData<Order[]>(
+const { data: ordersResponse, pending: ordersPending, refresh: refreshOrders } = await useAsyncData(
   `orders:me`,
-  async () => [
-    { id: 32, name: 'M. Dylan', date: 'Lundi 21 février 12:32', total: 23.4, items: [] },
-    { id: 35, name: 'M. Alex', date: 'Lundi 12 février 12:32', total: 50.4, items: [] },
-    { id: 36, name: 'M. Raphael', date: 'Lundi 21 février 12:32', total: 12.4, items: [] }
-  ]
+  async () => {
+    // Fetch orders for the current restaurant via restaurant-specific endpoint
+    if (!restaurant.value?.id) return []
+
+    const resp = await $api(`/api/restaurants/${restaurant.value.id}/orders`)
+    // Laravel returns paginator; extract data
+    return resp.data ?? []
+  }
 )
+
+const orders = computed(() => ordersResponse.value ?? [])
+
+// Track expanded rows by order id
+const expanded = ref<Record<number, boolean>>({})
+function toggleExpand(id: number) {
+  expanded.value[id] = !expanded.value[id]
+}
 
 const columns: TableColumn<Order>[] = [
   { accessorKey: 'id', header: '#', cell: ({ row }) => `#${row.getValue('id')}` },
@@ -278,17 +293,56 @@ function deleteDish() { openUpdateDishModal.value = false }
       </template>
 
       <template #orders>
-        <UPageCard
-          :title="$t('dashboard.tabs.orders')"
-          class="mt-8"
-        >
-          <LazyUTable
-            :data="orders"
-            :columns="columns"
-            :loading="ordersPending"
-            class="flex-1"
-          />
-        </UPageCard>
+          <UPageCard
+            :title="$t('dashboard.tabs.orders')"
+            class="mt-8"
+          >
+            <div v-if="ordersPending" class="p-6">Chargement...</div>
+            <div v-else-if="!orders || orders.length === 0" class="p-6 text-gray-500">Aucune commande</div>
+            <div v-else class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                    <th class="px-6 py-3" />
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <template v-for="order in orders" :key="order.id">
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">#{{ order.id }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap">{{ order.user?.name ?? order.name ?? '—' }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap">{{ new Date(order.created_at).toLocaleString() }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap">{{ order.total }}€</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right">
+                        <UButton size="xs" variant="outline" @click="toggleExpand(order.id)">{{ expanded[order.id] ? 'Fermer' : 'Voir' }}</UButton>
+                      </td>
+                    </tr>
+
+                    <tr v-if="expanded[order.id]">
+                      <td colspan="5" class="px-6 py-4 bg-gray-50">
+                        <div class="space-y-2">
+                          <div v-for="(dish, idx) in order.dishes" :key="idx" class="flex justify-between items-center py-2">
+                            <div class="flex items-center gap-4">
+                              <img v-if="dish.image" :src="dish.image" alt="" class="w-12 h-12 object-cover rounded" />
+                              <div>
+                                <div class="font-medium">{{ dish.name }}</div>
+                                <div class="text-sm text-gray-500">{{ dish.description }}</div>
+                              </div>
+                            </div>
+                            <div class="text-sm">x{{ dish.pivot?.quantity ?? dish.quantity ?? 1 }}</div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </UPageCard>
       </template>
     </UTabs>
   </UMain>

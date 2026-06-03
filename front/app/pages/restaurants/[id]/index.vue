@@ -24,16 +24,18 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
   }
 )
 
-const { data: items } = await useAsyncData<Dish[]>(
+const { data: itemsResponse } = await useAsyncData(
   `items:${id}`,
   async () => {
     if (restaurant.value?.id == null)
-      return []
+      return { data: [] }
 
-    const response = await $api<Dish[]>(`/api/restaurants/${restaurant.value.id}/dishes`)
-    return response ?? []
+    const response = await $api(`/api/restaurants/${restaurant.value.id}/dishes`)
+    return response ?? { data: [] }
   }
 )
+
+const items = computed(() => itemsResponse.value?.data ?? [])
 
 useHead({ title: `${restaurant.value?.name} | ${$t('restaurant.pageTitle')}` })
 

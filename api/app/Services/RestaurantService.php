@@ -9,14 +9,15 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class RestaurantService
 {
-    public function listRestaurant(?string $search = null): Collection
+    public function listRestaurant(?string $search = null): Collection|LengthAwarePaginator
     {
-        return (new Restaurant)
+        $query = (new Restaurant)
             ->with(['owner', 'type'])
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'LIKE', '%' . $search . '%');
-            })
-            ->get();
+            });
+
+        return $query->paginate();
     }
 
     public function getRestaurant(int $id): Restaurant

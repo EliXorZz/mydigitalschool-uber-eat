@@ -11,11 +11,10 @@ class DishService
 {
     public function listDish(?Restaurant $restaurant = null): Collection|LengthAwarePaginator
     {
-        $query = (new Dish);
+        $query = (new Dish)->with('restaurant');
 
         if ($restaurant) {
-            return $query->where('restaurant_id', $restaurant->id)
-                ->get();
+            $query->where('restaurant_id', $restaurant->id);
         }
 
         return $query->paginate();

@@ -54,5 +54,18 @@ export const useOrderStore = defineStore('order', () => {
     return res?.data ?? null
   }
 
-  return { list, statuses, transitions, updateState }
+  const cancel = async (orderId: number): Promise<boolean> => {
+    const config = useRuntimeConfig()
+    const base = config.public.apiBaseUrl
+
+    const res: any = await $fetch(`${base}/api/orders/${orderId}/cancel`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token.value}` }
+    })
+
+    // If API returns 204 empty, $fetch resolves to null — treat as success
+    return res !== false
+  }
+
+  return { list, statuses, transitions, updateState, cancel }
 })

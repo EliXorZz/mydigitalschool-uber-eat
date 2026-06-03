@@ -4,10 +4,12 @@ import type { Restaurant } from '~/types/restaurant'
 const { $api } = useNuxtApp()
 const searchQuery = ref('')
 
-const { data: restaurants, pending, refresh } = await useAsyncData<Restaurant[]>(
+const { data: restaurantsResponse, pending, refresh } = await useAsyncData(
   () => 'restaurants-' + searchQuery.value,
   () => $api('/api/restaurants', { query: { search: searchQuery.value } })
 )
+
+const restaurants = computed(() => restaurantsResponse.value?.data ?? [])
 
 watch(searchQuery, () => {
   refresh()
