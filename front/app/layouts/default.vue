@@ -14,6 +14,26 @@ const { isAuth, role } = storeToRefs(authStore)
 
 const cartStore = useCartStore()
 
+async function handleCheckout() {
+  if (!isAuth.value) {
+    toast.add({ title: $t('orders.order-no-auth'), color: 'warning' })
+    return
+  }
+
+  try {
+    const order = await cartStore.checkout()
+    cartStore.clear()
+    toast.add({ title: $t('cart.checkout'), description: $t('cart.addedItem', { name: '' }), color: 'success' })
+    const router = useRouter()
+    router.push('/profile/orders')
+    return order
+  } catch (e) {
+    // show error
+    toast.add({ title: $t('cart.checkout'), description: e?.message ?? String(e), color: 'error' })
+    throw e
+  }
+}
+
 const items = computed<NavigationMenuItem[]>(() => [])
 
 const profileItems = computed<DropdownMenuItem[]>(() => {
@@ -148,6 +168,7 @@ const profileItems = computed<DropdownMenuItem[]>(() => {
                     <UButton
                       class="flex-1 justify-center cursor-pointer"
                       trailing-icon="i-lucide-arrow-right"
+                      @click="handleCheckout"
                     >
                       {{ $t('cart.checkout') }}
                     </UButton>

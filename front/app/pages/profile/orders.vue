@@ -9,32 +9,15 @@ definePageMeta({
   middleware: ['auth']
 })
 
+const orderStore = useOrderStore()
 const { data: orders, pending: ordersPending } = await useAsyncData<Order[]>(
   `orders:me`,
   async () => {
-    return [
-      {
-        id: 32,
-        name: 'M. Dylan',
-        date: 'Lundi 21 février 12:32',
-        total: 23.4,
-        items: []
-      },
-      {
-        id: 35,
-        name: 'M. Alex',
-        date: 'Lundi 12 février 12:32',
-        total: 50.4,
-        items: []
-      },
-      {
-        id: 36,
-        name: 'M. Raphael',
-        date: 'Lundi 21 février 12:32',
-        total: 12.4,
-        items: []
-      }
-    ]
+    try {
+      return await orderStore.list()
+    } catch (e) {
+      return []
+    }
   }
 )
 

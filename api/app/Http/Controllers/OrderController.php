@@ -7,6 +7,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\States\OrderState;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -61,6 +62,36 @@ class OrderController extends Controller
         $order = $this->orderService->getOrder($order->id);
 
         return response()->json(['data' => $order]);
+    }
+
+    /**
+     * List possible order statuses.
+     *
+     * Returns all possible order status values and labels.
+     */
+    public function statuses(): JsonResponse
+    {
+        // Derive from OrderState config / known states
+        $list = [
+            ['value' => 'pending', 'label' => 'Pending'],
+            ['value' => 'preparing', 'label' => 'Preparing'],
+            ['value' => 'confirmed', 'label' => 'Confirmed'],
+            ['value' => 'delivered', 'label' => 'Delivered'],
+            ['value' => 'ready', 'label' => 'Ready for pickup'],
+        ];
+
+        return response()->json(['data' => $list]);
+    }
+
+    /**
+     * Get allowed transitions for a specific order.
+     */
+    public function transitions(Order $order): JsonResponse
+    {
+        $this->authorize('view', $order);
+
+        // Use model accessor
+        return response()->json(['data' => $order->allowed_transitions]);
     }
 
     /**

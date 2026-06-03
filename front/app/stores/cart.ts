@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import type { Item } from '~/types/item'
+import type { Dish } from '~/types/dish'
 
 type QuantityRecord = Record<number, number>
 
 export const useCartStore = defineStore('cart', () => {
-  const items = useCookie<Item[]>('cart_items', { default: () => [] })
+  const items = useCookie<Dish[]>('cart_items', { default: () => [] })
   const quantities = useCookie<QuantityRecord>('cart_quantities')
 
   const total = computed(() => {
@@ -23,11 +23,11 @@ export const useCartStore = defineStore('cart', () => {
     return t
   })
 
-  function itemExist(item: Item) {
+  function itemExist(item: Dish) {
     return items.value.find(i => i.id === item.id) != null
   }
 
-  function addItem(item: Item) {
+  function addItem(item: Dish) {
     if (itemExist(item)) {
       incrementQuantity(item)
     } else {
@@ -52,7 +52,7 @@ export const useCartStore = defineStore('cart', () => {
     quantities.value = {}
   }
 
-  function incrementQuantity(item: Item) {
+  function incrementQuantity(item: Dish) {
     if (quantities.value == null)
       quantities.value = {}
 
@@ -62,7 +62,7 @@ export const useCartStore = defineStore('cart', () => {
     quantities.value[item.id]! += 1
   }
 
-  function decrementQuantity(item: Item) {
+  function decrementQuantity(item: Dish) {
     if (quantities.value == null)
       quantities.value = {}
 
@@ -75,11 +75,26 @@ export const useCartStore = defineStore('cart', () => {
       deleteItem(item.id)
   }
 
-  function getQuantityOfItem(item: Item): number {
+  function getQuantityOfItem(item: Dish): number {
     if (quantities.value == null)
       quantities.value = {}
 
     return quantities.value[item.id] ?? 1
+  }
+
+  // Create an order on the API using the current cart content.
+  // Returns the created order data on success.
+  async function checkout() {
+    const { $api } = useNuxtApp()
+
+    const dishes = items.value.map(i => ({ id: i.id, quantity: getQuantityOfItem(i) }))
+
+    const response = await $api<{ data: any }>('/api/orders', {
+      method: 'POST',
+      body: { dishes }
+    })
+
+    return response?.data
   }
 
   return {
@@ -93,5 +108,8 @@ export const useCartStore = defineStore('cart', () => {
     incrementQuantity,
     decrementQuantity,
     getQuantityOfItem
+    ,
+    // expose checkout so callers can create an order from the cart
+    checkout
   }
 })

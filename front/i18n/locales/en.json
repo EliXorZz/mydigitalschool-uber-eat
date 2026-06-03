@@ -60,6 +60,8 @@
     "usernameLabel": "Username",
     "roleLabel": "Role",
     "applyChangesButton": "Apply Changes",
+    "updateSuccess": "Profile updated successfully.",
+    "updateError": "An error occurred while updating the profile.",
     "ordersCardTitle": "My Orders"
   },
   "cart": {
@@ -78,9 +80,12 @@
     "submit": "Login",
     "usernameLabel": "Username",
     "usernamePlaceholder": "Enter your username",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Enter your password",
     "usernameRequired": "Username is required",
+    "emailInvalid": "Invalid email address",
     "passwordRequired": "Password is required",
     "toastTitle": "Authentication System",
     "toastInvalidCredentials": "Username and/or password are incorrect.",

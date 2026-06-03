@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { computed, ref } from 'vue'
 
-import type { Item } from '../../app/types/item'
+import type { Dish as Item } from '../../app/types/dish'
 import { useCartStore } from '../../app/stores/cart'
 
 vi.stubGlobal('computed', computed)

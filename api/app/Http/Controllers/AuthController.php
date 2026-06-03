@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\UpdateProfileRequest;
 
 /**
  * @group Authentication
@@ -67,6 +68,23 @@ class AuthController extends Controller
     public function me(): JsonResponse
     {
         $user = $this->authService->session();
+
+        return response()->json(['data' => $user]);
+    }
+
+    /**
+     * Update current user profile.
+     *
+     * Updates the authenticated user's name and email.
+     */
+    public function update(UpdateProfileRequest $request): JsonResponse
+    {
+        $user = $this->authService->session();
+
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
 
         return response()->json(['data' => $user]);
     }

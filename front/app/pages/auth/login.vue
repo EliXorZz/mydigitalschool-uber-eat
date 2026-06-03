@@ -9,11 +9,10 @@ definePageMeta({
 
 const fields: AuthFormField[] = [
   {
-    name: 'username',
-    type: 'text',
-    label: $t('auth.usernameLabel'),
-    placeholder: $t('auth.usernamePlaceholder'),
-    help: 'admin',
+    name: 'email',
+    type: 'email',
+    label: $t('auth.emailLabel'),
+    placeholder: $t('auth.emailPlaceholder'),
     required: true
   },
   {
@@ -21,13 +20,12 @@ const fields: AuthFormField[] = [
     type: 'password',
     label: $t('auth.passwordLabel'),
     placeholder: $t('auth.passwordPlaceholder'),
-    help: 'admin-mydigitalschool',
     required: true
   }
 ]
 
 const schema = z.object({
-  username: z.string($t('auth.usernameRequired')),
+  email: z.string().email($t('auth.emailInvalid')),
   password: z.string($t('auth.passwordRequired'))
 })
 
@@ -38,8 +36,8 @@ const toast = useToast()
 const authStore = useAuthentificationStore()
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  const { username, password } = payload.data
-  const success = await authStore.login(username, password)
+  const { email, password } = payload.data
+  const success = await authStore.login(email, password)
 
   if (!success) {
     toast.add({

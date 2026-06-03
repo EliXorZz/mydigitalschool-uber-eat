@@ -4,7 +4,7 @@ import ItemCard from '~/components/ItemCard.vue'
 import { UButton } from '#components'
 import type { TabsItem } from '#ui/components/Tabs.vue'
 import type { Restaurant, RestaurantsResponse } from '~/types/restaurant'
-import type { Item, ItemsResponse } from '~/types/item'
+import type { Dish } from '~/types/dish'
 import type { TableColumn } from '#ui/components/Table.vue'
 import type { Order } from '~/types/order'
 
@@ -50,10 +50,10 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
   }
 )
 
-const { data: items } = await useAsyncData<Item[]>(
+const { data: items } = await useAsyncData<Dish[]>(
   `items:me`,
   async () => {
-    const response = await $fetch<ItemsResponse>('/api/items')
+    const response = await $fetch<Dish[]>('/api/items')
     return response
       .find(r => r.id_restaurant === restaurant.value?.id)
       ?.items ?? []
@@ -112,7 +112,7 @@ const stateRestaurant = reactive<Partial<SchemaRestaurant>>({
 const isFormValidRestaurant = computed(() => schemaRestaurant.safeParse(stateRestaurant).success)
 
 const openUpdateDishModal = ref(false)
-function clickOpenUpdateDishModal(item: Item) {
+function clickOpenUpdateDishModal(item: Dish) {
   stateDish.name = item.name
   stateDish.price = item.price
   stateDish.description = item.description

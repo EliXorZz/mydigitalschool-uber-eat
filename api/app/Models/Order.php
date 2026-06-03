@@ -24,6 +24,14 @@ class Order extends Model
         'user_id',
     ];
 
+    // Append computed attributes to the model's array / JSON form
+    protected $appends = [
+        'state_name',
+        'allowed_transitions',
+        'total_items',
+        'items'
+    ];
+
     protected $casts = [
         'state' => OrderState::class,
     ];
@@ -48,5 +56,76 @@ class Order extends Model
     {
         return $this->belongsToMany(Dish::class)
             ->withPivot('quantity');
+    }
+
+    /**
+     * Human readable state name (string)
+     */
+    public function getStateNameAttribute(): string
+    {
+        // prefer stored attribute if present
+        return $this->attributes['state'] ?? (string) $this->state;
+    }
+
+    /**
+     * Compute allowed transitions based on current state.
+     * Returns an array of ['value' => ..., 'label' => ...]
+     */
+    public function getAllowedTransitionsAttribute(): array
+    {
+        $state = $this->getStateNameAttribute();
+
+        $map = [
+            'pending' => ['preparing', 'delivered'],
+            'preparing' => ['confirmed'],
+            'confirmed' => ['delivered'],
+            'delivered' => ['ready'],
+            'ready' => [],
+        ];
+
+        $labels = [
+            'pending' => 'Pending',
+            'preparing' => 'Preparing',
+            'confirmed' => 'Confirmed',
+            'delivered' => 'Delivered',
+            'ready' => 'Ready for pickup',
+        ];
+
+        $allowed = $map[$state] ?? [];
+
+        return array_map(function ($s) use ($labels) {
+            return ['value' => $s, 'label' => $labels[$s] ?? $s];
+        }, $allowed);
+    }
+
+    /**
+     * Total number of items in the order (sum of pivot quantities)
+     */
+    public function getTotalItemsAttribute(): int
+    {
+        $sum = 0;
+        foreach ($this->dishes as $dish) {
+            $sum += (int) ($dish->pivot->quantity ?? 0);
+        }
+
+        return $sum;
+    }
+
+    /**
+     * Return structured items (dish id, name, price, quantity)
+     */
+    public function getItemsAttribute(): array
+    {
+        $items = [];
+        foreach ($this->dishes as $dish) {
+            $items[] = [
+                'id' => $dish->id,
+                'name' => $dish->name,
+                'price' => $dish->price,
+                'quantity' => (int) ($dish->pivot->quantity ?? 0),
+            ];
+        }
+
+        return $items;
     }
 }

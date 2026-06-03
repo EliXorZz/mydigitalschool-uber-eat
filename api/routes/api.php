@@ -16,6 +16,7 @@ Route::prefix('auth')->group(function () {
 
     Route::middleware(Authenticate::class)->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/me', [AuthController::class, 'update']);
     });
 });
 
@@ -32,6 +33,10 @@ Route::middleware(Authenticate::class)->group(function () {
     Route::post('orders/{order}/state', [OrderController::class, 'updateState']);
     Route::apiResource('orders', OrderController::class)
         ->shallow();
+
+    // Extra order helpers
+    Route::get('orders-statuses', [OrderController::class, 'statuses']);
+    Route::get('orders/{order}/transitions', [OrderController::class, 'transitions']);
 
     Route::get('restaurants/{restaurant}/orders', [RestaurantController::class, 'orders']);
 });
