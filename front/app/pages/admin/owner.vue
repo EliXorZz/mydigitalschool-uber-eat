@@ -7,6 +7,7 @@ import type { Restaurant, RestaurantsResponse } from '~/types/restaurant'
 import type { Dish } from '~/types/dish'
 import type { TableColumn } from '#ui/components/Table.vue'
 import type { Order } from '~/types/order'
+import OrderTable from '~/components/OrderTable.vue'
 
 definePageMeta({
   layout: 'default',
@@ -293,56 +294,7 @@ function deleteDish() { openUpdateDishModal.value = false }
       </template>
 
       <template #orders>
-          <UPageCard
-            :title="$t('dashboard.tabs.orders')"
-            class="mt-8"
-          >
-            <div v-if="ordersPending" class="p-6">Chargement...</div>
-            <div v-else-if="!orders || orders.length === 0" class="p-6 text-gray-500">Aucune commande</div>
-            <div v-else class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                    <th class="px-6 py-3" />
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <template v-for="order in orders" :key="order.id">
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap">#{{ order.id }}</td>
-                      <td class="px-6 py-4 whitespace-nowrap">{{ order.user?.name ?? order.name ?? '—' }}</td>
-                      <td class="px-6 py-4 whitespace-nowrap">{{ new Date(order.created_at).toLocaleString() }}</td>
-                      <td class="px-6 py-4 whitespace-nowrap">{{ order.total }}€</td>
-                      <td class="px-6 py-4 whitespace-nowrap text-right">
-                        <UButton size="xs" variant="outline" @click="toggleExpand(order.id)">{{ expanded[order.id] ? 'Fermer' : 'Voir' }}</UButton>
-                      </td>
-                    </tr>
-
-                    <tr v-if="expanded[order.id]">
-                      <td colspan="5" class="px-6 py-4 bg-gray-50">
-                        <div class="space-y-2">
-                          <div v-for="(dish, idx) in order.dishes" :key="idx" class="flex justify-between items-center py-2">
-                            <div class="flex items-center gap-4">
-                              <img v-if="dish.image" :src="dish.image" alt="" class="w-12 h-12 object-cover rounded" />
-                              <div>
-                                <div class="font-medium">{{ dish.name }}</div>
-                                <div class="text-sm text-gray-500">{{ dish.description }}</div>
-                              </div>
-                            </div>
-                            <div class="text-sm">x{{ dish.pivot?.quantity ?? dish.quantity ?? 1 }}</div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </template>
-                </tbody>
-              </table>
-            </div>
-          </UPageCard>
+        <OrderTable title="$t('dashboard.tabs.orders')" :orders="orders" :loading="ordersPending" />
       </template>
     </UTabs>
   </UMain>

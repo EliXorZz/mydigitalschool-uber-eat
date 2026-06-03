@@ -24,18 +24,50 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
   }
 )
 
-const { data: itemsResponse } = await useAsyncData(
-  `items:${id}`,
-  async () => {
-    if (restaurant.value?.id == null)
-      return { data: [] }
+const perPageItems = 12
+const pageItems = ref(1)
+const itemsState = ref<Dish[]>([])
+const hasMoreItems = ref(true)
+const loadingItems = ref(false)
 
-    const response = await $api(`/api/restaurants/${restaurant.value.id}/dishes`)
-    return response ?? { data: [] }
+async function loadItems(reset = false) {
+  if (loadingItems.value) return
+  if (reset) {
+    pageItems.value = 1
+    itemsState.value = []
+    hasMoreItems.value = true
   }
-)
 
-const items = computed(() => itemsResponse.value?.data ?? [])
+  if (!hasMoreItems.value) return
+
+  loadingItems.value = true
+  const resp: any = await $api(`/api/restaurants/${restaurant.value.id}/dishes`, { query: { page: pageItems.value, per_page: perPageItems } })
+  const items = resp?.data ?? []
+  itemsState.value.push(...items)
+  const last = resp?.last_page ?? 1
+  if (pageItems.value >= last) hasMoreItems.value = false
+  pageItems.value += 1
+  loadingItems.value = false
+}
+
+await loadItems(true)
+
+const items = computed(() => itemsState.value)
+
+const loadMoreItemsTrigger = ref<HTMLElement | null>(null)
+if (process.client) {
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting && hasMoreItems.value && !loadingItems.value) {
+        loadItems()
+      }
+    }
+  }, { root: null, rootMargin: '200px', threshold: 0.1 })
+
+  watch(loadMoreItemsTrigger, (el) => {
+    if (el && el instanceof HTMLElement) io.observe(el)
+  })
+}
 
 useHead({ title: `${restaurant.value?.name} | ${$t('restaurant.pageTitle')}` })
 
@@ -130,6 +162,11 @@ useSeoMeta({
               :image="item.image"
             />
           </NuxtLink>
+
+          <div v-if="loadingItems" class="w-full text-center py-6">Chargement...</div>
+          <div v-else-if="hasMoreItems" ref="loadMoreItemsTrigger" class="w-full text-center py-6">
+            <UButton variant="outline" @click="loadItems">Charger plus</UButton>
+          </div>
         </div>
       </section>
     </div>

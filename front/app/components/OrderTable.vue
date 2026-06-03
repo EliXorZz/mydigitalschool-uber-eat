@@ -3,6 +3,7 @@ import type { TableColumn } from '#ui/components/Table.vue'
 import type { Order } from '~/types/order'
 
 import { UBadge, UButton } from '#components'
+import { unref } from 'vue'
 
 const props = defineProps<{
   title: string
@@ -10,13 +11,18 @@ const props = defineProps<{
   loading?: boolean
 }>()
 
-const title = computed(() => props.title)
-const loading = computed(() => props.loading ?? false)
-
 const orderStore = useOrderStore()
+const auth = useAuthentificationStore()
 
-const title = computed(() => props.title)
-const loading = computed(() => props.loading ?? false)
+function canCancel(order: Order) {
+  const state = stateValue(order)
+  const accountVal = unref(auth.account)
+  const userId = accountVal?.id ?? null
+  return state === 'pending' && userId !== null && Number(order.user_id ?? order.user?.id) === Number(userId)
+}
+
+const pageTitle = computed(() => props.title)
+const isLoading = computed(() => props.loading ?? false)
 
 const ordersList = computed(() => props.orders?.value ?? props.orders ?? [])
 
@@ -56,12 +62,12 @@ function stateColor(order: Order) {
 </script>
 
 <template>
-  <UPageCard
-    :title="title"
-    spotlight-color="primary"
-  >
-    <div class="overflow-x-auto">
-      <div v-if="loading" class="p-6">Chargement...</div>
+      <UPageCard
+    :title="pageTitle"
+      spotlight-color="primary"
+    >
+      <div class="overflow-x-auto">
+      <div v-if="isLoading" class="p-6">Chargement...</div>
       <div v-else>
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
@@ -89,7 +95,7 @@ function stateColor(order: Order) {
               <td class="px-6 py-4 whitespace-nowrap text-right">
                 <div class="flex items-center justify-end gap-2">
                   <UButton size="xs" variant="outline" @click="toggleExpand(order.id)">{{ expanded[order.id] ? 'Fermer' : 'Voir' }}</UButton>
-                  <UButton size="xs" variant="outline" color="error" @click="handleCancel(order)" v-if="(order.state_name ?? order.state) === 'pending'">{{ $t('orders.cancel') }}</UButton>
+                  <UButton size="xs" variant="outline" color="error" @click="handleCancel(order)" v-if="canCancel(order)">{{ $t('orders.cancel') }}</UButton>
                 </div>
               </td>
             </tr>

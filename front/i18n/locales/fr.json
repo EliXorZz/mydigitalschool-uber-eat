@@ -35,6 +35,8 @@
   },
   "common": {
     "back": "Retour"
+  , "prev": "Précédent",
+    "next": "Suivant"
   },
   "modal": {
     "cancel": "Annuler"
