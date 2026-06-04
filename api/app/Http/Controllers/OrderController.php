@@ -7,7 +7,6 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Services\OrderService;
-use App\States\OrderState;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -24,6 +23,14 @@ class OrderController extends Controller
      * List orders.
      *
      * Returns all orders for the authenticated user.
+     *
+     * @authenticated
+     * @queryParam status string Filter by order status. Example: pending
+     * @queryParam date_from date Filter orders from this date. Example: 2026-01-01
+     * @queryParam date_to date Filter orders up to this date. Example: 2026-12-31
+     * @queryParam min_price number Minimum order total. Example: 10
+     * @queryParam max_price number Maximum order total. Example: 100
+     * @response 200 {"current_page": 1, "data": [{"id": 1, "state": "pending", "total": "25.99", "allowed_transitions": ["confirmed"]}], "total": 1}
      */
     public function index(ListOrderRequest $request): LengthAwarePaginator
     {
@@ -37,6 +44,11 @@ class OrderController extends Controller
      * Create an order.
      *
      * Creates a new order with specified dishes.
+     *
+     * @authenticated
+     * @response 201 {"data": {"id": 1, "state": "pending", "total": "25.99"}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 422 {"message": "The given data was invalid.", "errors": {}}
      */
     public function store(StoreOrderRequest $request): JsonResponse
     {
@@ -54,6 +66,11 @@ class OrderController extends Controller
      * Get an order.
      *
      * Returns the details of a specific order by ID.
+     *
+     * @authenticated
+     * @response 200 {"data": {"id": 1, "state": "pending", "total": "25.99", "allowed_transitions": ["confirmed"]}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Order]."}
      */
     public function show(Order $order): JsonResponse
     {
@@ -65,38 +82,14 @@ class OrderController extends Controller
     }
 
     /**
-     * List possible order statuses.
-     *
-     * Returns all possible order status values and labels.
-     */
-    public function statuses(): JsonResponse
-    {
-        // Derive from OrderState config / known states
-        $list = [
-            ['value' => 'pending', 'label' => 'Pending'],
-            ['value' => 'preparing', 'label' => 'Preparing'],
-            ['value' => 'confirmed', 'label' => 'Confirmed'],
-            ['value' => 'delivered', 'label' => 'Delivered'],
-            ['value' => 'ready', 'label' => 'Ready for pickup'],
-        ];
-
-        return response()->json(['data' => $list]);
-    }
-
-    /**
-     * Get allowed transitions for a specific order.
-     */
-    public function transitions(Order $order): JsonResponse
-    {
-        $this->authorize('view', $order);
-
-        return response()->json(['data' => $order->allowed_transitions]);
-    }
-
-    /**
      * Cancel an order.
      *
-     * Cancels an existing order. Only pending orders can be cancelled.
+     * Cancels an existing order. Only pending orders can be cancelled by their owner.
+     *
+     * @authenticated
+     * @response 204 {}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Order]."}
      */
     public function cancel(Order $order): JsonResponse
     {
@@ -110,7 +103,13 @@ class OrderController extends Controller
     /**
      * Update order state.
      *
-     * Updates the state of an existing order.
+     * Updates the state of an order. Restricted to the restaurant owner.
+     *
+     * @authenticated
+     * @response 200 {"data": {"id": 1, "state": "confirmed", "allowed_transitions": ["preparing"]}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Order]."}
+     * @response 422 {"message": "The given data was invalid.", "errors": {}}
      */
     public function updateState(UpdateOrderRequest $request, Order $order): JsonResponse
     {
@@ -118,7 +117,7 @@ class OrderController extends Controller
 
         $order = $this->orderService->updateState(
             $order,
-            $request->input('state')
+            $request->validated('state')
         );
 
         return response()->json(['data' => $order]);
