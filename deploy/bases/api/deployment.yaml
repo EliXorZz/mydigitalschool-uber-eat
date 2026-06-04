@@ -27,11 +27,11 @@ spec:
             - name: data
               mountPath: /var/www
             - name: storage
-              mountPath: /var/www/storage/app/public
+              mountPath: /mnt/storage
           lifecycle:
             postStart:
               exec:
-                command: [ 'sh', '-c', 'cp -r /app/. /var/www' ]
+                command: [ 'sh', '-c', 'cp -r /app/. /var/www && ln -sfn /mnt/storage /var/www/storage/app/public' ]
         - name: nginx
           image: nginx:1.27
           ports:
@@ -46,7 +46,7 @@ spec:
               mountPath: /app
               readOnly: true
             - name: storage
-              mountPath: /app/storage/app/public
+              mountPath: /mnt/storage
               readOnly: true
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/default.conf

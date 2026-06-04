@@ -23,7 +23,7 @@ data:
         }
 
         location /storage/ {
-            alias /app/storage/app/public/;
+            alias /mnt/storage/;
             try_files $uri =404;
         }
 
