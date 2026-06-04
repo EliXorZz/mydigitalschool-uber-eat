@@ -18,7 +18,7 @@ spec:
       containers:
         - name: reverb
           image: uber_eat_api_image
-          command: [ 'php', 'artisan', 'reverb:start', '--debug' ]
+          command: [ 'php', 'artisan', 'reverb:start', '--host=0.0.0.0', '--port=8080', '--debug' ]
           ports:
             - name: main
               containerPort: 8080
