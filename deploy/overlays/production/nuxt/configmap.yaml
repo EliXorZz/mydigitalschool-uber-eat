@@ -4,7 +4,7 @@ metadata:
   name: uber-eat-nuxt-config
 data:
   NUXT_PUBLIC_API_BASE_URL: "https://api.uber-eat.mydigitalschool.server.dylanbattig.fr"
-  NUXT_PUBLIC_REVERB_APP_KEY: "hcznehuul9so2rjmnnqk"
+  NUXT_PUBLIC_REVERB_APP_KEY: "ro6okoruzprwopo9y5iw"
   NUXT_PUBLIC_REVERB_HOST: "reverb.mydigitalschool.server.dylanbattig.fr"
   NUXT_PUBLIC_REVERB_PORT: "443"
   NUXT_PUBLIC_REVERB_SCHEME: "https"
