@@ -24,6 +24,8 @@ spec:
             - secretRef:
                 name: uber-eat-api-secret
           volumeMounts:
+            - name: data
+              mountPath: /var/www
             - name: storage
               mountPath: /app/storage/app/public
           lifecycle:
@@ -40,6 +42,9 @@ spec:
             - secretRef:
                 name: uber-eat-api-secret
           volumeMounts:
+            - name: data
+              mountPath: /app
+              readOnly: true
             - name: storage
               mountPath: /mnt/storage
               readOnly: true
@@ -48,6 +53,8 @@ spec:
               subPath: nginx.conf
               readOnly: true
       volumes:
+        - name: data
+          emptyDir: { }
         - name: storage
           persistentVolumeClaim:
             claimName: uber-eat-api-storage
