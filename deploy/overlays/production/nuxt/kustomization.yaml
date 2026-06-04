@@ -3,3 +3,9 @@ kind: Kustomization
 resources:
   - ../../../bases/nuxt
   - ingress.yaml
+  - configmap.yaml
+patches:
+  - path: deployment.yaml
+    target:
+      kind: Deployment
+      name: uber-eat

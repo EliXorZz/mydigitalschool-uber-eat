@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uber-eat
+spec:
+  template:
+    spec:
+      containers:
+        - name: uber-eat
+          envFrom:
+            - configMapRef:
+                name: uber-eat-nuxt-config

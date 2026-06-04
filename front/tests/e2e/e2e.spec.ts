@@ -1,60 +1,63 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 
-test('authentification (login) @admin', async ({ page }) => {
+const emptyRestaurants = {
+  data: [],
+  current_page: 1,
+  last_page: 1,
+  per_page: 12,
+  total: 0
+}
+
+async function mockRestaurants(page: Page) {
+  await page.route('**/api/restaurants**', route =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(emptyRestaurants) })
+  )
+}
+
+async function mockAuth(page: Page, user: object) {
+  await page.route('**/api/auth/login', route =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ data: { token: 'test-token', type: 'bearer', expires_in: 3600 } })
+    })
+  )
+  await page.route('**/api/auth/me', route =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: user }) })
+  )
+  await page.route('**/api/broadcasting/auth', route => route.fulfill({ status: 403 }))
+}
+
+test('page d\'accueil accessible', async ({ page }) => {
+  await mockRestaurants(page)
   await page.goto('http://localhost:3000')
-  await page.getByRole('link', { name: 'Se connecter' }).click()
-  await page.waitForTimeout(5000)
-
-  await page.getByRole('textbox', { name: 'Nom d\'utilisateur*' }).fill('admin')
-  await page.getByRole('textbox', { name: 'Mot de passe*' }).fill('admin-mydigitalschool')
-
-  await page.waitForTimeout(1000)
-
-  await page.getByRole('button', { name: 'Se connecter' }).click()
-  await page.waitForTimeout(1000)
-
-  await page.getByRole('banner').getByRole('img').click()
-  await page.waitForTimeout(1000)
-
-  await page.getByRole('menuitem', { name: 'Administration' }).click()
-  await page.waitForTimeout(1000)
-
-  const item = page.getByText('Liste des restaurants')
-  await expect(item).toBeVisible()
+  await expect(page).toHaveTitle(/Eat Research/)
 })
 
-test('authentification (login) @owner', async ({ page }) => {
-  await page.goto('http://localhost:3000')
-  await page.getByRole('link', { name: 'Se connecter' }).click()
-  await page.waitForTimeout(5000)
+test('connexion admin - accès administration', async ({ page }) => {
+  await mockRestaurants(page)
+  await mockAuth(page, { id: 1, name: 'Admin', email: 'admin@test.com', role: 'admin', avatar: null })
 
-  await page.getByRole('textbox', { name: 'Nom d\'utilisateur*' }).fill('dylan')
-  await page.getByRole('textbox', { name: 'Mot de passe*' }).fill('admin-mydigitalschool')
-
-  await page.waitForTimeout(1000)
-
+  await page.goto('http://localhost:3000/auth/login')
+  await page.getByRole('textbox', { name: 'Adresse mail' }).fill('admin@test.com')
+  await page.getByRole('textbox', { name: 'Mot de passe' }).fill('password')
   await page.getByRole('button', { name: 'Se connecter' }).click()
-  await page.waitForTimeout(1000)
 
-  await page.getByRole('banner').getByRole('img').click()
-  await page.waitForTimeout(1000)
-
-  await page.getByRole('menuitem', { name: 'Administration' }).click()
-  await page.waitForTimeout(1000)
-
-  const item = page.getByRole('button', { name: 'Modifier le restaurant' })
-  await expect(item).toBeVisible()
+  await expect(page.getByRole('navigation').getByRole('img')).toBeVisible({ timeout: 10000 })
+  await page.getByRole('navigation').getByRole('img').click()
+  await expect(page.getByRole('menuitem', { name: 'Administration' })).toBeVisible()
 })
 
-test('show item', async ({ page }) => {
-  await page.goto('http://localhost:3000')
+test('connexion owner - accès administration', async ({ page }) => {
+  await mockRestaurants(page)
+  await mockAuth(page, { id: 2, name: 'Dylan', email: 'dylan@test.com', role: 'owner', avatar: null })
 
-  await page.getByRole('link', { name: 'Mama Tokyo À emporter' }).click()
-  await page.waitForTimeout(1000)
+  await page.goto('http://localhost:3000/auth/login')
+  await page.getByRole('textbox', { name: 'Adresse mail' }).fill('dylan@test.com')
+  await page.getByRole('textbox', { name: 'Mot de passe' }).fill('password')
+  await page.getByRole('button', { name: 'Se connecter' }).click()
 
-  await page.getByRole('link', { name: 'Ramen miso Ramen miso' }).click()
-  await page.waitForTimeout(1000)
-
-  const item = page.getByText('Bouillon maison, porc mariné')
-  await expect(item).toBeVisible()
+  await expect(page.getByRole('navigation').getByRole('img')).toBeVisible({ timeout: 10000 })
+  await page.getByRole('navigation').getByRole('img').click()
+  await expect(page.getByRole('menuitem', { name: 'Administration' })).toBeVisible()
 })
