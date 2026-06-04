@@ -3,7 +3,6 @@ import * as z from 'zod'
 
 definePageMeta({
   layout: 'default',
-  ssr: false,
   middleware: ['auth']
 })
 

@@ -19,6 +19,17 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  ssr: true,
+
+  routeRules: {
+    '/auth': { ssr: false },
+    '/auth/**': { ssr: false },
+    '/profile': { ssr: false },
+    '/profile/**': { ssr: false },
+    '/admin': { ssr: false },
+    '/admin/**': { ssr: false }
+  },
+
   colorMode: {
     preference: 'light'
   },

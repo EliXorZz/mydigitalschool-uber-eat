@@ -3,8 +3,7 @@ import * as z from 'zod'
 import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
 
 definePageMeta({
-  layout: 'background',
-  ssr: false
+  layout: 'background'
 })
 
 const fields: AuthFormField[] = [

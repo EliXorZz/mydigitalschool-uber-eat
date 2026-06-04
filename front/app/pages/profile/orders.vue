@@ -3,7 +3,6 @@ import OrderTable from '~/components/OrderTable.vue'
 
 definePageMeta({
   layout: 'default',
-  ssr: false,
   middleware: ['auth']
 })
 

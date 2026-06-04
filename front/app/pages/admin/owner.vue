@@ -8,7 +8,6 @@ import type { Paginator } from '~/types/api'
 
 definePageMeta({
   layout: 'default',
-  ssr: false,
   middleware: ['auth'],
   roles: ['restaurant']
 })
