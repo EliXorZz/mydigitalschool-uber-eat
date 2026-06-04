@@ -6,3 +6,4 @@ resources:
   - deployment.yaml
   - scheduler.yaml
   - service.yaml
+  - pvc.yaml
