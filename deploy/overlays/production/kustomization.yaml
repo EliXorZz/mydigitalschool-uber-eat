@@ -8,7 +8,7 @@ resources:
 images:
   - name: uber_eat_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat" # {"$imagepolicy": "flux-system:uber-eat:name"}
-    newTag: "main-40e2b2a693191c9b86ead495cd0894c211cb0353-11" # {"$imagepolicy": "flux-system:uber-eat:tag"}
+    newTag: "main-fd1226ff02f39e39a38d7eb42f88dd2b146ce9f5-12" # {"$imagepolicy": "flux-system:uber-eat:tag"}
   - name: uber_eat_api_image
     newName: "harbor.server.dylanbattig.fr/private/uber_eat_api" # {"$imagepolicy": "flux-system:uber-eat-api:name"}
     newTag: "main-1210d54aeb1a81735dddeb62bae0eeb89540c3ea-17" # {"$imagepolicy": "flux-system:uber-eat-api:tag"}
