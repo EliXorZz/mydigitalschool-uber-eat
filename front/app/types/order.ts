@@ -3,8 +3,7 @@ import type { Dish } from '~/types/dish'
 export type Order = {
   id: number
   state: string
-  state_name?: string
-  allowed_transitions?: { value: string; label: string }[]
+  allowed_transitions?: string[]
   total: number
   restaurant_id: number
   user_id: number

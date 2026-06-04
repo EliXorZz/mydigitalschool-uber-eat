@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ListOrderRequest;
+use App\Http\Requests\ListRestaurantRequest;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
 use App\Models\Order;
@@ -31,10 +32,9 @@ class RestaurantController extends Controller
      * @queryParam search string Filter by restaurant name. Example: Pizza
      * @response 200 {"current_page": 1, "data": [{"id": 1, "name": "Le Bistrot", "city": "Paris", "score": "4.5", "price_score": 2}], "total": 1}
      */
-    public function index(): JsonResponse
+    public function index(ListRestaurantRequest $request): JsonResponse
     {
-        $search = request('search');
-        $restaurants = $this->restaurantService->listRestaurant($search);
+        $restaurants = $this->restaurantService->listRestaurant($request->validated('search'));
 
         return response()->json($restaurants);
     }
@@ -51,12 +51,7 @@ class RestaurantController extends Controller
      */
     public function store(StoreRestaurantRequest $request): JsonResponse
     {
-        $this->authorize('create', Restaurant::class);
-        abort_if(
-            auth()->user()->id === $request->owner()->id,
-            403,
-            'You cannot perform this action on your own resource.'
-        );
+        $this->authorize('create', [Restaurant::class, $request->owner()]);
 
         $restaurant = $this->restaurantService->createRestaurant(
             $request->owner(),

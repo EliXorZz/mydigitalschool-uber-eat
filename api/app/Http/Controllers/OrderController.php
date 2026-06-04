@@ -90,7 +90,6 @@ class OrderController extends Controller
     {
         $this->authorize('view', $order);
 
-        // Use model accessor
         return response()->json(['data' => $order->allowed_transitions]);
     }
 

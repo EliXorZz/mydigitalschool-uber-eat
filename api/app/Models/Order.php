@@ -26,10 +26,9 @@ class Order extends Model
 
     // Append computed attributes to the model's array / JSON form
     protected $appends = [
-        'state_name',
         'allowed_transitions',
         'total_items',
-        'items'
+        'items',
     ];
 
     protected $casts = [
@@ -59,43 +58,13 @@ class Order extends Model
     }
 
     /**
-     * Human readable state name (string)
-     */
-    public function getStateNameAttribute(): string
-    {
-        // prefer stored attribute if present
-        return $this->attributes['state'] ?? (string) $this->state;
-    }
-
-    /**
-     * Compute allowed transitions based on current state.
-     * Returns an array of ['value' => ..., 'label' => ...]
+     * Allowed next states from the current state, derived from the state machine config.
+     *
+     * @return string[]
      */
     public function getAllowedTransitionsAttribute(): array
     {
-        $state = $this->getStateNameAttribute();
-
-        $map = [
-            'pending' => ['confirmed'],
-            'confirmed' => ['preparing'],
-            'preparing' => ['ready'],
-            'ready' => ['delivered'],
-            'delivered' => [],
-        ];
-
-        $labels = [
-            'pending' => 'Pending',
-            'preparing' => 'Preparing',
-            'confirmed' => 'Confirmed',
-            'delivered' => 'Delivered',
-            'ready' => 'Ready for pickup',
-        ];
-
-        $allowed = $map[$state] ?? [];
-
-        return array_map(function ($s) use ($labels) {
-            return ['value' => $s, 'label' => $labels[$s] ?? $s];
-        }, $allowed);
+        return $this->state->transitionableStates();
     }
 
     /**

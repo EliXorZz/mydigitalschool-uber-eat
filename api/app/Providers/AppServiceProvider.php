@@ -12,8 +12,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
-
     public function boot(): void
     {
         Scramble::configure()
@@ -23,17 +21,14 @@ class AppServiceProvider extends ServiceProvider
                 );
             });
 
-        // 5 tentatives par minute par IP pour les endpoints sensibles
         RateLimiter::for('auth', function (Request $request) {
             return Limit::perMinute(5)->by($request->ip());
         });
 
-        // 60 requêtes par minute pour les endpoints authentifiés
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-        // 30 requêtes par minute pour les endpoints publics
         RateLimiter::for('public', function (Request $request) {
             return Limit::perMinute(30)->by($request->ip());
         });

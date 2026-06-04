@@ -38,9 +38,7 @@ function toggleExpand(id: number) {
 }
 
 function stateValue(order: Order): string {
-  if (!order) return ''
-  const v = (order as any).state_name ?? (order as any).state
-  return String(v ?? '').toLowerCase()
+  return String(order?.state ?? '').toLowerCase()
 }
 
 function stateColor(order: Order): BadgeColor {
@@ -188,13 +186,13 @@ function getColumnValue(order: Order): string {
                   <span class="text-sm font-medium text-gray-600">{{ $t('orders.stateLabel') }} :</span>
                   <UButton
                     v-for="t in (order.allowed_transitions ?? [])"
-                    :key="t.value"
+                    :key="t"
                     size="xs"
                     variant="outline"
-                    :color="stateColorMap[t.value] ?? 'neutral'"
-                    @click="handleStateChange(order, t.value)"
+                    :color="stateColorMap[t] ?? 'neutral'"
+                    @click="handleStateChange(order, t)"
                   >
-                    {{ $t(`status.${t.value}`) }}
+                    {{ $t(`status.${t}`) }}
                   </UButton>
                 </div>
               </td>

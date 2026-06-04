@@ -221,7 +221,7 @@ useOrderNotifications(
   (updatedOrder) => {
     toast.add({
       title: $t('dashboard.orders.toasts.updated'),
-      description: `Commande #${updatedOrder.id} — ${updatedOrder.state_name ?? updatedOrder.state}`,
+      description: `Commande #${updatedOrder.id} — ${updatedOrder.state}`,
       color: 'success',
       icon: 'i-lucide-refresh-cw',
       duration: 5000

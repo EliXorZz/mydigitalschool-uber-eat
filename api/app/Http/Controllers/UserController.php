@@ -6,22 +6,27 @@ use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Users
+ */
 class UserController extends Controller
 {
     /**
-     * List users with role=restaurant (owners). Admin only.
+     * List restaurant owners.
+     *
+     * Returns all users with the restaurant role. Admin only.
+     *
+     * @authenticated
+     * @response 200 {"data": [{"id": 2, "name": "Owner Name", "email": "owner@example.com", "role": "restaurant"}]}
+     * @response 403 {"message": "This action is unauthorized."}
      */
     public function owners(): JsonResponse
     {
-        abort_if(
-            auth()->user()->role !== Role::ADMIN,
-            403,
-            'Admin access required.'
-        );
+        $this->authorize('viewAny', User::class);
 
         $owners = User::where('role', Role::RESTAURANT)
             ->orderBy('name')
-            ->get(['id', 'name', 'email']);
+            ->get();
 
         return response()->json(['data' => $owners]);
     }

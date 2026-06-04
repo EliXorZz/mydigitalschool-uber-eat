@@ -103,14 +103,7 @@ class AuthController extends Controller
     {
         $user = $this->authService->session();
 
-        $data = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-        ];
-
-        if ($request->filled('password')) {
-            $data['password'] = bcrypt($request->input('password'));
-        }
+        $data = array_filter($request->validated(), fn ($v) => $v !== null);
 
         $user->update($data);
 

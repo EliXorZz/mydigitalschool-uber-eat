@@ -9,7 +9,6 @@ class OrderDishesFromDifferentRestaurantsException extends BaseException
         parent::__construct(
             message: 'All dishes must be from the same restaurant',
             code: 'DIFFERENT_RESTAURANTS',
-            codeHttp: 422
         );
     }
 }
