@@ -2,6 +2,8 @@ import type { Channel } from 'laravel-echo'
 import type { Order } from '~/types/order'
 
 export function useOrderNotifications(restaurantId: MaybeRef<number | null | undefined>, onNew?: (order: Order) => void, onUpdate?: (order: Order) => void, onDelete?: (order: Order) => void) {
+  if (import.meta.server) return { channel: null as Channel | null }
+
   const { $echo } = useNuxtApp()
   const authStore = useAuthentificationStore()
   const { isAuth, role } = storeToRefs(authStore)
