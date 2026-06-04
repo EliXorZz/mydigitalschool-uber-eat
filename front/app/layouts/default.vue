@@ -6,7 +6,7 @@ import type { DropdownMenuItem } from '#ui/components/DropdownMenu.vue'
 
 const { locale, setLocale } = useI18n()
 
-const toaster = { position: 'bottom-center' }
+const toaster = { position: 'bottom-center' as const }
 const toast = useToast()
 
 const authStore = useAuthentificationStore()
@@ -29,14 +29,14 @@ async function handleCheckout() {
     return order
   } catch (e) {
     // show error
-    toast.add({ title: $t('cart.checkout'), description: e?.message ?? String(e), color: 'error' })
+    toast.add({ title: $t('cart.checkout'), description: (e as any)?.message ?? String(e), color: 'error' })
     throw e
   }
 }
 
 const items = computed<NavigationMenuItem[]>(() => [])
 
-const profileItems = computed<DropdownMenuItem[]>(() => {
+const profileItems = computed<DropdownMenuItem[][]>(() => {
   return [
     [
       {
@@ -51,7 +51,7 @@ const profileItems = computed<DropdownMenuItem[]>(() => {
         class: 'cursor-pointer',
         to: '/profile/orders'
       },
-      ...(role.value === 'admin' || role.value === 'owner'
+      ...(role.value === 'admin' || role.value === 'restaurant'
         ? [{
             label: $t('profile.adminPanel'),
             icon: 'i-lucide-layout-dashboard',
@@ -209,7 +209,7 @@ const profileItems = computed<DropdownMenuItem[]>(() => {
           <ULocaleSelect
             :model-value="locale"
             :locales="[fr, en]"
-            @update:model-value="setLocale($event)"
+            @update:model-value="setLocale($event as 'en' | 'fr')"
           />
         </div>
       </template>

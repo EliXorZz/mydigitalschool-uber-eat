@@ -144,7 +144,7 @@ onMounted(() => {
   })
   intersectionObserver = new IntersectionObserver(
     ([entry]) => {
-      isInView.value = entry.isIntersecting
+      isInView.value = entry?.isIntersecting ?? false
       animationFrameId = requestAnimationFrame(animate)
     },
     { threshold: 0 }

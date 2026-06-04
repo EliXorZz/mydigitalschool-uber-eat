@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Events\OrderCreated;
+use App\Events\OrderDeleted;
+use App\Events\OrderUpdated;
 use App\Exceptions\CannotCancelOrderException;
 use App\Exceptions\OrderDishesFromDifferentRestaurantsException;
 use App\Models\Order;
@@ -11,6 +14,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
@@ -41,11 +45,11 @@ class OrderService
         }
 
         if (! empty($filters['min_price'])) {
-            $query->where('total', '>=', $filters['minPrice']);
+            $query->where('total', '>=', $filters['min_price']);
         }
 
         if (! empty($filters['max_price'])) {
-            $query->where('total', '<=', $filters['maxPrice']);
+            $query->where('total', '<=', $filters['max_price']);
         }
 
         if (! empty($filters['restaurant_id'])) {
@@ -105,6 +109,15 @@ class OrderService
             return $order;
         });
 
+        event(new OrderCreated($order));
+
+        Log::info('Order created', [
+            'order_id' => $order->id,
+            'user_id' => $user->id,
+            'restaurant_id' => $order->restaurant_id,
+            'total' => $order->total,
+        ]);
+
         return $order->fresh(['dishes']);
     }
 
@@ -114,6 +127,10 @@ class OrderService
             throw new CannotCancelOrderException;
         }
 
+        event(new OrderDeleted($order));
+
+        Log::info('Order cancelled', ['order_id' => $order->id, 'user_id' => $order->user_id]);
+
         return $order->delete();
     }
 
@@ -121,6 +138,15 @@ class OrderService
     {
         $order->state->transitionTo($state);
 
-        return $order->fresh(['dishes']);
+        $fresh = $order->fresh(['dishes']);
+
+        event(new OrderUpdated($fresh));
+
+        Log::info('Order state updated', [
+            'order_id' => $fresh->id,
+            'state' => $fresh->state_name,
+        ]);
+
+        return $fresh;
     }
 }

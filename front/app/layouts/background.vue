@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const toaster = { position: 'bottom-center' }
+const toaster = { position: 'bottom-center' as const }
 </script>
 
 <template>

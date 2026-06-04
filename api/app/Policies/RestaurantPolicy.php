@@ -45,7 +45,7 @@ class RestaurantPolicy
      */
     public function delete(User $user, Restaurant $restaurant): bool
     {
-        return $restaurant->owner_id === $user->id;
+        return $user->role === Role::ADMIN || $restaurant->owner_id === $user->id;
     }
 
     /**

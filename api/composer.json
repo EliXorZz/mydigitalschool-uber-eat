@@ -16,6 +16,7 @@
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^3.0",
         "php-open-source-saver/jwt-auth": "^2.9",
+        "rebing/graphql-laravel": "^9.17",
         "spatie/laravel-model-states": "^2.13",
         "spatie/laravel-permission": "^7.2"
     },

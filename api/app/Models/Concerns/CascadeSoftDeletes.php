@@ -2,6 +2,7 @@
 
 namespace App\Models\Concerns;
 
+// https://github.com/michaeldyrynda/laravel-cascade-soft-deletes
 trait CascadeSoftDeletes
 {
     /**

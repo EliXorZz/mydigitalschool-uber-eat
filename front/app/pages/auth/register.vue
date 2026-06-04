@@ -81,11 +81,11 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     <template #body>
       <UAuthForm
         :schema="schema"
-        :title="$t('auth.formTitle')"
-        :description="$t('auth.formDescription')"
-        icon="i-lucide-user"
+        :title="$t('auth.registerFormTitle')"
+        :description="$t('auth.registerFormDescription')"
+        icon="i-lucide-user-plus"
         :fields="fields"
-        :submit="{ label: $t('auth.submit') }"
+        :submit="{ label: $t('auth.registerSubmit') }"
         @submit="onSubmit"
       />
     </template>

@@ -5,7 +5,7 @@ use App\Models\Dish;
 use App\Models\Order;
 use App\Models\Restaurant;
 use App\Models\User;
-use App\States\OrderDelivered;
+use App\States\OrderConfirmed;
 use App\States\OrderPending;
 
 describe('OrderController Policy Tests', function () {
@@ -83,20 +83,20 @@ describe('OrderController Policy Tests', function () {
         it('should allow restaurant owner to update order state', function () {
             $response = $this->actingAsWithJWT($this->restaurantOwner)
                 ->postJson("/api/orders/{$this->order->id}/state", [
-                    'state' => 'preparing',
+                    'state' => 'confirmed',
                 ]);
 
             $response->assertStatus(200);
             $this->assertDatabaseHas('orders', [
                 'id' => $this->order->id,
-                'state' => 'preparing',
+                'state' => 'confirmed',
             ]);
         });
 
         it('should deny regular user from updating order state', function () {
             $response = $this->actingAsWithJWT($this->regularUser)
                 ->postJson("/api/orders/{$this->order->id}/state", [
-                    'state' => 'preparing',
+                    'state' => 'confirmed',
                 ]);
 
             $response->assertStatus(403);
@@ -109,7 +109,7 @@ describe('OrderController Policy Tests', function () {
 
             $response = $this->actingAsWithJWT($this->otherUser)
                 ->postJson("/api/orders/{$this->order->id}/state", [
-                    'state' => 'preparing',
+                    'state' => 'confirmed',
                 ]);
 
             $response->assertStatus(403);
@@ -133,7 +133,7 @@ describe('OrderController Policy Tests', function () {
         });
 
         it('should deny user from canceling non-pending order', function () {
-            $this->order->state->transitionTo(OrderDelivered::class);
+            $this->order->state->transitionTo(OrderConfirmed::class);
 
             $response = $this->actingAsWithJWT($this->regularUser)
                 ->postJson("/api/orders/{$this->order->id}/cancel");

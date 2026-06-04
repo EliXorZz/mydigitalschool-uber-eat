@@ -21,7 +21,11 @@ class DishController extends Controller
     /**
      * List dishes for a restaurant.
      *
-     * Returns all dishes belonging to a specific restaurant.
+     * Returns a paginated list of dishes for the given restaurant.
+     *
+     * @unauthenticated
+     * @response 200 {"current_page": 1, "data": [{"id": 1, "name": "Pizza Margherita", "price": "12.50", "description": "Classic pizza"}], "total": 1}
+     * @response 404 {"message": "No query results for model [App\\Models\\Restaurant]."}
      */
     public function index(Restaurant $restaurant): JsonResponse
     {
@@ -33,7 +37,12 @@ class DishController extends Controller
     /**
      * Create a dish.
      *
-     * Creates a new dish for a specific restaurant.
+     * Creates a new dish for the given restaurant. Restricted to the restaurant owner.
+     *
+     * @authenticated
+     * @response 201 {"data": {"id": 1, "name": "Pizza Margherita", "price": "12.50", "restaurant_id": 1}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 422 {"message": "The given data was invalid.", "errors": {}}
      */
     public function store(StoreDishRequest $request, Restaurant $restaurant): JsonResponse
     {
@@ -50,7 +59,11 @@ class DishController extends Controller
     /**
      * Get a dish.
      *
-     * Returns the details of a specific dish by ID.
+     * Returns the details of a specific dish including its restaurant.
+     *
+     * @unauthenticated
+     * @response 200 {"data": {"id": 1, "name": "Pizza Margherita", "price": "12.50", "description": "Classic pizza", "restaurant": {}}}
+     * @response 404 {"message": "No query results for model [App\\Models\\Dish]."}
      */
     public function show(Dish $dish): JsonResponse
     {
@@ -62,7 +75,12 @@ class DishController extends Controller
     /**
      * Update a dish.
      *
-     * Updates the details of an existing dish.
+     * Updates a dish's fields. Restricted to the restaurant owner.
+     *
+     * @authenticated
+     * @response 200 {"data": {"id": 1, "name": "Pizza Margherita Updated", "price": "13.50"}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Dish]."}
      */
     public function update(UpdateDishRequest $request, Dish $dish): JsonResponse
     {
@@ -79,7 +97,12 @@ class DishController extends Controller
     /**
      * Delete a dish.
      *
-     * Deletes an existing dish.
+     * Soft-deletes a dish. Restricted to the restaurant owner.
+     *
+     * @authenticated
+     * @response 204 {}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Dish]."}
      */
     public function destroy(Dish $dish): JsonResponse
     {

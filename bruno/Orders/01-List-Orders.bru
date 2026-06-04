@@ -1,0 +1,23 @@
+meta {
+  name: List Orders
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/orders
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  status:
+  date_from:
+  date_to:
+  min_price:
+  max_price:
+}

@@ -1,0 +1,32 @@
+meta {
+  name: Query - List Restaurants
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/graphql
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query {
+    restaurants(search: "") {
+      id
+      name
+      city
+      score
+      price_score
+      type {
+        id
+        name
+      }
+      dishes {
+        id
+        name
+        price
+      }
+    }
+  }
+}

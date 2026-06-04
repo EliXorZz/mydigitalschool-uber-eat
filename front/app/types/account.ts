@@ -1,4 +1,4 @@
-export type Role = 'default' | 'owner' | 'admin'
+export type Role = 'user' | 'restaurant' | 'admin'
 
 export type Account = {
   id: number

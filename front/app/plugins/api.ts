@@ -1,20 +1,33 @@
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
   const token = useCookie<string | null>('token')
-  // Single shared refresh promise to serialize refreshes
   let refreshing: Promise<void> | null = null
 
-  // Decode JWT to check expiry
   function isTokenExpiringSoon(tok?: string | null, withinSeconds = 30) {
     if (!tok) return false
     try {
+      if (typeof tok !== 'string') return false
       const parts = tok.split('.')
-      if (parts.length < 2) return false
-      const payload = JSON.parse(decodeURIComponent(escape(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')))))
+      if (!parts || parts.length < 2) return false
+
+      const part = parts[1]
+      if (!part) return false
+      const b64 = part.replace(/-/g, '+').replace(/_/g, '/')
+      const pad = b64.length % 4
+      const padded = pad === 0 ? b64 : b64 + '='.repeat(4 - pad)
+
+      let decoded = ''
+      if (typeof atob === 'function') {
+        decoded = decodeURIComponent(escape(atob(padded)))
+      } else {
+        return false
+      }
+
+      const payload = JSON.parse(decoded)
       const exp = Number(payload.exp || 0)
       const now = Math.floor(Date.now() / 1000)
       return exp <= now + withinSeconds
-    } catch (e) {
+    } catch {
       return false
     }
   }
@@ -33,18 +46,17 @@ export default defineNuxtPlugin(() => {
         const newToken = res?.data?.token ?? res?.token ?? (res?.data ?? {}).token
         if (newToken) {
           token.value = newToken
-          // After refreshing token, also refresh current user account cookie
           try {
             const me: any = await $fetch(`${config.public.apiBaseUrl}/api/auth/me`, {
               headers: { Authorization: `Bearer ${token.value}` }
             })
             useCookie('account').value = me?.data ?? null
-          } catch (e) {
+          } catch {
             // ignore
           }
         } else {
           token.value = null
-          try { await navigateTo({ name: 'auth-login' }) } catch (e) {}
+          try { await navigateTo({ name: 'auth-login' }) } catch {}
           throw new Error('Unable to refresh token')
         }
       } finally {
@@ -57,51 +69,53 @@ export default defineNuxtPlugin(() => {
 
   const api = $fetch.create({
     baseURL: config.public.apiBaseUrl,
+    headers: { Accept: 'application/json' },
     async onRequest({ options, request }) {
-      // If token exists and is expiring soon, refresh first
       if (token.value && isTokenExpiringSoon(token.value)) {
-        // avoid refreshing if this request is the refresh endpoint itself
-        if (!request?.includes('/api/auth/refresh')) {
+        if (!String(request).includes('/api/auth/refresh')) {
           await doRefresh()
         }
       }
 
       if (token.value) {
-        options.headers = {
-          ...(options.headers || {}),
-          Authorization: `Bearer ${token.value}`
+        // Append without replacing — keeps FormData Content-Type boundary intact
+        if (options.headers instanceof Headers) {
+          options.headers.set('Authorization', `Bearer ${token.value}`)
+        } else if (options.headers && typeof options.headers === 'object') {
+          (options.headers as Record<string, string>)['Authorization'] = `Bearer ${token.value}`
+        } else {
+          options.headers = { Authorization: `Bearer ${token.value}` } as any
         }
       }
     },
 
     async onResponseError({ request, options, response }) {
-      // Only handle 401 unauthorized
-      if (response?.status !== 401) throw createError({ statusCode: response?.status ?? 500 })
+      // For non-401 errors, let ofetch throw its own FetchError (which carries e.data = response body)
+      if (response?.status !== 401) return
 
-      // If the failed request is the refresh endpoint, don't try again
-      if (request && request.includes('/api/auth/refresh')) {
-        // token is invalid -> clear and redirect to login
+      if (String(request).includes('/api/auth/refresh')) {
         token.value = null
-        try { await navigateTo({ name: 'auth-login' }) } catch (e) {}
-        throw createError({ statusCode: 401, statusMessage: 'Authentication required' })
+        try { await navigateTo({ name: 'auth-login' }) } catch {}
+        return
       }
 
-      // Try refresh then retry
       await doRefresh()
 
-      // retry the original request with updated token
-      options.headers = {
-        ...(options.headers || {}),
-        Authorization: token.value ? `Bearer ${token.value}` : undefined
+      if (token.value) {
+        if (options.headers instanceof Headers) {
+          options.headers.set('Authorization', `Bearer ${token.value}`)
+        } else if (options.headers && typeof options.headers === 'object') {
+          (options.headers as Record<string, string>)['Authorization'] = `Bearer ${token.value}`
+        } else {
+          options.headers = { Authorization: `Bearer ${token.value}` } as any
+        }
       }
 
-      return $fetch(request, options)
+      return $fetch(request as string, options as any)
     }
   })
 
   return {
-    provide: {
-      api
-    }
+    provide: { api }
   }
 })

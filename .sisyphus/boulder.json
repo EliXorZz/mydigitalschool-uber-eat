@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "active_work_id": "nuxt-mime-fix-7d749ca9",
+  "active_work_id": "fix-upload-corrupt-9c12c984",
   "works": {
     "search-homepage-7dd8209a": {
       "work_id": "search-homepage-7dd8209a",
@@ -73,30 +73,58 @@
           "status": "running"
         }
       }
+    },
+    "fix-upload-corrupt-9c12c984": {
+      "work_id": "fix-upload-corrupt-9c12c984",
+      "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/fix-upload-corrupt.md",
+      "plan_name": "fix-upload-corrupt",
+      "status": "active",
+      "started_at": "2026-06-03T17:27:21.497Z",
+      "updated_at": "2026-06-03T17:35:14.101Z",
+      "session_ids": [
+        "ses_1721b6d62ffe8PlDTBCJheMkFf"
+      ],
+      "session_origins": {
+        "ses_1721b6d62ffe8PlDTBCJheMkFf": "direct"
+      },
+      "agent": "atlas",
+      "task_sessions": {
+        "final-wave:f1": {
+          "task_key": "final-wave:f1",
+          "task_label": "F1",
+          "task_title": "**Plan Compliance Audit** — `oracle`",
+          "session_id": "ses_171727734ffeo4VX5TxfD2Gt2I",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "started_at": "2026-06-03T17:29:20.133Z",
+          "status": "running",
+          "updated_at": "2026-06-03T17:35:14.101Z"
+        }
+      }
     }
   },
-  "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/nuxt-mime-fix.md",
-  "started_at": "2026-06-03T08:21:17.391Z",
+  "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/fix-upload-corrupt.md",
+  "started_at": "2026-06-03T17:27:21.497Z",
   "status": "active",
-  "updated_at": "2026-06-03T08:23:02.680Z",
+  "updated_at": "2026-06-03T17:35:14.101Z",
   "session_ids": [
-    "ses_17384773cffez06bQjTCj2c2Pn"
+    "ses_1721b6d62ffe8PlDTBCJheMkFf"
   ],
   "session_origins": {
-    "ses_17384773cffez06bQjTCj2c2Pn": "direct"
+    "ses_1721b6d62ffe8PlDTBCJheMkFf": "direct"
   },
-  "plan_name": "nuxt-mime-fix",
+  "plan_name": "fix-upload-corrupt",
   "task_sessions": {
-    "todo:1": {
-      "task_key": "todo:1",
-      "task_label": "1",
-      "task_title": "Stop any running dev server: `pkill -f \"nuxt dev\"` (ignore errors if none running)",
-      "session_id": "ses_1736c02caffe2bH9H0t8A89q79",
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "**Plan Compliance Audit** — `oracle`",
+      "session_id": "ses_171727734ffeo4VX5TxfD2Gt2I",
       "agent": "Sisyphus-Junior",
       "category": "quick",
-      "updated_at": "2026-06-03T08:23:02.680Z",
-      "started_at": "2026-06-03T08:23:02.680Z",
-      "status": "running"
+      "started_at": "2026-06-03T17:29:20.133Z",
+      "status": "running",
+      "updated_at": "2026-06-03T17:35:14.101Z"
     }
   },
   "agent": "atlas"

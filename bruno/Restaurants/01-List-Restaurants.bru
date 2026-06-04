@@ -1,0 +1,15 @@
+meta {
+  name: List Restaurants
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/restaurants
+  body: none
+  auth: none
+}
+
+params:query {
+  search:
+}

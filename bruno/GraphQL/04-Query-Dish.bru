@@ -1,0 +1,28 @@
+meta {
+  name: Query - Get Dish
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/graphql
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query {
+    dish(id: 1) {
+      id
+      name
+      description
+      price
+      image
+      restaurant {
+        id
+        name
+        city
+      }
+    }
+  }
+}

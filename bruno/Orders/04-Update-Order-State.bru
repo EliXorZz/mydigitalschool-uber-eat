@@ -1,0 +1,21 @@
+meta {
+  name: Update Order State
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/api/orders/1/state
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "state": "confirmed"
+  }
+}

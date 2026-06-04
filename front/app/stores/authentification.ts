@@ -98,7 +98,8 @@ export const useAuthentificationStore = defineStore('auth', () => {
     role,
     isAuth,
     login,
-    logout
-    , updateProfile
+    register,
+    logout,
+    updateProfile
   }
 })

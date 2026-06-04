@@ -76,11 +76,11 @@ class Order extends Model
         $state = $this->getStateNameAttribute();
 
         $map = [
-            'pending' => ['preparing', 'delivered'],
-            'preparing' => ['confirmed'],
-            'confirmed' => ['delivered'],
-            'delivered' => ['ready'],
-            'ready' => [],
+            'pending' => ['confirmed'],
+            'confirmed' => ['preparing'],
+            'preparing' => ['ready'],
+            'ready' => ['delivered'],
+            'delivered' => [],
         ];
 
         $labels = [

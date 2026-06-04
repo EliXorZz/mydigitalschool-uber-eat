@@ -1,0 +1,29 @@
+meta {
+  name: Mutation - Update Dish
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{base_url}}/graphql
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:graphql {
+  mutation {
+    updateDish(
+      id: 1
+      name: "Pizza Margherita Spéciale"
+      price: 13.90
+    ) {
+      id
+      name
+      price
+    }
+  }
+}

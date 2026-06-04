@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import * as z from 'zod'
-import type { Order } from '~/types/order'
 
 definePageMeta({
   layout: 'default',
@@ -17,7 +16,6 @@ const schema = z.object({
   password: z.string().min(8).optional(),
   confirmPassword: z.string().optional()
 }).refine(data => {
-  // if password is set, confirmPassword must match
   if (!data.password) return true
   return data.password === data.confirmPassword
 }, {
@@ -27,36 +25,20 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-  const state = reactive<Partial<Schema>>({
-    email: account.value?.email,
-    name: account.value?.name
-  })
+const state = reactive<Partial<Schema>>({
+  email: account.value?.email,
+  name: account.value?.name
+})
 
 const { updateProfile } = authStore
 
-const orderStore = useOrderStore()
-
-const { data: orders } = await useAsyncData<Order[]>(
-  `orders:me`,
-  async () => {
-    try {
-      return await orderStore.list()
-    } catch (e) {
-      // fallback to empty
-      return []
-    }
-  }
-)
-
 function onSubmit() {
-  // call store to update profile
   const body: any = { name: state.name as string, email: state.email as string }
   if (state.password) {
     body.password = state.password
     body.password_confirmation = state.confirmPassword
   }
 
-  // call update and show toast similar to login/register flows
   const toast = useToast()
   updateProfile(body)
     .then(() => {
@@ -68,7 +50,6 @@ function onSubmit() {
       })
     })
     .catch((err: any) => {
-      // If validation errors exist, show them; otherwise generic message
       const message = err?.data?.message ?? $t('profile.updateError')
       toast.add({
         title: $t('auth.toastTitle'),
@@ -84,16 +65,16 @@ function onSubmit() {
   <UMain class="p-10">
     <UPageCard :title="$t('profile.pageTitle')">
       <div class="flex gap-6 justify-around">
-          <UPageCard
-            class="flex-1/3"
-            :title="$t('profile.informationCardTitle')"
+        <UPageCard
+          class="flex-1/3"
+          :title="$t('profile.informationCardTitle')"
+        >
+          <UForm
+            :schema="schema"
+            :state="state"
+            class="space-y-4"
+            @submit="onSubmit"
           >
-            <UForm
-              :schema="schema"
-              :state="state"
-              class="space-y-4"
-              @submit="onSubmit"
-            >
             <UFormField
               :label="$t('profile.emailLabel')"
               name="email"

@@ -27,47 +27,48 @@ const { data: restaurant } = await useAsyncData<Restaurant>(
 const perPageItems = 12
 const pageItems = ref(1)
 const itemsState = ref<Dish[]>([])
-const hasMoreItems = ref(true)
 const loadingItems = ref(false)
+const lastItemsPage = ref(1)
 
 async function loadItems(reset = false) {
   if (loadingItems.value) return
   if (reset) {
     pageItems.value = 1
     itemsState.value = []
-    hasMoreItems.value = true
   }
 
-  if (!hasMoreItems.value) return
-
   loadingItems.value = true
-  const resp: any = await $api(`/api/restaurants/${restaurant.value.id}/dishes`, { query: { page: pageItems.value, per_page: perPageItems } })
-  const items = resp?.data ?? []
-  itemsState.value.push(...items)
-  const last = resp?.last_page ?? 1
-  if (pageItems.value >= last) hasMoreItems.value = false
-  pageItems.value += 1
+
+  if (restaurant.value?.id == null) {
+    loadingItems.value = false
+    return
+  }
+
+  const resp: any = await $api(`/api/restaurants/${restaurant.value.id}/dishes`, {
+    query: { page: pageItems.value, per_page: perPageItems }
+  })
+  itemsState.value = resp?.data ?? []
+  lastItemsPage.value = resp?.last_page ?? 1
   loadingItems.value = false
 }
 
-await loadItems(true)
-
-const items = computed(() => itemsState.value)
-
-const loadMoreItemsTrigger = ref<HTMLElement | null>(null)
-if (process.client) {
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting && hasMoreItems.value && !loadingItems.value) {
-        loadItems()
-      }
-    }
-  }, { root: null, rootMargin: '200px', threshold: 0.1 })
-
-  watch(loadMoreItemsTrigger, (el) => {
-    if (el && el instanceof HTMLElement) io.observe(el)
-  })
+async function prevPageItems() {
+  if (pageItems.value > 1) {
+    pageItems.value -= 1
+    await loadItems()
+  }
 }
+
+async function nextPageItems() {
+  if (pageItems.value < lastItemsPage.value) {
+    pageItems.value += 1
+    await loadItems()
+  }
+}
+
+watch(restaurant, (r) => {
+  if (r?.id) loadItems(true)
+}, { immediate: true })
 
 useHead({ title: `${restaurant.value?.name} | ${$t('restaurant.pageTitle')}` })
 
@@ -148,9 +149,17 @@ useSeoMeta({
           {{ $t('restaurant.takeawayTitle') }}
         </h2>
 
-        <div class="flex flex-wrap gap-10 justify-center">
+        <div v-if="loadingItems" class="flex justify-center py-10 text-gray-500">
+          Chargement...
+        </div>
+
+        <div v-else-if="itemsState.length === 0" class="text-center py-10 text-gray-500">
+          Aucun plat disponible
+        </div>
+
+        <div v-else class="flex flex-wrap gap-10 justify-center">
           <NuxtLink
-            v-for="item in items"
+            v-for="item in itemsState"
             :key="item.id"
             :to="{ name: 'restaurants-id-items-item_id', params: { item_id: item.id, id: restaurant.id } }"
           >
@@ -162,11 +171,16 @@ useSeoMeta({
               :image="item.image"
             />
           </NuxtLink>
+        </div>
 
-          <div v-if="loadingItems" class="w-full text-center py-6">Chargement...</div>
-          <div v-else-if="hasMoreItems" ref="loadMoreItemsTrigger" class="w-full text-center py-6">
-            <UButton variant="outline" @click="loadItems">Charger plus</UButton>
-          </div>
+        <div v-if="lastItemsPage > 1" class="flex justify-center items-center gap-4">
+          <UButton variant="outline" :disabled="pageItems <= 1" @click="prevPageItems">
+            {{ $t('common.prev') }}
+          </UButton>
+          <span>{{ pageItems }} / {{ lastItemsPage }}</span>
+          <UButton variant="outline" :disabled="pageItems >= lastItemsPage" @click="nextPageItems">
+            {{ $t('common.next') }}
+          </UButton>
         </div>
       </section>
     </div>

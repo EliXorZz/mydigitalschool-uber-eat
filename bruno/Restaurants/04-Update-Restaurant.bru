@@ -1,0 +1,22 @@
+meta {
+  name: Update Restaurant
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/api/restaurants/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Le Bistrot Mis à Jour",
+    "city": "Lyon"
+  }
+}

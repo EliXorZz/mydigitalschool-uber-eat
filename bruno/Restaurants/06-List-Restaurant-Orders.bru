@@ -1,0 +1,23 @@
+meta {
+  name: List Restaurant Orders
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/restaurants/1/orders
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  status:
+  date_from:
+  date_to:
+  min_price:
+  max_price:
+}

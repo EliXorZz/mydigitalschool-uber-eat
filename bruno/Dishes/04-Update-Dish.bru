@@ -1,0 +1,22 @@
+meta {
+  name: Update Dish
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/api/dishes/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Pizza Margherita Spéciale",
+    "price": 13.90
+  }
+}

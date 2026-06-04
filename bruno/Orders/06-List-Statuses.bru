@@ -1,0 +1,15 @@
+meta {
+  name: List Order Statuses
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/orders-statuses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

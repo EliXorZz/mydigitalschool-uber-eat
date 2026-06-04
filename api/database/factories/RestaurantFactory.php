@@ -15,6 +15,8 @@ class RestaurantFactory extends Factory
         return [
             'name' => fake()->company(),
             'description' => fake()->sentence(),
+            'city' => fake()->city(),
+            'image' => fake()->imageUrl(640, 480, 'food'),
             'score' => fake()->randomFloat(1, 0, 5),
             'price_score' => fake()->numberBetween(1, 4),
             'type_id' => 1,

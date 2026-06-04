@@ -59,7 +59,7 @@ const { isAuth } = storeToRefs(authStore)
 const toast = useToast()
 const cartStore = useCartStore()
 
-function add(item: Item) {
+function add(item: Dish) {
   cartStore.addItem(item)
 
   toast.add({

@@ -1,0 +1,31 @@
+meta {
+  name: Mutation - Update Restaurant
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}/graphql
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:graphql {
+  mutation {
+    updateRestaurant(
+      id: 1
+      name: "Le Bistrot Mis à Jour"
+      city: "Lyon"
+      score: 4.8
+    ) {
+      id
+      name
+      city
+      score
+    }
+  }
+}

@@ -7,26 +7,35 @@ const searchQuery = ref('')
 const perPage = 12
 const page = ref(1)
 const restaurantsState = ref<Restaurant[]>([])
-const hasMore = ref(true)
 const loading = ref(false)
+const lastPage = ref(1)
+
+async function prevPage() {
+  if (page.value > 1) {
+    page.value -= 1
+    await loadRestaurants()
+  }
+}
+
+async function nextPage() {
+  if (page.value < lastPage.value) {
+    page.value += 1
+    await loadRestaurants()
+  }
+}
 
 async function loadRestaurants(reset = false) {
   if (loading.value) return
   if (reset) {
     page.value = 1
     restaurantsState.value = []
-    hasMore.value = true
   }
-
-  if (!hasMore.value) return
 
   loading.value = true
   const resp: any = await $api('/api/restaurants', { query: { search: searchQuery.value, page: page.value, per_page: perPage } })
   const items = resp?.data ?? []
-  restaurantsState.value.push(...items)
-  const last = resp?.last_page ?? 1
-  if (page.value >= last) hasMore.value = false
-  page.value += 1
+  restaurantsState.value = items
+  lastPage.value = resp?.last_page ?? 1
   loading.value = false
 }
 
@@ -36,22 +45,6 @@ await loadRestaurants(true)
 watch(searchQuery, async () => {
   await loadRestaurants(true)
 })
-
-// infinite scroll trigger
-const loadMoreTrigger = ref<HTMLElement | null>(null)
-if (process.client) {
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting && hasMore.value && !loading.value) {
-        loadRestaurants()
-      }
-    }
-  }, { root: null, rootMargin: '200px', threshold: 0.1 })
-
-  watch(loadMoreTrigger, (el) => {
-    if (el && el instanceof HTMLElement) io.observe(el)
-  })
-}
 </script>
 
 <template>
@@ -86,24 +79,14 @@ if (process.client) {
     </section>
 
     <section class="py-20">
-      <div
-        v-if="pending"
-        class="flex justify-center py-10 text-gray-500"
-      >
-        Chargement...
-      </div>
-      <div
-        v-else-if="!restaurants || restaurants.length === 0"
-        class="text-center py-10 text-gray-500"
-      >
-        Aucun restaurant trouvé
-      </div>
-      <div v-else class="flex flex-wrap gap-10 justify-center">
-        <NuxtLink
-          v-for="restaurant in restaurantsState"
-          :key="restaurant.id"
-          :to="{ name: 'restaurants-id', params: { id: restaurant.id } }"
-        >
+      <div v-if="loading" class="flex justify-center py-10 text-gray-500">Chargement...</div>
+      <div v-else-if="!loading && restaurantsState.length === 0" class="text-center py-10 text-gray-500">Aucun restaurant trouvé</div>
+        <div v-else class="flex flex-wrap gap-10 justify-center">
+          <NuxtLink
+            v-for="restaurant in restaurantsState"
+            :key="restaurant.id"
+            :to="{ name: 'restaurants-id', params: { id: restaurant.id } }"
+          >
           <RestaurantCard
             class="cursor-pointer"
             :name="restaurant.name"
@@ -116,9 +99,17 @@ if (process.client) {
           />
         </NuxtLink>
 
-        <div v-if="loading" class="w-full text-center py-6">Chargement...</div>
-        <div v-else-if="hasMore" ref="loadMoreTrigger" class="w-full text-center py-6">
-          <UButton variant="outline" @click="loadRestaurants">Charger plus</UButton>
+        <div class="w-full text-center py-6">
+          <div v-if="loading">Chargement...</div>
+          <div v-else class="flex justify-between items-center">
+            <div />
+            <div>
+              <UButton variant="outline" :disabled="page <= 1" @click="prevPage">{{ $t('common.prev') }}</UButton>
+              <span class="mx-4">{{ page }} / {{ lastPage }}</span>
+              <UButton variant="outline" :disabled="page >= lastPage" @click="nextPage">{{ $t('common.next') }}</UButton>
+            </div>
+            <div />
+          </div>
         </div>
       </div>
     </section>

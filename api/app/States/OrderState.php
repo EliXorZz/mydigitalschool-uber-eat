@@ -14,10 +14,9 @@ abstract class OrderState extends State
     {
         return parent::config()
             ->default(OrderPending::class)
-            ->allowTransition(OrderPending::class, OrderPreparing::class)
-            ->allowTransition(OrderPreparing::class, OrderConfirmed::class)
-            ->allowTransition(OrderConfirmed::class, OrderDelivered::class)
-            ->allowTransition(OrderDelivered::class, OrderReady::class)
-            ->allowTransition(OrderPending::class, OrderDelivered::class);
+            ->allowTransition(OrderPending::class, OrderConfirmed::class)
+            ->allowTransition(OrderConfirmed::class, OrderPreparing::class)
+            ->allowTransition(OrderPreparing::class, OrderReady::class)
+            ->allowTransition(OrderReady::class, OrderDelivered::class);
     }
 }

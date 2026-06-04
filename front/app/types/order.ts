@@ -18,4 +18,8 @@ export type Order = {
     name: string
     email: string
   }
+  restaurant?: {
+    id: number
+    name: string
+  }
 }

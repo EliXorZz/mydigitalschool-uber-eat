@@ -25,7 +25,11 @@ class RestaurantController extends Controller
     /**
      * List all restaurants.
      *
-     * Returns a paginated list of all restaurants.
+     * Returns a paginated list of restaurants, optionally filtered by name.
+     *
+     * @unauthenticated
+     * @queryParam search string Filter by restaurant name. Example: Pizza
+     * @response 200 {"current_page": 1, "data": [{"id": 1, "name": "Le Bistrot", "city": "Paris", "score": "4.5", "price_score": 2}], "total": 1}
      */
     public function index(): JsonResponse
     {
@@ -38,7 +42,12 @@ class RestaurantController extends Controller
     /**
      * Create a restaurant.
      *
-     * Creates a new restaurant owned by the specified user.
+     * Creates a new restaurant linked to an existing owner (user with role restaurant). Admin only.
+     *
+     * @authenticated
+     * @response 201 {"data": {"id": 1, "name": "Le Bistrot", "city": "Paris", "owner_id": 2}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 422 {"message": "The given data was invalid.", "errors": {}}
      */
     public function store(StoreRestaurantRequest $request): JsonResponse
     {
@@ -60,7 +69,11 @@ class RestaurantController extends Controller
     /**
      * Get a restaurant.
      *
-     * Returns the details of a specific restaurant by ID.
+     * Returns the full details of a restaurant including owner, type, and dishes.
+     *
+     * @unauthenticated
+     * @response 200 {"data": {"id": 1, "name": "Le Bistrot", "dishes": [], "owner": {}, "type": {}}}
+     * @response 404 {"message": "No query results for model [App\\Models\\Restaurant]."}
      */
     public function show(Restaurant $restaurant): JsonResponse
     {
@@ -72,7 +85,12 @@ class RestaurantController extends Controller
     /**
      * Update a restaurant.
      *
-     * Updates the details of an existing restaurant.
+     * Updates the details of a restaurant. Restricted to the restaurant owner.
+     *
+     * @authenticated
+     * @response 200 {"data": {"id": 1, "name": "Le Bistrot Updated"}}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Restaurant]."}
      */
     public function update(UpdateRestaurantRequest $request, Restaurant $restaurant): JsonResponse
     {
@@ -89,7 +107,12 @@ class RestaurantController extends Controller
     /**
      * Delete a restaurant.
      *
-     * Deletes an existing restaurant.
+     * Soft-deletes a restaurant and cascades to its dishes. Owner or admin only.
+     *
+     * @authenticated
+     * @response 204 {}
+     * @response 403 {"message": "This action is unauthorized."}
+     * @response 404 {"message": "No query results for model [App\\Models\\Restaurant]."}
      */
     public function destroy(Restaurant $restaurant): JsonResponse
     {
@@ -103,7 +126,16 @@ class RestaurantController extends Controller
     /**
      * List orders by restaurant.
      *
-     * Returns all orders for a restaurant.
+     * Returns paginated orders for a restaurant. Restricted to the restaurant owner.
+     *
+     * @authenticated
+     * @queryParam status string Filter by order status (pending, confirmed, preparing, ready, delivered). Example: pending
+     * @queryParam date_from date Filter orders from this date. Example: 2026-01-01
+     * @queryParam date_to date Filter orders up to this date. Example: 2026-12-31
+     * @queryParam min_price number Minimum order total. Example: 10
+     * @queryParam max_price number Maximum order total. Example: 100
+     * @response 200 {"current_page": 1, "data": [{"id": 1, "state": "pending", "total": "25.99"}], "total": 1}
+     * @response 403 {"message": "This action is unauthorized."}
      */
     public function orders(ListOrderRequest $request, Restaurant $restaurant): LengthAwarePaginator
     {
