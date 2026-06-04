@@ -15,6 +15,8 @@ class UpdateRestaurantMutation extends Mutation
         'description' => 'Update an existing restaurant (owner only)',
     ];
 
+    public function __construct(private RestaurantService $restaurantService) {}
+
     public function type(): Type
     {
         return GraphQL::type('Restaurant');
@@ -59,6 +61,6 @@ class UpdateRestaurantMutation extends Mutation
         $id = $args['id'];
         unset($args['id']);
 
-        return app(RestaurantService::class)->updateRestaurant($id, array_filter($args, fn ($v) => $v !== null));
+        return $this->restaurantService->updateRestaurant($id, array_filter($args, fn ($v) => $v !== null));
     }
 }

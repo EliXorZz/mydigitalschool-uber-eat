@@ -9,6 +9,7 @@ on:
     branches: [ "master" ]
     paths:
       - 'front/**'
+  workflow_dispatch:
 
 jobs:
   tests:

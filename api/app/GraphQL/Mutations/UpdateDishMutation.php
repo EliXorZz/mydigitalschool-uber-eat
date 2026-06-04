@@ -15,6 +15,8 @@ class UpdateDishMutation extends Mutation
         'description' => 'Update an existing dish (restaurant owner only)',
     ];
 
+    public function __construct(private DishService $dishService) {}
+
     public function type(): Type
     {
         return GraphQL::type('Dish');
@@ -51,6 +53,6 @@ class UpdateDishMutation extends Mutation
         $id = $args['id'];
         unset($args['id']);
 
-        return app(DishService::class)->updateDish($id, array_filter($args, fn ($v) => $v !== null));
+        return $this->dishService->updateDish($id, array_filter($args, fn ($v) => $v !== null));
     }
 }

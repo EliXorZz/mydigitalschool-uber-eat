@@ -45,11 +45,9 @@ Route::middleware(['throttle:api', Authenticate::class])->group(function () {
     Route::get('users/owners', [UserController::class, 'owners']);
 
     // Orders
+    Route::apiResource('orders', OrderController::class)->shallow();
     Route::post('orders/{order}/cancel', [OrderController::class, 'cancel']);
     Route::post('orders/{order}/state', [OrderController::class, 'updateState']);
-    Route::apiResource('orders', OrderController::class)->shallow();
-    Route::get('orders-statuses', [OrderController::class, 'statuses']);
-    Route::get('orders/{order}/transitions', [OrderController::class, 'transitions']);
 
     Route::get('restaurants/{restaurant}/orders', [RestaurantController::class, 'orders']);
 });

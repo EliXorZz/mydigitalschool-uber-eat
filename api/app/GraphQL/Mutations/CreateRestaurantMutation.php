@@ -16,6 +16,8 @@ class CreateRestaurantMutation extends Mutation
         'description' => 'Create a new restaurant (admin only)',
     ];
 
+    public function __construct(private RestaurantService $restaurantService) {}
+
     public function type(): Type
     {
         return GraphQL::type('Restaurant');
@@ -63,6 +65,6 @@ class CreateRestaurantMutation extends Mutation
     {
         $owner = User::findOrFail($args['owner_id']);
 
-        return app(RestaurantService::class)->createRestaurant($owner, $args);
+        return $this->restaurantService->createRestaurant($owner, $args);
     }
 }
