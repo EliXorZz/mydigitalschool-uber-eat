@@ -1,0 +1,28 @@
+meta {
+  name: Create Restaurant
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/api/restaurants
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Le Nouveau Bistrot",
+    "description": "Un restaurant moderne au cœur de Paris",
+    "city": "Paris",
+    "image": "https://example.com/image.jpg",
+    "score": 4.2,
+    "price_score": 2,
+    "type_id": 1,
+    "owner_id": 2
+  }
+}

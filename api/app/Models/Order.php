@@ -24,6 +24,13 @@ class Order extends Model
         'user_id',
     ];
 
+    // Append computed attributes to the model's array / JSON form
+    protected $appends = [
+        'allowed_transitions',
+        'total_items',
+        'items',
+    ];
+
     protected $casts = [
         'state' => OrderState::class,
     ];
@@ -48,5 +55,46 @@ class Order extends Model
     {
         return $this->belongsToMany(Dish::class)
             ->withPivot('quantity');
+    }
+
+    /**
+     * Allowed next states from the current state, derived from the state machine config.
+     *
+     * @return string[]
+     */
+    public function getAllowedTransitionsAttribute(): array
+    {
+        return $this->state->transitionableStates();
+    }
+
+    /**
+     * Total number of items in the order (sum of pivot quantities)
+     */
+    public function getTotalItemsAttribute(): int
+    {
+        $sum = 0;
+        foreach ($this->dishes as $dish) {
+            $sum += (int) ($dish->pivot->quantity ?? 0);
+        }
+
+        return $sum;
+    }
+
+    /**
+     * Return structured items (dish id, name, price, quantity)
+     */
+    public function getItemsAttribute(): array
+    {
+        $items = [];
+        foreach ($this->dishes as $dish) {
+            $items[] = [
+                'id' => $dish->id,
+                'name' => $dish->name,
+                'price' => $dish->price,
+                'quantity' => (int) ($dish->pivot->quantity ?? 0),
+            ];
+        }
+
+        return $items;
     }
 }

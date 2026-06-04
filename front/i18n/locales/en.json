@@ -1,0 +1,214 @@
+{
+  "restaurants": {
+    "notFound": "Restaurant not found",
+    "listTitle": "Restaurant list",
+    "searchPlaceholder": "Search for a restaurant...",
+    "createModalTitle": "Create Restaurant",
+    "createModalDescription": "Create a restaurant using the form below",
+    "createButton": "Create new restaurant",
+    "name": "Name",
+    "description": "Description",
+    "city": "City",
+    "image": "Image (URL)",
+    "priceScore": "Price range",
+    "type": "Cuisine type",
+    "owner": "Owner",
+    "tags": "Tags (comma separated)",
+    "ownerIdLabel": "Owner",
+    "priceScoreOptions": {
+      "1": "€ — Budget",
+      "2": "€€ — Moderate",
+      "3": "€€€ — Expensive",
+      "4": "€€€€ — Very expensive"
+    },
+    "createRestaurantButton": "Create restaurant",
+    "idHeader": "#",
+    "nameHeader": "Restaurant",
+    "cityHeader": "Location",
+    "typeHeader": "Type",
+    "actionsHeader": "Actions",
+    "validation": {
+      "name": "Name is required",
+      "description": "Description is required",
+      "ownerId": "Owner ID is required",
+      "location": "Address is required",
+      "zip": "Postal code is required",
+      "zipFormat": "Postal code must contain 5 digits",
+      "city": "City is required",
+      "email": "Email is required",
+      "password": "Password is required"
+    },
+    "deleteConfirmationTitle": "Delete",
+    "deleteConfirmationDescription": "Do you want to delete the restaurant {name}?",
+    "deleteAction": "Delete",
+    "deleteSuccessTitle": "Admin Dashboard",
+    "deleteSuccessDescription": "The restaurant {name} has been successfully deleted",
+    "createSuccess": "Restaurant created successfully",
+    "createError": "Failed to create restaurant",
+    "deleteError": "Failed to delete restaurant"
+  },
+  "common": {
+    "back": "Back",
+    "prev": "Prev",
+    "next": "Next"
+  },
+  "modal": {
+    "cancel": "Cancel"
+  },
+  "orders": {
+    "restaurant": "Restaurant",
+    "customer": "Customer",
+    "date": "Date",
+    "total": "Total",
+    "stateLabel": "Status",
+    "updateStateSuccess": "Status updated",
+    "updateStateError": "Failed to update status",
+    "order-no-auth": "You must be logged in to order"
+  },
+  "app": {
+    "title": "Eat Research"
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "myOrders": "My Orders",
+    "adminPanel": "Admin Panel",
+    "logout": "Logout",
+    "logoutToastTitle": "Authentication System",
+    "logoutToastDescription": "You have been successfully logged out.",
+    "pageTitle": "My Profile",
+    "informationCardTitle": "My Information",
+    "emailLabel": "Email address",
+    "usernameLabel": "Username",
+    "roleLabel": "Role",
+    "applyChangesButton": "Apply Changes",
+    "updateSuccess": "Profile updated successfully.",
+    "updateError": "An error occurred while updating the profile.",
+    "ordersCardTitle": "My Orders"
+  },
+  "status": {
+    "pending": "Pending",
+    "preparing": "Preparing",
+    "confirmed": "Confirmed",
+    "delivered": "Delivered",
+    "ready": "Ready"
+  },
+  "cart": {
+    "button": "My Cart",
+    "title": "Your Cart",
+    "totalLabel": "Total:",
+    "clear": "Clear Cart",
+    "checkout": "Checkout",
+    "empty": "Your cart is empty",
+    "addedItem": "You added {name} to your cart"
+  },
+  "auth": {
+    "login": "Login",
+    "formTitle": "Login",
+    "formDescription": "Enter your credentials to access your account.",
+    "registerFormTitle": "Register",
+    "registerFormDescription": "Create your account to start ordering.",
+    "submit": "Login",
+    "registerSubmit": "Create account",
+    "usernameLabel": "Name",
+    "usernamePlaceholder": "Enter your name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordLabel": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "usernameRequired": "Name is required",
+    "emailInvalid": "Invalid email address",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordMismatch": "Passwords do not match",
+    "toastTitle": "Authentication System",
+    "toastInvalidCredentials": "Username and/or password are incorrect.",
+    "toastSuccess": "You have successfully logged in.",
+    "toastUserExists": "An account with this email already exists.",
+    "toastRegisterSuccess": "Your account has been created successfully.",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Login"
+  },
+  "dashboard": {
+    "tabs": {
+      "restaurant": "My Restaurant",
+      "dishes": "My Dishes",
+      "orders": "My Orders"
+    },
+    "orders": {
+      "customerName": "Customer Name",
+      "date": "Date",
+      "total": "Total",
+      "actions": "Actions",
+      "cancel": "Cancel",
+      "cancelSuccessTitle": "Order cancelled",
+      "cancelSuccessDescription": "The order was successfully cancelled.",
+      "cancelErrorTitle": "Error",
+      "cancelErrorDescription": "Unable to cancel the order.",
+      "toasts": {
+        "created": "🛎 New order!",
+        "updated": "Order updated",
+        "cancelled": "Order cancelled"
+      }
+    },
+    "forms": {
+      "restaurant": {
+        "name": "Name",
+        "description": "Description",
+        "city": "City",
+        "image": "Image (URL)",
+        "priceScore": "Price range",
+        "type": "Cuisine type",
+        "tags": "Tags (comma separated)",
+        "updateButton": "Save changes",
+        "updateSuccess": "Restaurant updated",
+        "updateError": "Failed to update restaurant"
+      },
+      "dish": {
+        "name": "Name",
+        "price": "Price (€)",
+        "description": "Description",
+        "image": "Image (URL)",
+        "createTitle": "Add a Dish",
+        "createDescription": "Add a new dish to your menu",
+        "createButton": "Add dish",
+        "updateTitle": "Update Dish",
+        "updateDescription": "Update dish information",
+        "updateButton": "Update Dish",
+        "deleteButton": "Delete Dish",
+        "createSuccess": "Dish created successfully",
+        "createError": "Failed to create dish",
+        "updateSuccess": "Dish updated",
+        "updateError": "Failed to update dish",
+        "deleteSuccess": "Dish deleted",
+        "deleteError": "Failed to delete dish"
+      }
+    },
+    "errors": {
+      "restaurantNotFound": "Restaurant not found"
+    }
+  },
+  "validation": {
+    "emailRequired": "Email address is required",
+    "usernameRequired": "Username is required"
+  },
+  "home": {
+    "heroImageAlt": "Main section background image",
+    "heroTitle": "Find the perfect restaurant 🍽️",
+    "heroDescription": "Explore the best spots around you based on your culinary cravings.",
+    "searchPlaceholder": "Search for a restaurant, cuisine, or city..."
+  },
+  "restaurant": {
+    "pageTitle": "Restaurant",
+    "takeawayTitle": "Takeaway Dishes",
+    "notFound": "Restaurant not found"
+  },
+  "item": {
+    "notFound": "Item not found",
+    "order": "Order",
+    "order-no-auth": "You must be logged in to order"
+  }
+}

@@ -15,14 +15,16 @@ class StoreRestaurantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name'        => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'score' => ['nullable', 'numeric', 'min:0', 'max:5'],
-            'price_score' => ['nullable', 'integer', 'min:1', 'max:3'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['string'],
-            'type_id' => ['nullable', 'exists:restaurant_types,id'],
-            'owner_id' => ['exists:users,id'],
+            'city'        => ['nullable', 'string', 'max:255'],
+            'image'       => ['nullable', 'string'],
+            'score'       => ['nullable', 'numeric', 'min:0', 'max:5'],
+            'price_score' => ['nullable', 'integer', 'min:1', 'max:4'],
+            'tags'        => ['nullable', 'array'],
+            'tags.*'      => ['string'],
+            'type_id'     => ['nullable', 'exists:restaurant_types,id'],
+            'owner_id'    => ['required', 'exists:users,id'],
         ];
     }
 

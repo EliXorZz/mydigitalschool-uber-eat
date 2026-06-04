@@ -13,11 +13,13 @@ return new class extends Migration
             $table->string('name');
 
             $table->text('description');
+            $table->string('city');
+            $table->string('image');
+
             $table->decimal('score', 2, 1);
             $table->integer('price_score');
 
             $table->string('tags')->nullable();
-
 
             $table->foreignId('type_id')
                 ->constrained('restaurant_types');

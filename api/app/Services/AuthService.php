@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
@@ -20,6 +21,8 @@ class AuthService
 
         $token = auth()->login($user);
 
+        Log::info('User registered', ['user_id' => $user->id, 'email' => $user->email]);
+
         return [
             'token' => $token,
             'type' => 'bearer',
@@ -30,11 +33,14 @@ class AuthService
     public function login(string $email, string $password): array
     {
         if (! auth()->attempt(['email' => $email, 'password' => $password])) {
+            Log::warning('Failed login attempt', ['email' => $email]);
             throw new AuthenticationException;
         }
 
         $user = auth()->user();
         $token = auth()->login($user);
+
+        Log::info('User logged in', ['user_id' => $user->id]);
 
         return [
             'token' => $token,

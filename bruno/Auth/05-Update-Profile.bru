@@ -1,0 +1,22 @@
+meta {
+  name: Update Profile
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}/api/auth/me
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "John Updated",
+    "email": "john@example.com"
+  }
+}

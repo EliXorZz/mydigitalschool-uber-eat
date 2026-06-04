@@ -27,9 +27,13 @@ class RestaurantPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, ?User $owner = null): bool
     {
-        return $user->role === Role::ADMIN;
+        if ($user->role !== Role::ADMIN) {
+            return false;
+        }
+
+        return $owner === null || $user->id !== $owner->id;
     }
 
     /**
@@ -45,7 +49,7 @@ class RestaurantPolicy
      */
     public function delete(User $user, Restaurant $restaurant): bool
     {
-        return $restaurant->owner_id === $user->id;
+        return $user->role === Role::ADMIN || $restaurant->owner_id === $user->id;
     }
 
     /**

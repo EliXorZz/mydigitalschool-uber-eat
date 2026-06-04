@@ -10,11 +10,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "dedoc/scramble": "^0.13.22",
         "laravel/framework": "^13.0",
         "laravel/horizon": "^5.45",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^3.0",
         "php-open-source-saver/jwt-auth": "^2.9",
+        "rebing/graphql-laravel": "^9.17",
         "spatie/laravel-model-states": "^2.13",
         "spatie/laravel-permission": "^7.2"
     },

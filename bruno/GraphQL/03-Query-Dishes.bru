@@ -1,0 +1,27 @@
+meta {
+  name: Query - List Dishes
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/graphql
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query {
+    dishes(restaurant_id: 1) {
+      id
+      name
+      description
+      price
+      image
+      restaurant {
+        id
+        name
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "active_work_id": "fix-upload-corrupt-9c12c984",
+  "works": {
+    "search-homepage-7dd8209a": {
+      "work_id": "search-homepage-7dd8209a",
+      "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/search-homepage.md",
+      "plan_name": "search-homepage",
+      "status": "completed",
+      "started_at": "2026-06-03T06:53:11.129Z",
+      "updated_at": "2026-06-03T07:06:12.222Z",
+      "session_ids": [
+        "ses_173d6302effeac3cUkyirEc6eM"
+      ],
+      "session_origins": {
+        "ses_173d6302effeac3cUkyirEc6eM": "direct"
+      },
+      "agent": "atlas",
+      "task_sessions": {
+        "todo:1": {
+          "task_key": "todo:1",
+          "task_label": "1",
+          "task_title": "**Backend Laravel — RestaurantService search**",
+          "session_id": "ses_173bb15c8ffeDgve61ikz0nCi6",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "started_at": "2026-06-03T06:54:50.923Z",
+          "status": "completed",
+          "updated_at": "2026-06-03T06:59:46.318Z",
+          "ended_at": "2026-06-03T06:59:46.289Z",
+          "elapsed_ms": 295366
+        },
+        "final-wave:f1": {
+          "task_key": "final-wave:f1",
+          "task_label": "F1",
+          "task_title": "**Plan Compliance Audit** — `oracle`",
+          "session_id": "ses_173b76b2affeu755UsCCV9bg0W",
+          "agent": "oracle",
+          "updated_at": "2026-06-03T07:05:22.099Z",
+          "started_at": "2026-06-03T07:02:36.806Z",
+          "status": "completed",
+          "ended_at": "2026-06-03T07:05:22.099Z",
+          "elapsed_ms": 165293
+        }
+      },
+      "ended_at": "2026-06-03T07:06:12.222Z",
+      "elapsed_ms": 781093
+    },
+    "nuxt-mime-fix-7d749ca9": {
+      "work_id": "nuxt-mime-fix-7d749ca9",
+      "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/nuxt-mime-fix.md",
+      "plan_name": "nuxt-mime-fix",
+      "status": "active",
+      "started_at": "2026-06-03T08:21:17.391Z",
+      "updated_at": "2026-06-03T08:23:02.680Z",
+      "session_ids": [
+        "ses_17384773cffez06bQjTCj2c2Pn"
+      ],
+      "session_origins": {
+        "ses_17384773cffez06bQjTCj2c2Pn": "direct"
+      },
+      "agent": "atlas",
+      "task_sessions": {
+        "todo:1": {
+          "task_key": "todo:1",
+          "task_label": "1",
+          "task_title": "Stop any running dev server: `pkill -f \"nuxt dev\"` (ignore errors if none running)",
+          "session_id": "ses_1736c02caffe2bH9H0t8A89q79",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "updated_at": "2026-06-03T08:23:02.680Z",
+          "started_at": "2026-06-03T08:23:02.680Z",
+          "status": "running"
+        }
+      }
+    },
+    "fix-upload-corrupt-9c12c984": {
+      "work_id": "fix-upload-corrupt-9c12c984",
+      "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/fix-upload-corrupt.md",
+      "plan_name": "fix-upload-corrupt",
+      "status": "active",
+      "started_at": "2026-06-03T17:27:21.497Z",
+      "updated_at": "2026-06-03T17:35:14.101Z",
+      "session_ids": [
+        "ses_1721b6d62ffe8PlDTBCJheMkFf"
+      ],
+      "session_origins": {
+        "ses_1721b6d62ffe8PlDTBCJheMkFf": "direct"
+      },
+      "agent": "atlas",
+      "task_sessions": {
+        "final-wave:f1": {
+          "task_key": "final-wave:f1",
+          "task_label": "F1",
+          "task_title": "**Plan Compliance Audit** — `oracle`",
+          "session_id": "ses_171727734ffeo4VX5TxfD2Gt2I",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "started_at": "2026-06-03T17:29:20.133Z",
+          "status": "running",
+          "updated_at": "2026-06-03T17:35:14.101Z"
+        }
+      }
+    }
+  },
+  "active_plan": "/Users/dylan/MyDigitalSchool/uber-eat/.sisyphus/plans/fix-upload-corrupt.md",
+  "started_at": "2026-06-03T17:27:21.497Z",
+  "status": "active",
+  "updated_at": "2026-06-03T17:35:14.101Z",
+  "session_ids": [
+    "ses_1721b6d62ffe8PlDTBCJheMkFf"
+  ],
+  "session_origins": {
+    "ses_1721b6d62ffe8PlDTBCJheMkFf": "direct"
+  },
+  "plan_name": "fix-upload-corrupt",
+  "task_sessions": {
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "**Plan Compliance Audit** — `oracle`",
+      "session_id": "ses_171727734ffeo4VX5TxfD2Gt2I",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "started_at": "2026-06-03T17:29:20.133Z",
+      "status": "running",
+      "updated_at": "2026-06-03T17:35:14.101Z"
+    }
+  },
+  "agent": "atlas"
+}

@@ -15,6 +15,7 @@ class DishFactory extends Factory
         return [
             'name' => fake()->word(),
             'description' => fake()->sentence(),
+            'image' => fake()->imageUrl(640, 480, 'food'),
             'price' => fake()->randomFloat(2, 5, 50),
             'restaurant_id' => Restaurant::factory(),
         ];

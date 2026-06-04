@@ -1,0 +1,15 @@
+meta {
+  name: Get Order Transitions
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{base_url}}/api/orders/1/transitions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

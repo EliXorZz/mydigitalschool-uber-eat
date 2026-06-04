@@ -1,0 +1,24 @@
+meta {
+  name: Create Dish
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/api/restaurants/1/dishes
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Pizza Margherita",
+    "description": "Sauce tomate, mozzarella, basilic frais",
+    "price": 12.50,
+    "image": "https://example.com/pizza.jpg"
+  }
+}

@@ -14,13 +14,15 @@ class UpdateRestaurantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'string', 'max:255'],
+            'name'        => ['sometimes', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'score' => ['nullable', 'numeric', 'min:0', 'max:5'],
+            'city'        => ['nullable', 'string', 'max:255'],
+            'image'       => ['nullable', 'string'],
+            'score'       => ['nullable', 'numeric', 'min:0', 'max:5'],
             'price_score' => ['nullable', 'integer', 'min:1', 'max:4'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['string'],
-            'type_id' => ['nullable', 'exists:restaurant_types,id'],
+            'tags'        => ['nullable', 'array'],
+            'tags.*'      => ['string'],
+            'type_id'     => ['nullable', 'exists:restaurant_types,id'],
         ];
     }
 }

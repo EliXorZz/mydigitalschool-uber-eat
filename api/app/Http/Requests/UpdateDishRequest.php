@@ -14,9 +14,10 @@ class UpdateDishRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'price' => ['sometimes', 'numeric', 'min:0'],
+            'name'          => ['sometimes', 'string', 'max:255'],
+            'description'   => ['nullable', 'string'],
+            'image'         => ['nullable', 'string'],
+            'price'         => ['sometimes', 'numeric', 'min:0'],
             'restaurant_id' => ['sometimes', 'exists:restaurants,id'],
         ];
     }
