@@ -22,6 +22,11 @@ data:
             try_files $uri $uri/ /index.php?$query_string;
         }
 
+        location /storage/ {
+            alias /app/storage/app/public/;
+            try_files $uri =404;
+        }
+
         location = /favicon.ico { access_log off; log_not_found off; }
         location = /robots.txt  { access_log off; log_not_found off; }
 

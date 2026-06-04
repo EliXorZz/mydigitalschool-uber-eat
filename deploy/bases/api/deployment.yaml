@@ -31,7 +31,7 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: [ 'sh', '-c', 'cp -r /app/. /var/www && cd /var/www && php artisan storage:link --force' ]
+                command: [ 'sh', '-c', 'cp -r /app/. /var/www' ]
         - name: nginx
           image: nginx:1.27
           ports:
