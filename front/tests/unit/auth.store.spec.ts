@@ -7,7 +7,7 @@ import { computed, ref } from 'vue'
 vi.stubGlobal('computed', computed)
 vi.stubGlobal('ref', ref)
 
-const mockCookieState: Record<string, any> = {}
+const mockCookieState: Record<string, unknown> = {}
 
 vi.stubGlobal('useCookie', (key: string) => {
   if (!mockCookieState[key]) {
@@ -16,6 +16,13 @@ vi.stubGlobal('useCookie', (key: string) => {
   return mockCookieState[key]
 })
 
+vi.stubGlobal('useRuntimeConfig', () => ({
+  public: { apiBaseUrl: 'http://localhost' }
+}))
+
+const mockFetch = vi.fn()
+vi.stubGlobal('$fetch', mockFetch)
+
 const mockNavigateTo = vi.fn()
 vi.stubGlobal('navigateTo', mockNavigateTo)
 
@@ -23,12 +30,12 @@ describe('useAuthentificationStore', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
 
-    // Reset des cookies simulés
     for (const key in mockCookieState) {
-      mockCookieState[key].value = null
+      (mockCookieState[key] as ReturnType<typeof ref>).value = null
     }
 
     mockNavigateTo.mockClear()
+    mockFetch.mockReset()
   })
 
   it('initialise avec un état vide', () => {
@@ -40,6 +47,10 @@ describe('useAuthentificationStore', () => {
   })
 
   it('login success: admin', async () => {
+    mockFetch
+      .mockResolvedValueOnce({ data: { token: 'fake-token', type: 'bearer', expires_in: 3600 } })
+      .mockResolvedValueOnce({ data: { id: 1, name: 'Admin', email: 'admin@test.com', role: 'admin' } })
+
     const store = useAuthentificationStore()
     const result = await store.login('admin', 'admin-mydigitalschool')
 
