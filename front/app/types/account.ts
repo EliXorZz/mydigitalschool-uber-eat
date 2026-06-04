@@ -4,5 +4,6 @@ export type Account = {
   id: number
   name: string
   email: string
+  avatar?: string | null
   role: Role
 }

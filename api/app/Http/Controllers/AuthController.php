@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Validation\ValidationException;
 
 /**
  * @group Authentication
@@ -104,6 +106,14 @@ class AuthController extends Controller
         $user = $this->authService->session();
 
         $data = array_filter($request->validated(), fn ($v) => $v !== null);
+
+        if (isset($data['email']) && $data['email'] !== $user->email) {
+            if (User::where('email', $data['email'])->exists()) {
+                throw ValidationException::withMessages([
+                    'email' => ['The email has already been taken.'],
+                ]);
+            }
+        }
 
         $user->update($data);
 

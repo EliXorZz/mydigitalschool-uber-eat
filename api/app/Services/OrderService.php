@@ -2,9 +2,6 @@
 
 namespace App\Services;
 
-use App\Events\OrderCreated;
-use App\Events\OrderDeleted;
-use App\Events\OrderUpdated;
 use App\Exceptions\CannotCancelOrderException;
 use App\Exceptions\OrderDishesFromDifferentRestaurantsException;
 use App\Models\Order;
@@ -26,7 +23,7 @@ class OrderService
     public function listOrder(?User $user = null, array $filters = []): LengthAwarePaginator|Collection
     {
         $query = (new Order)
-            ->with(['dishes', 'user']);
+            ->with(['dishes', 'user', 'restaurant']);
 
         if ($user) {
             $query->where('user_id', $user->id);
@@ -109,8 +106,6 @@ class OrderService
             return $order;
         });
 
-        event(new OrderCreated($order));
-
         Log::info('Order created', [
             'order_id' => $order->id,
             'user_id' => $user->id,
@@ -127,8 +122,6 @@ class OrderService
             throw new CannotCancelOrderException;
         }
 
-        event(new OrderDeleted($order));
-
         Log::info('Order cancelled', ['order_id' => $order->id, 'user_id' => $order->user_id]);
 
         return $order->delete();
@@ -139,8 +132,6 @@ class OrderService
         $order->state->transitionTo($state);
 
         $fresh = $order->fresh(['dishes']);
-
-        event(new OrderUpdated($fresh));
 
         Log::info('Order state updated', [
             'order_id' => $fresh->id,

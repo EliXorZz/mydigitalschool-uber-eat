@@ -25,8 +25,8 @@ const fields: AuthFormField[] = [
 ]
 
 const schema = z.object({
-  email: z.string().email($t('auth.emailInvalid')),
-  password: z.string($t('auth.passwordRequired'))
+  email: z.string({ required_error: $t('validation.emailRequired') }).email($t('auth.emailInvalid')),
+  password: z.string({ required_error: $t('auth.passwordRequired') }).min(1, $t('auth.passwordRequired')),
 })
 
 type Schema = z.output<typeof schema>

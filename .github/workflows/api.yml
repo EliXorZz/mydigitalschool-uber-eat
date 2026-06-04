@@ -41,13 +41,13 @@ jobs:
           extensions: pdo, pdo_mysql, pdo_sqlite, gd, bcmath, pcntl
           coverage: none
 
-      - name: Install dependencies
-        working-directory: ./api
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
       - name: Copy environment file
         working-directory: ./api
         run: cp .env.example .env
+
+      - name: Install dependencies
+        working-directory: ./api
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Generate application key
         working-directory: ./api

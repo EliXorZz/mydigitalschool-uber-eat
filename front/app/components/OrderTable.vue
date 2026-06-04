@@ -63,14 +63,14 @@ async function handleCancel(order: Order) {
     useToast().add({
       title: $t('dashboard.orders.cancelSuccessTitle'),
       description: $t('dashboard.orders.cancelSuccessDescription'),
-      color: 'success'
+      color: 'success',
     })
     emit('refresh')
   } catch {
     useToast().add({
       title: $t('dashboard.orders.cancelErrorTitle'),
       description: $t('dashboard.orders.cancelErrorDescription'),
-      color: 'error'
+      color: 'error',
     })
   }
 }
@@ -89,69 +89,82 @@ async function handleStateChange(order: Order, newState: string) {
     await orderStore.updateState(order.id, newState)
     useToast().add({
       title: $t('orders.updateStateSuccess'),
-      color: 'success'
+      color: 'success',
     })
     emit('refresh')
   } catch {
     useToast().add({
       title: $t('orders.updateStateError'),
-      color: 'error'
+      color: 'error',
     })
   }
-}
-
-function getColumnHeader(): string {
-  return showRestaurant.value ? $t('orders.restaurant') : $t('orders.customer')
-}
-
-function getColumnValue(order: Order): string {
-  if (showRestaurant.value) {
-    return order?.restaurant?.name ?? '-'
-  }
-  return order?.user?.name ?? '-'
 }
 </script>
 
 <template>
-  <UPageCard :title="title" spotlight-color="primary">
-    <div class="overflow-x-auto">
-      <div v-if="isLoading" class="p-6 text-center text-gray-500">
-        Chargement...
-      </div>
+  <UPageCard :title="title" spotlight-color="primary" class="overflow-hidden">
+    <div v-if="isLoading" class="py-10 text-center text-gray-500">
+      Chargement...
+    </div>
 
-      <div v-else-if="ordersList.length === 0" class="p-6 text-center text-gray-500">
-        Aucune commande
-      </div>
+    <div v-else-if="ordersList.length === 0" class="py-10 text-center text-gray-500">
+      Aucune commande
+    </div>
 
-      <table v-else class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('orders.date') }}</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ getColumnHeader() }}</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('orders.total') }}</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-            <th class="px-6 py-3" />
+    <div v-else class="overflow-x-auto -mx-4 sm:mx-0">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+        <thead>
+          <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th class="px-4 py-3">#</th>
+            <th class="px-4 py-3">{{ $t('orders.date') }}</th>
+            <th class="px-4 py-3">
+              {{ showRestaurant ? $t('orders.restaurant') : $t('orders.customer') }}
+            </th>
+            <th class="px-4 py-3 text-right">{{ $t('orders.total') }}</th>
+            <th class="px-4 py-3 text-center hidden sm:table-cell">Items</th>
+            <th class="px-4 py-3">Statut</th>
+            <th class="px-4 py-3" />
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
           <template v-for="(order, oi) in ordersList.filter(Boolean)" :key="order?.id ?? oi">
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap">#{{ order?.id ?? '-' }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ order?.created_at ? new Date(order.created_at).toLocaleString() : '-' }}</td>
-              <td class="px-6 py-4 whitespace-nowrap font-medium">{{ getColumnValue(order) }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ order?.total ?? '-' }}€</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ order?.total_items ?? (order?.items?.length ?? 0) }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <UBadge :color="stateColor(order)" variant="solid">
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+              <td class="px-4 py-3 text-gray-400 whitespace-nowrap">#{{ order?.id }}</td>
+
+              <td class="px-4 py-3 whitespace-nowrap text-gray-600 dark:text-gray-300">
+                {{ order?.created_at ? new Date(order.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '-' }}
+              </td>
+
+              <!-- Restaurant link (user view) or customer name (restaurant view) -->
+              <td class="px-4 py-3 whitespace-nowrap font-medium">
+                <NuxtLink
+                  v-if="showRestaurant && order?.restaurant_id"
+                  :to="`/restaurants/${order.restaurant_id}`"
+                  class="hover:underline text-primary-600 dark:text-primary-400"
+                >
+                  {{ order?.restaurant?.name ?? `Restaurant #${order.restaurant_id}` }}
+                </NuxtLink>
+                <span v-else>{{ order?.user?.name ?? '-' }}</span>
+              </td>
+
+              <td class="px-4 py-3 whitespace-nowrap text-right font-semibold">
+                {{ Number(order?.total ?? 0).toFixed(2) }}€
+              </td>
+
+              <td class="px-4 py-3 whitespace-nowrap text-center hidden sm:table-cell text-gray-500">
+                {{ order?.total_items ?? order?.items?.length ?? 0 }}
+              </td>
+
+              <td class="px-4 py-3 whitespace-nowrap">
+                <UBadge :color="stateColor(order)" variant="solid" size="sm">
                   {{ $t(`status.${stateValue(order)}`) }}
                 </UBadge>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right">
+
+              <td class="px-4 py-3 whitespace-nowrap text-right">
                 <div class="flex items-center justify-end gap-2">
-                  <UButton size="xs" variant="outline" @click="toggleExpand(order?.id)">
-                    {{ expanded[order?.id] ? 'Fermer' : 'Voir' }}
+                  <UButton size="xs" variant="ghost" @click="toggleExpand(order?.id)">
+                    {{ expanded[order?.id] ? 'Fermer' : 'Détails' }}
                   </UButton>
                   <UButton
                     v-if="canCancel(order)"
@@ -166,24 +179,34 @@ function getColumnValue(order: Order): string {
               </td>
             </tr>
 
+            <!-- Expanded detail row -->
             <tr v-if="expanded[order?.id]">
-              <td colspan="7" class="px-6 py-4 bg-gray-50">
-                <div class="space-y-2 mb-3">
+              <td colspan="7" class="px-4 py-4 bg-gray-50 dark:bg-gray-800/30">
+                <div class="space-y-1 mb-3">
                   <div
                     v-for="(item, ii) in (order?.items ?? []).filter(Boolean)"
                     :key="item?.id ?? ii"
-                    class="flex justify-between items-center py-1"
+                    class="flex justify-between items-center py-1.5 border-b border-gray-100 dark:border-gray-700 last:border-0"
                   >
-                    <div>
-                      <div class="font-medium">{{ item.name }}</div>
-                      <div class="text-sm text-gray-500">{{ item.quantity }} x {{ item.price }}€</div>
+                    <div class="flex items-center gap-2">
+                      <NuxtLink
+                        v-if="order?.restaurant_id && item?.id"
+                        :to="`/restaurants/${order.restaurant_id}/items/${item.id}`"
+                        class="font-medium hover:underline text-primary-600 dark:text-primary-400"
+                      >
+                        {{ item.name }}
+                      </NuxtLink>
+                      <span v-else class="font-medium">{{ item.name }}</span>
+                      <span class="text-xs text-gray-400">× {{ item.quantity }}</span>
                     </div>
-                    <div class="font-semibold">{{ (item.price * item.quantity).toFixed(2) }}€</div>
+                    <span class="font-semibold text-sm">
+                      {{ (item.price * item.quantity).toFixed(2) }}€
+                    </span>
                   </div>
                 </div>
 
-                <div v-if="allowStateChange && (order.allowed_transitions?.length ?? 0) > 0" class="flex flex-wrap items-center gap-2 border-t pt-3">
-                  <span class="text-sm font-medium text-gray-600">{{ $t('orders.stateLabel') }} :</span>
+                <div v-if="allowStateChange && (order.allowed_transitions?.length ?? 0) > 0" class="flex flex-wrap items-center gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <span class="text-xs font-medium text-gray-500">{{ $t('orders.stateLabel') }} :</span>
                   <UButton
                     v-for="t in (order.allowed_transitions ?? [])"
                     :key="t"

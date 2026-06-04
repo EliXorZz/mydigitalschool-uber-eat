@@ -8,7 +8,8 @@ export function useOrderNotifications(restaurantId: MaybeRef<number | null | und
   let channel: any = null
 
   function subscribe(id: number) {
-    if (!$echo || !id || channel !== null) return
+    if (!$echo || !id || channel !== null)
+      return
 
     channel = $echo.private(`restaurants.${id}.orders`)
 

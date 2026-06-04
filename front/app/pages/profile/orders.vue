@@ -44,7 +44,7 @@ function nextPage() {
 </script>
 
 <template>
-  <UMain class="p-10">
+  <UMain class="px-4 py-6 sm:px-8 sm:py-10">
     <OrderTable
       :title="$t('profile.ordersCardTitle')"
       :orders="ordersResponse"

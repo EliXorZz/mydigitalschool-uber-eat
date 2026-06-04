@@ -39,13 +39,13 @@ const fields: AuthFormField[] = [
 ]
 
 const schema = z.object({
-  name: z.string($t('auth.usernameRequired')),
-  email: z.string().email($t('auth.emailInvalid')),
-  password: z.string($t('auth.passwordRequired')).min(8, $t('auth.passwordMin')),
-  confirmPassword: z.string($t('auth.passwordRequired'))
+  name: z.string({ required_error: $t('auth.usernameRequired') }).min(1, $t('auth.usernameRequired')),
+  email: z.string({ required_error: $t('validation.emailRequired') }).email($t('auth.emailInvalid')),
+  password: z.string({ required_error: $t('auth.passwordRequired') }).min(8, $t('auth.passwordMin')),
+  confirmPassword: z.string({ required_error: $t('auth.passwordRequired') }).min(1, $t('auth.passwordRequired')),
 }).refine(data => data.password === data.confirmPassword, {
   message: $t('auth.passwordMismatch'),
-  path: ['confirmPassword']
+  path: ['confirmPassword'],
 })
 
 type Schema = z.output<typeof schema>

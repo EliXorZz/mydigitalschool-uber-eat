@@ -95,13 +95,13 @@ const priceScoreOptions = [
 ]
 
 const schema = z.object({
-  name: z.string().min(1, $t('restaurants.validation.name')),
+  name: z.string({ required_error: $t('restaurants.validation.name') }).min(1, $t('restaurants.validation.name')),
   description: z.string().optional(),
   city: z.string().optional(),
   image: z.string().optional(),
   price_score: z.number().optional(),
   type_id: z.number().optional(),
-  owner_id: z.number().min(1, $t('restaurants.validation.ownerId'))
+  owner_id: z.number({ required_error: $t('restaurants.validation.ownerId'), invalid_type_error: $t('restaurants.validation.ownerId') }).min(1, $t('restaurants.validation.ownerId')),
 })
 
 type Schema = z.output<typeof schema>
@@ -176,8 +176,8 @@ async function deleteRestaurant(restaurant: Restaurant) {
 </script>
 
 <template>
-  <UPageCard :title="$t('restaurants.listTitle')" spotlight-color="primary">
-    <div class="flex justify-between items-center py-3">
+  <UPageCard :title="$t('restaurants.listTitle')" spotlight-color="primary" class="overflow-hidden">
+    <div class="flex flex-wrap gap-3 justify-between items-center py-3">
       <UInput
         v-model="search"
         icon="i-lucide-search"
@@ -263,12 +263,14 @@ async function deleteRestaurant(restaurant: Restaurant) {
       </UModal>
     </div>
 
-    <LazyUTable
-      v-model:global-filter="search"
-      :data="restaurants"
-      :columns="columns"
-      :loading="restaurantPending"
-      class="flex-1"
-    />
+    <div class="overflow-x-auto -mx-4 sm:mx-0">
+      <LazyUTable
+        v-model:global-filter="search"
+        :data="restaurants"
+        :columns="columns"
+        :loading="restaurantPending"
+        class="min-w-full"
+      />
+    </div>
   </UPageCard>
 </template>

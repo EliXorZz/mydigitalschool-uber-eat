@@ -54,13 +54,13 @@ const { data: restaurant, refresh: refreshRestaurant } = await useAsyncData<Rest
 )
 
 const schemaRestaurant = z.object({
-  name: z.string().min(1, $t('dashboard.forms.restaurant.name')),
+  name: z.string({ required_error: $t('dashboard.forms.restaurant.nameRequired') }).min(1, $t('dashboard.forms.restaurant.nameRequired')),
   description: z.string().optional(),
   city: z.string().optional(),
   image: z.string().optional(),
   price_score: z.number().optional(),
   type_id: z.number().optional(),
-  tags: z.string().optional()
+  tags: z.string().optional(),
 })
 
 type SchemaRestaurant = z.output<typeof schemaRestaurant>
@@ -106,10 +106,10 @@ const dishModalMode = ref<'create' | 'update'>('create')
 const selectedDish = ref<Dish | null>(null)
 
 const schemaDish = z.object({
-  name: z.string().min(1, $t('dashboard.forms.dish.name')),
-  price: z.coerce.number().min(0, $t('dashboard.forms.dish.price')),
+  name: z.string({ required_error: $t('dashboard.forms.dish.nameRequired') }).min(1, $t('dashboard.forms.dish.nameRequired')),
+  price: z.coerce.number({ required_error: $t('dashboard.forms.dish.priceRequired'), invalid_type_error: $t('dashboard.forms.dish.priceRequired') }).min(0.01, $t('dashboard.forms.dish.priceRequired')),
   description: z.string().optional(),
-  image: z.string().optional()
+  image: z.string().optional(),
 })
 
 type SchemaDish = z.output<typeof schemaDish>
@@ -242,7 +242,7 @@ useOrderNotifications(
 </script>
 
 <template>
-  <UMain class="p-10">
+  <UMain class="px-4 py-6 sm:px-8 sm:py-10">
     <UTabs :items="tabs">
 
       <!-- ── Restaurant tab ── -->

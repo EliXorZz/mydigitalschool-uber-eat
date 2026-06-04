@@ -15,7 +15,6 @@ use App\States\OrderPreparing;
 use App\States\OrderReady;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -52,7 +51,8 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@uber-eat.test'],
             [
                 'name' => 'Administrateur',
-                'password' => Hash::make('password'),
+                'avatar' => 'https://i.pravatar.cc/256?img=70',
+                'password' => 'password',
                 'role' => Role::ADMIN,
                 'email_verified_at' => now(),
             ]
@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Marie Dubois',
                 'owner_email' => 'marie@lebistrot.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=47',
                 'restaurant_name' => 'Le Bistrot Parisien',
                 'type' => 'Français',
                 'city' => 'Paris',
@@ -76,6 +77,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Giovanni Rossi',
                 'owner_email' => 'giovanni@lapasta.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=12',
                 'restaurant_name' => 'La Pasta Bella',
                 'type' => 'Italien',
                 'city' => 'Lyon',
@@ -87,6 +89,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Kenji Tanaka',
                 'owner_email' => 'kenji@sushimaster.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=15',
                 'restaurant_name' => 'Sushi Master',
                 'type' => 'Japonais',
                 'city' => 'Bordeaux',
@@ -98,6 +101,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Ahmed Benali',
                 'owner_email' => 'ahmed@kebabroyal.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=57',
                 'restaurant_name' => 'Kebab Royal',
                 'type' => 'Kebab',
                 'city' => 'Marseille',
@@ -109,6 +113,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Sophie Martin',
                 'owner_email' => 'sophie@burgerfactory.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=49',
                 'restaurant_name' => 'Burger Factory',
                 'type' => 'Burger',
                 'city' => 'Toulouse',
@@ -120,6 +125,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Priya Sharma',
                 'owner_email' => 'priya@spicepalace.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=44',
                 'restaurant_name' => 'Spice Palace',
                 'type' => 'Indien',
                 'city' => 'Nice',
@@ -131,6 +137,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Carlos Rivera',
                 'owner_email' => 'carlos@tacomundo.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=60',
                 'restaurant_name' => 'Taco Mundo',
                 'type' => 'Mexicain',
                 'city' => 'Nantes',
@@ -142,6 +149,7 @@ class DatabaseSeeder extends Seeder
             [
                 'owner_name' => 'Mei Lin',
                 'owner_email' => 'mei@dragonwok.test',
+                'owner_avatar' => 'https://i.pravatar.cc/256?img=25',
                 'restaurant_name' => 'Dragon Wok',
                 'type' => 'Chinois',
                 'city' => 'Strasbourg',
@@ -158,7 +166,8 @@ class DatabaseSeeder extends Seeder
                 ['email' => $item['owner_email']],
                 [
                     'name' => $item['owner_name'],
-                    'password' => Hash::make('password'),
+                    'avatar' => $item['owner_avatar'],
+                    'password' => 'password',
                     'role' => Role::RESTAURANT,
                     'email_verified_at' => now(),
                 ]
@@ -188,16 +197,16 @@ class DatabaseSeeder extends Seeder
     private function seedRegularUsers(): array
     {
         $usersData = [
-            ['name' => 'Jean Dupont', 'email' => 'jean@client.test'],
-            ['name' => 'Alice Bernard', 'email' => 'alice@client.test'],
-            ['name' => 'Lucas Petit', 'email' => 'lucas@client.test'],
-            ['name' => 'Emma Richard', 'email' => 'emma@client.test'],
-            ['name' => 'Hugo Moreau', 'email' => 'hugo@client.test'],
-            ['name' => 'Chloé Simon', 'email' => 'chloe@client.test'],
-            ['name' => 'Nathan Laurent', 'email' => 'nathan@client.test'],
-            ['name' => 'Léa Roux', 'email' => 'lea@client.test'],
-            ['name' => 'Tom Girard', 'email' => 'tom@client.test'],
-            ['name' => 'Manon Blanc', 'email' => 'manon@client.test'],
+            ['name' => 'Jean Dupont',    'email' => 'jean@client.test',   'avatar' => 'https://i.pravatar.cc/256?img=1'],
+            ['name' => 'Alice Bernard',  'email' => 'alice@client.test',  'avatar' => 'https://i.pravatar.cc/256?img=32'],
+            ['name' => 'Lucas Petit',    'email' => 'lucas@client.test',  'avatar' => 'https://i.pravatar.cc/256?img=3'],
+            ['name' => 'Emma Richard',   'email' => 'emma@client.test',   'avatar' => 'https://i.pravatar.cc/256?img=38'],
+            ['name' => 'Hugo Moreau',    'email' => 'hugo@client.test',   'avatar' => 'https://i.pravatar.cc/256?img=5'],
+            ['name' => 'Chloé Simon',    'email' => 'chloe@client.test',  'avatar' => 'https://i.pravatar.cc/256?img=41'],
+            ['name' => 'Nathan Laurent', 'email' => 'nathan@client.test', 'avatar' => 'https://i.pravatar.cc/256?img=7'],
+            ['name' => 'Léa Roux',       'email' => 'lea@client.test',    'avatar' => 'https://i.pravatar.cc/256?img=45'],
+            ['name' => 'Tom Girard',     'email' => 'tom@client.test',    'avatar' => 'https://i.pravatar.cc/256?img=9'],
+            ['name' => 'Manon Blanc',    'email' => 'manon@client.test',  'avatar' => 'https://i.pravatar.cc/256?img=48'],
         ];
 
         $users = [];
@@ -206,7 +215,8 @@ class DatabaseSeeder extends Seeder
                 ['email' => $data['email']],
                 [
                     'name' => $data['name'],
-                    'password' => Hash::make('password'),
+                    'avatar' => $data['avatar'],
+                    'password' => 'password',
                     'role' => Role::USER,
                     'email_verified_at' => now(),
                 ]

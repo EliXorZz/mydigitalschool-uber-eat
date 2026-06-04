@@ -9,7 +9,7 @@ definePageMeta({
 </script>
 
 <template>
-  <UMain class="p-10">
-    <AdminTable class="" />
+  <UMain class="px-4 py-6 sm:px-8 sm:py-10">
+    <AdminTable />
   </UMain>
 </template>

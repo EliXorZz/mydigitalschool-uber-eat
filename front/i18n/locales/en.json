@@ -80,6 +80,8 @@
     "emailLabel": "Email address",
     "usernameLabel": "Username",
     "roleLabel": "Role",
+    "avatarLabel": "Profile picture",
+    "changePasswordLabel": "Change password",
     "applyChangesButton": "Apply Changes",
     "updateSuccess": "Profile updated successfully.",
     "updateError": "An error occurred while updating the profile.",
@@ -194,6 +196,30 @@
   "validation": {
     "emailRequired": "Email address is required",
     "usernameRequired": "Username is required"
+  },
+  "apiErrors": {
+    "default": {
+      "unique": "This value is already taken.",
+      "confirmed": "The values do not match.",
+      "min": "The value is too short.",
+      "required": "This field is required.",
+      "format": "Invalid format."
+    },
+    "email": {
+      "unique": "This email address is already in use.",
+      "format": "Invalid email address.",
+      "required": "Email address is required."
+    },
+    "name": {
+      "required": "Name is required."
+    },
+    "password": {
+      "min": "Password must be at least 8 characters.",
+      "confirmed": "Passwords do not match."
+    },
+    "password_confirmation": {
+      "confirmed": "Passwords do not match."
+    }
   },
   "home": {
     "heroImageAlt": "Main section background image",
