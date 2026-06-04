@@ -10,7 +10,7 @@ const toaster = { position: 'bottom-center' as const }
 const toast = useToast()
 
 const authStore = useAuthentificationStore()
-const { isAuth, role } = storeToRefs(authStore)
+const { isAuth, role, account } = storeToRefs(authStore)
 
 const cartStore = useCartStore()
 
@@ -29,7 +29,7 @@ async function handleCheckout() {
     return order
   } catch (e) {
     // show error
-    toast.add({ title: $t('cart.checkout'), description: (e as any)?.message ?? String(e), color: 'error' })
+    toast.add({ title: $t('cart.checkout'), description: e instanceof Error ? e.message : String(e), color: 'error' })
     throw e
   }
 }
@@ -196,7 +196,8 @@ const profileItems = computed<DropdownMenuItem[][]>(() => {
           >
             <UUser
               class="cursor-pointer"
-              :avatar="{ src: 'https://i.pravatar.cc/150?u=john-doe', icon: 'i-lucide-image' }"
+              :name="account?.name"
+              :avatar="account?.avatar ? { src: account.avatar } : undefined"
             />
           </UDropdownMenu>
           <NuxtLink

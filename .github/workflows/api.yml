@@ -53,6 +53,10 @@ jobs:
         working-directory: ./api
         run: php artisan key:generate
 
+      - name: Generate JWT secret
+        working-directory: ./api
+        run: php artisan jwt:secret --no-interaction
+
       - name: Run migrations (SQLite in-memory via phpunit.xml)
         working-directory: ./api
         run: php artisan migrate --env=testing --force

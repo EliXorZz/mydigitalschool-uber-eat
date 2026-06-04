@@ -89,7 +89,7 @@ export const useCartStore = defineStore('cart', () => {
 
     const dishes = items.value.map(i => ({ id: i.id, quantity: getQuantityOfItem(i) }))
 
-    const response = await $api<{ data: any }>('/api/orders', {
+    const response = await $api<{ data: { id: number } }>('/api/orders', {
       method: 'POST',
       body: { dishes }
     })

@@ -7,13 +7,22 @@ declare global {
   }
 }
 
+interface ReverbConnector {
+  pusher?: {
+    config?: {
+      auth?: {
+        headers?: Record<string, string>
+      }
+    }
+  }
+}
+
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
   const token = useCookie<string | null>('token')
 
   window.Pusher = Pusher
 
-  // Enable in dev to see WS connection + auth logs in console
   if (import.meta.dev) {
     Pusher.logToConsole = true
   }
@@ -32,13 +41,12 @@ export default defineNuxtPlugin(() => {
         Authorization: token.value ? `Bearer ${token.value}` : ''
       }
     }
-  } as any)
+  })
 
-  // Keep auth header in sync when token changes
   watch(token, (newToken) => {
-    const connector = (echo as any).connector
+    const connector = (echo as unknown as { connector: ReverbConnector }).connector
     if (connector?.pusher?.config?.auth?.headers) {
-      connector.pusher.config.auth.headers.Authorization = newToken
+      connector.pusher.config.auth.headers['Authorization'] = newToken
         ? `Bearer ${newToken}`
         : ''
     }

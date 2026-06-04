@@ -15,10 +15,9 @@ const { data: ordersResponse, pending: ordersPending, refresh } = await useAsync
   () => `orders:me:${page.value}`,
   async () => {
     try {
-      const res: any = await orderStore.list({ page: page.value, per_page: perPage })
-      return res ?? { data: [], current_page: 1, last_page: 1 }
+      return await orderStore.list({ page: page.value, per_page: perPage })
     } catch {
-      return { data: [], current_page: 1, last_page: 1 }
+      return { data: [], current_page: 1, last_page: 1, per_page: 10, total: 0 }
     }
   }
 )

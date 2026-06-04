@@ -1,3 +1,4 @@
+import type { Channel } from 'laravel-echo'
 import type { Order } from '~/types/order'
 
 export function useOrderNotifications(restaurantId: MaybeRef<number | null | undefined>, onNew?: (order: Order) => void, onUpdate?: (order: Order) => void, onDelete?: (order: Order) => void) {
@@ -5,7 +6,7 @@ export function useOrderNotifications(restaurantId: MaybeRef<number | null | und
   const authStore = useAuthentificationStore()
   const { isAuth, role } = storeToRefs(authStore)
 
-  let channel: any = null
+  let channel: Channel | null = null
 
   function subscribe(id: number) {
     if (!$echo || !id || channel !== null)

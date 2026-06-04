@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { Order } from '~/types/order'
+import type { Paginator } from '~/types/api'
 import { UBadge, UButton } from '#components'
 
 type BadgeColor = 'error' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'neutral'
 
 const props = defineProps<{
   title: string
-  orders: Order[] | any
+  orders: Order[] | Paginator<Order> | null | undefined
   loading?: boolean
   showRestaurantColumn?: boolean
   allowStateChange?: boolean
@@ -23,10 +24,8 @@ const isLoading = computed(() => props.loading ?? false)
 const showRestaurant = computed(() => props.showRestaurantColumn ?? true)
 
 const ordersList = computed<Order[]>(() => {
-  const raw = props.orders?.value ?? props.orders ?? []
-  if (raw && typeof raw === 'object' && Array.isArray((raw as any).data)) {
-    return (raw as any).data
-  }
+  const raw = props.orders ?? []
+  if (raw && !Array.isArray(raw) && 'data' in raw) return raw.data
   if (Array.isArray(raw)) return raw
   return []
 })

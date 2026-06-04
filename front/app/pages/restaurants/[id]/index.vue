@@ -44,7 +44,7 @@ async function loadItems(reset = false) {
     return
   }
 
-  const resp: any = await $api(`/api/restaurants/${restaurant.value.id}/dishes`, {
+  const resp = await $api<{ data: Dish[]; last_page: number }>(`/api/restaurants/${restaurant.value.id}/dishes`, {
     query: { page: pageItems.value, per_page: perPageItems }
   })
   itemsState.value = resp?.data ?? []

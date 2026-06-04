@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { TabsItem } from '#ui/components/Tabs.vue'
-import type { Restaurant, RestaurantType } from '~/types/restaurant'
+import type { Restaurant, RestaurantType, RestaurantsResponse } from '~/types/restaurant'
 import type { Dish } from '~/types/dish'
+import type { Order } from '~/types/order'
+import type { Paginator } from '~/types/api'
 
 definePageMeta({
   layout: 'default',
@@ -26,8 +28,8 @@ const tabs: TabsItem[] = [
 // ─── Restaurant types (for select) ───────────────────────────────────────────
 
 const { data: typesData } = await useAsyncData('owner:restaurant-types', async () => {
-  const resp: any = await $api('/api/restaurant-types')
-  return (resp?.data ?? []) as RestaurantType[]
+  const resp = await $api<{ data: RestaurantType[] }>('/api/restaurant-types')
+  return resp?.data ?? []
 })
 const typeOptions = computed(() =>
   (typesData.value ?? []).map((t: RestaurantType) => ({ label: t.name, value: t.id }))
@@ -45,8 +47,8 @@ const priceScoreOptions = [
 const { data: restaurant, refresh: refreshRestaurant } = await useAsyncData<Restaurant>(
   'restaurant:me',
   async () => {
-    const resp: any = await $api('/api/restaurants', { query: { per_page: 100 } })
-    const list: Restaurant[] = resp?.data ?? []
+    const resp = await $api<RestaurantsResponse>('/api/restaurants', { query: { per_page: 100 } })
+    const list = resp?.data ?? []
     const found = list.find(r => r.owner_id === account.value?.id)
     if (!found) throw createError({ statusCode: 404, message: $t('dashboard.errors.restaurantNotFound'), fatal: true })
     return found
@@ -78,16 +80,15 @@ const stateRestaurant = reactive<Partial<SchemaRestaurant>>({
 async function updateRestaurant() {
   if (!restaurant.value?.id) return
   try {
-    const body: any = { ...stateRestaurant }
-    // Convert comma-separated tags string to array
-    if (typeof body.tags === 'string') {
-      body.tags = body.tags ? body.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : []
-    }
+    const tags = stateRestaurant.tags
+      ? stateRestaurant.tags.split(',').map(t => t.trim()).filter(Boolean)
+      : []
+    const body = { ...stateRestaurant, tags }
     await $api(`/api/restaurants/${restaurant.value.id}`, { method: 'PUT', body })
     await refreshRestaurant()
     toast.add({ title: $t('dashboard.forms.restaurant.updateSuccess'), icon: 'i-lucide-check', color: 'success' })
-  } catch (e: any) {
-    toast.add({ title: $t('dashboard.forms.restaurant.updateError'), description: e?.data?.message, color: 'error' })
+  } catch (e) {
+    toast.add({ title: $t('dashboard.forms.restaurant.updateError'), description: (e as { data?: { message?: string } })?.data?.message, color: 'error' })
   }
 }
 
@@ -95,8 +96,8 @@ async function updateRestaurant() {
 
 const { data: dishesData, refresh: refreshDishes } = await useAsyncData('dishes:me', async () => {
   if (!restaurant.value?.id) return []
-  const resp: any = await $api(`/api/restaurants/${restaurant.value.id}/dishes`, { query: { per_page: 100 } })
-  return (resp?.data ?? []) as Dish[]
+  const resp = await $api<{ data: Dish[] }>(`/api/restaurants/${restaurant.value.id}/dishes`, { query: { per_page: 100 } })
+  return resp?.data ?? []
 })
 
 const dishes = computed<Dish[]>(() => dishesData.value ?? [])
@@ -153,9 +154,9 @@ async function submitDish() {
     }
     openDishModal.value = false
     await refreshDishes()
-  } catch (e: any) {
+  } catch (e) {
     const title = dishModalMode.value === 'create' ? $t('dashboard.forms.dish.createError') : $t('dashboard.forms.dish.updateError')
-    toast.add({ title, description: e?.data?.message, color: 'error' })
+    toast.add({ title, description: (e as { data?: { message?: string } })?.data?.message, color: 'error' })
   }
 }
 
@@ -166,8 +167,8 @@ async function deleteDish() {
     toast.add({ title: $t('dashboard.forms.dish.deleteSuccess'), icon: 'i-lucide-trash', color: 'success' })
     openDishModal.value = false
     await refreshDishes()
-  } catch (e: any) {
-    toast.add({ title: $t('dashboard.forms.dish.deleteError'), description: e?.data?.message, color: 'error' })
+  } catch (e) {
+    toast.add({ title: $t('dashboard.forms.dish.deleteError'), description: (e as { data?: { message?: string } })?.data?.message, color: 'error' })
   }
 }
 
@@ -178,21 +179,21 @@ const ordersPerPage = 10
 
 const { data: ordersResponse, pending: ordersPending, refresh: refreshOrders } = await useAsyncData(
   () => `orders:restaurant:${restaurant.value?.id}:${ordersPage.value}`,
-  async () => {
-    if (!restaurant.value?.id) return { data: [], current_page: 1, last_page: 1 }
+  async (): Promise<Paginator<Order>> => {
+    if (!restaurant.value?.id) return { data: [], current_page: 1, last_page: 1, per_page: ordersPerPage, total: 0 }
     try {
-      return await $api(`/api/restaurants/${restaurant.value.id}/orders`, {
+      return await $api<Paginator<Order>>(`/api/restaurants/${restaurant.value.id}/orders`, {
         query: { page: ordersPage.value, per_page: ordersPerPage }
       })
     } catch {
-      return { data: [], current_page: 1, last_page: 1 }
+      return { data: [], current_page: 1, last_page: 1, per_page: ordersPerPage, total: 0 }
     }
   }
 )
 
 const ordersPagination = computed(() => ({
-  current: (ordersResponse.value as any)?.current_page ?? 1,
-  last: (ordersResponse.value as any)?.last_page ?? 1,
+  current: ordersResponse.value?.current_page ?? 1,
+  last: ordersResponse.value?.last_page ?? 1,
 }))
 
 function prevOrdersPage() {

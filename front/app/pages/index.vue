@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Restaurant } from '~/types/restaurant'
+import type { Restaurant, RestaurantsResponse } from '~/types/restaurant'
 
 const { $api } = useNuxtApp()
 const searchQuery = ref('')
@@ -32,9 +32,8 @@ async function loadRestaurants(reset = false) {
   }
 
   loading.value = true
-  const resp: any = await $api('/api/restaurants', { query: { search: searchQuery.value, page: page.value, per_page: perPage } })
-  const items = resp?.data ?? []
-  restaurantsState.value = items
+  const resp = await $api<RestaurantsResponse>('/api/restaurants', { query: { search: searchQuery.value, page: page.value, per_page: perPage } })
+  restaurantsState.value = resp?.data ?? []
   lastPage.value = resp?.last_page ?? 1
   loading.value = false
 }

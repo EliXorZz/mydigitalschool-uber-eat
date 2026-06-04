@@ -1,3 +1,5 @@
+import type { Account, AuthToken } from '~/types/account'
+
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
   const token = useCookie<string | null>('token')
@@ -23,7 +25,7 @@ export default defineNuxtPlugin(() => {
         return false
       }
 
-      const payload = JSON.parse(decoded)
+      const payload = JSON.parse(decoded) as { exp?: number }
       const exp = Number(payload.exp || 0)
       const now = Math.floor(Date.now() / 1000)
       return exp <= now + withinSeconds
@@ -38,16 +40,16 @@ export default defineNuxtPlugin(() => {
     refreshing = (async () => {
       try {
         const refreshUrl = `${config.public.apiBaseUrl}/api/auth/refresh`
-        const res: any = await $fetch(refreshUrl, {
+        const res = await $fetch<{ data: AuthToken }>(refreshUrl, {
           method: 'POST',
           headers: { Authorization: token.value ? `Bearer ${token.value}` : '' }
         })
 
-        const newToken = res?.data?.token ?? res?.token ?? (res?.data ?? {}).token
+        const newToken = res?.data?.token
         if (newToken) {
           token.value = newToken
           try {
-            const me: any = await $fetch(`${config.public.apiBaseUrl}/api/auth/me`, {
+            const me = await $fetch<{ data: Account }>(`${config.public.apiBaseUrl}/api/auth/me`, {
               headers: { Authorization: `Bearer ${token.value}` }
             })
             useCookie('account').value = me?.data ?? null
@@ -78,19 +80,17 @@ export default defineNuxtPlugin(() => {
       }
 
       if (token.value) {
-        // Append without replacing — keeps FormData Content-Type boundary intact
         if (options.headers instanceof Headers) {
           options.headers.set('Authorization', `Bearer ${token.value}`)
         } else if (options.headers && typeof options.headers === 'object') {
           (options.headers as Record<string, string>)['Authorization'] = `Bearer ${token.value}`
         } else {
-          options.headers = { Authorization: `Bearer ${token.value}` } as any
+          options.headers = { Authorization: `Bearer ${token.value}` }
         }
       }
     },
 
     async onResponseError({ request, options, response }) {
-      // For non-401 errors, let ofetch throw its own FetchError (which carries e.data = response body)
       if (response?.status !== 401) return
 
       if (String(request).includes('/api/auth/refresh')) {
@@ -107,11 +107,11 @@ export default defineNuxtPlugin(() => {
         } else if (options.headers && typeof options.headers === 'object') {
           (options.headers as Record<string, string>)['Authorization'] = `Bearer ${token.value}`
         } else {
-          options.headers = { Authorization: `Bearer ${token.value}` } as any
+          options.headers = { Authorization: `Bearer ${token.value}` }
         }
       }
 
-      return $fetch(request as string, options as any)
+      return $fetch(request as string, options)
     }
   })
 

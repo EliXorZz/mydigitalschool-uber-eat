@@ -7,3 +7,9 @@ export type Account = {
   avatar?: string | null
   role: Role
 }
+
+export type AuthToken = {
+  token: string
+  type: string
+  expires_in: number
+}

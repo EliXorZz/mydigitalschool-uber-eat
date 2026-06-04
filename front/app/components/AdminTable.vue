@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import * as z from 'zod'
-import type { Restaurant, RestaurantType } from '~/types/restaurant'
+import type { Restaurant, RestaurantType, RestaurantsResponse } from '~/types/restaurant'
 import type { TableColumn } from '#ui/components/Table.vue'
 import { LazyModalConfirmation, UBadge, UButton } from '#components'
+
+type Owner = { id: number; name: string; email: string }
 
 const { $api } = useNuxtApp()
 const toast = useToast()
@@ -11,13 +13,13 @@ const toast = useToast()
 
 const { data: restaurantsResponse, pending: restaurantPending, refresh } = await useAsyncData(
   'admin:restaurants',
-  () => $api('/api/restaurants')
+  () => $api<RestaurantsResponse>('/api/restaurants')
 )
 
-const restaurants = computed<Restaurant[]>(() => (restaurantsResponse.value as any)?.data ?? [])
+const restaurants = computed<Restaurant[]>(() => restaurantsResponse.value?.data ?? [])
 
 const { data: typesData } = await useAsyncData('restaurant-types', async () => {
-  const resp: any = await $api('/api/restaurant-types')
+  const resp = await $api<{ data: RestaurantType[] }>('/api/restaurant-types')
   return resp?.data ?? []
 })
 const restaurantTypes = computed<RestaurantType[]>(() => typesData.value ?? [])
@@ -25,14 +27,14 @@ const typeOptions = computed(() => restaurantTypes.value.map(t => ({ label: t.na
 
 const { data: ownersData } = await useAsyncData('admin:owners', async () => {
   try {
-    const resp: any = await $api('/api/users/owners')
+    const resp = await $api<{ data: Owner[] }>('/api/users/owners')
     return resp?.data ?? []
   } catch {
-    return []
+    return [] as Owner[]
   }
 })
 const ownerOptions = computed(() =>
-  (ownersData.value ?? []).map((u: any) => ({ label: `${u.name} — ${u.email}`, value: u.id }))
+  (ownersData.value ?? []).map(u => ({ label: `${u.name} — ${u.email}`, value: u.id }))
 )
 
 // ─── Table columns ────────────────────────────────────────────────────────────
@@ -138,10 +140,10 @@ async function createRestaurant() {
     openCreateModal.value = false
     resetForm()
     await refresh()
-  } catch (e: any) {
+  } catch (e) {
     toast.add({
       title: $t('restaurants.createError'),
-      description: e?.data?.message,
+      description: (e as { data?: { message?: string } })?.data?.message,
       color: 'error'
     })
   }
@@ -165,10 +167,10 @@ async function deleteRestaurant(restaurant: Restaurant) {
       color: 'success'
     })
     await refresh()
-  } catch (e: any) {
+  } catch (e) {
     toast.add({
       title: $t('restaurants.deleteError'),
-      description: e?.data?.message,
+      description: (e as { data?: { message?: string } })?.data?.message,
       color: 'error'
     })
   }

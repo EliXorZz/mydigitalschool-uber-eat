@@ -31,14 +31,11 @@ const avatar = ref<string>(account.value?.avatar ?? '')
 const toast = useToast()
 
 function onSubmit() {
-  const body: any = {
+  const body: Parameters<typeof authStore.updateProfile>[0] = {
     name: state.name as string,
     email: state.email as string,
     avatar: avatar.value || null,
-  }
-  if (state.password) {
-    body.password = state.password
-    body.password_confirmation = state.confirmPassword
+    ...(state.password ? { password: state.password, password_confirmation: state.confirmPassword } : {})
   }
 
   authStore.updateProfile(body)

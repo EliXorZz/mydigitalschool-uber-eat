@@ -1,27 +1,26 @@
 import { defineStore } from 'pinia'
 import type { Order } from '~/types/order'
+import type { Paginator } from '~/types/api'
 
 export const useOrderStore = defineStore('order', () => {
   const token = useCookie('token')
 
-  const list = async (params: Record<string, any> = {}): Promise<any> => {
+  const list = async (params: Record<string, string | number> = {}): Promise<Paginator<Order>> => {
     const config = useRuntimeConfig()
     const base = config.public.apiBaseUrl
 
-    const res: any = await $fetch(`${base}/api/orders`, {
+    return $fetch<Paginator<Order>>(`${base}/api/orders`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token.value}` },
       params
     })
-    // Return the raw response (can be paginator or array)
-    return res
   }
 
   const statuses = async (): Promise<{ value: string; label: string }[]> => {
     const config = useRuntimeConfig()
     const base = config.public.apiBaseUrl
 
-    const res: any = await $fetch(`${base}/api/orders-statuses`, {
+    const res = await $fetch<{ data: { value: string; label: string }[] }>(`${base}/api/orders-statuses`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token.value}` }
     })
@@ -29,11 +28,11 @@ export const useOrderStore = defineStore('order', () => {
     return res?.data ?? []
   }
 
-  const transitions = async (orderId: number) => {
+  const transitions = async (orderId: number): Promise<string[]> => {
     const config = useRuntimeConfig()
     const base = config.public.apiBaseUrl
 
-    const res: any = await $fetch(`${base}/api/orders/${orderId}/transitions`, {
+    const res = await $fetch<{ data: string[] }>(`${base}/api/orders/${orderId}/transitions`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token.value}` }
     })
@@ -45,7 +44,7 @@ export const useOrderStore = defineStore('order', () => {
     const config = useRuntimeConfig()
     const base = config.public.apiBaseUrl
 
-    const res: any = await $fetch(`${base}/api/orders/${orderId}/state`, {
+    const res = await $fetch<{ data: Order }>(`${base}/api/orders/${orderId}/state`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token.value}` },
       body: { state }
@@ -58,13 +57,12 @@ export const useOrderStore = defineStore('order', () => {
     const config = useRuntimeConfig()
     const base = config.public.apiBaseUrl
 
-    const res: any = await $fetch(`${base}/api/orders/${orderId}/cancel`, {
+    await $fetch(`${base}/api/orders/${orderId}/cancel`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token.value}` }
     })
 
-    // If API returns 204 empty, $fetch resolves to null — treat as success
-    return res !== false
+    return true
   }
 
   return { list, statuses, transitions, updateState, cancel }

@@ -47,10 +47,11 @@ async function uploadFile(file: File) {
     const res = await response.json()
     if (!response.ok) throw res
     emit('update:modelValue', res?.data?.url ?? '')
-  } catch (e: any) {
-    const msg = e?.errors
-      ? Object.values(e.errors as Record<string, string[]>).flat().join(' ')
-      : (e?.message ?? 'Erreur inconnue')
+  } catch (e) {
+    const err = e as { errors?: Record<string, string[]>; message?: string }
+    const msg = err?.errors
+      ? Object.values(err.errors).flat().join(' ')
+      : (err?.message ?? 'Erreur inconnue')
     toast.add({ title: 'Erreur upload', description: msg, color: 'error' })
   } finally {
     uploading.value = false
