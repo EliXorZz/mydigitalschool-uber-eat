@@ -23,9 +23,7 @@ export default defineNuxtPlugin(() => {
 
   window.Pusher = Pusher
 
-  if (import.meta.dev) {
-    Pusher.logToConsole = true
-  }
+  Pusher.logToConsole = true
 
   const echo = new Echo({
     broadcaster: 'reverb',
